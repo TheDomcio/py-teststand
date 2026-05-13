@@ -1,7 +1,7 @@
 """Insert LabVIEW VI-call steps into an existing sequence at a target location.
 
-Opens the sequence file produced by ``build_sequence.py``, navigates into
-``CustomSubsequence``, locates the existing ``Initialize Hardware`` step,
+Opens the sequence file produced by build_sequence.py, navigates into
+CustomSubsequence, locates the existing Initialize Hardware step,
 constructs two LabVIEW Action steps that wrap real VIs from a packed
 library / LabVIEW project, configures their ViCall paths, custom icon and
 runtime mode, and inserts both steps directly in front of the target step.
@@ -9,15 +9,15 @@ Falls back to appending at the end of the step group if the target step
 cannot be found.
 
 Demonstrates:
-- Opening existing sequence files with the ``with`` statement
-- Looking up sequences and steps by name and reading ``step_index``
-- Creating steps with a real adapter (``AdapterKeyName.LVAdapterKeyName``)
+- Opening existing sequence files with the with statement
+- Looking up sequences and steps by name and reading step_index
+- Creating steps with a real adapter (AdapterKeyName.LVAdapterKeyName)
 - Configuring LabVIEW step module properties through the underlying
-  ``PropertyObject`` (``TS.SData.ViCall.VIPath``, ``TS.SData.ViCall.ProjectPath``)
-- Setting the per-step icon (``TS.Icon`` / ``Step.icon_name``)
-- Toggling the per-step run mode (``TS.Mode`` / ``Step.run_mode``) between
-  ``Skip`` and ``Normal``
-- Inserting multiple steps at a computed index inside a ``StepGroup``
+  PropertyObject (TS.SData.ViCall.VIPath, TS.SData.ViCall.ProjectPath)
+- Setting the per-step icon (TS.Icon / Step.icon_name)
+- Toggling the per-step run mode (TS.Mode / Step.run_mode) between
+  Skip and Normal
+- Inserting multiple steps at a computed index inside a StepGroup
 """
 
 from __future__ import annotations

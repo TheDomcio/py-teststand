@@ -1,20 +1,20 @@
 """Build a TestStand sequence file from scratch with NumericLimitTest steps.
 
-Creates a new sequence file, populates ``MainSequence`` with two
+Creates a new sequence file, populates MainSequence with two
 NumericLimitTest steps (a temperature check and a voltage monitor) whose
 high/low limits are configured through the underlying
-``PropertyObject``, adds a ``CustomSubsequence`` containing an ``Action``
-step so downstream examples (``insert_step.py``) have something to target,
+PropertyObject, adds a CustomSubsequence containing an Action
+step so downstream examples (insert_step.py) have something to target,
 prints a verification summary of the constructed sequence, and writes
 the file to a temp directory.
 
 Demonstrates:
-- Creating sequence files and adding subsequences with ``new_sequence``
-- Building steps with ``Engine.new_step`` (no adapter / None adapter)
-- Setting standard step properties (``name``, ``precondition``, ``record_result``)
-- Reaching into nested TestStand properties (``Limits.High`` / ``Limits.Low``)
-  via ``step.as_property_object()``
-- Inserting steps into a specific ``StepGroup`` at a chosen index
+- Creating sequence files and adding subsequences with new_sequence
+- Building steps with Engine.new_step (no adapter / None adapter)
+- Setting standard step properties (name, precondition, record_result)
+- Reaching into nested TestStand properties (Limits.High / Limits.Low)
+  via step.as_property_object()
+- Inserting steps into a specific StepGroup at a chosen index
 """
 
 from __future__ import annotations

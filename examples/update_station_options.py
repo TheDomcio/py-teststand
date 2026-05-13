@@ -1,7 +1,7 @@
 """Provision TestStand station options programmatically.
 
 Demonstrates the "TestStand station as code" workflow: open the engine,
-acquire its ``StationOptions`` object via a context manager, set a broad
+acquire its StationOptions object via a context manager, set a broad
 range of station-level settings (tracing, debug flags, RTE behaviour,
 locale, file write format, time limits, remote-call policy, etc.), and
 commit the configuration to disk so it persists across engine sessions.

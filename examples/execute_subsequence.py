@@ -1,8 +1,8 @@
 """Build and run a sequence end-to-end using only built-in TestStand step types.
 
-Creates a fresh in-memory sequence file, appends three ``Action`` steps to
-``MainSequence`` using the None adapter (no external code module), starts an
-execution, waits for it to finish, and walks the resulting ``ResultList`` to
+Creates a fresh in-memory sequence file, appends three Action steps to
+MainSequence using the None adapter (no external code module), starts an
+execution, waits for it to finish, and walks the resulting ResultList to
 print the recorded step name and status for each step.
 
 The example focuses on the execution + result reporting surface — no code

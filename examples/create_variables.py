@@ -1,29 +1,29 @@
 """Create string variables across every TestStand variable scope.
 
-Opens the sequence file produced by ``build_sequence.py`` and populates it
+Opens the sequence file produced by build_sequence.py and populates it
 with new string variables across the four standard TestStand scopes:
 
-- **Sequence Locals** — temporary per-call storage on ``MainSequence``
-  (``Locals.OperatorName``).
-- **Sequence Parameters** — caller-supplied inputs on ``MainSequence``
-  (``Parameters.DUTSerial``).
+- **Sequence Locals** — temporary per-call storage on MainSequence
+  (Locals.OperatorName).
+- **Sequence Parameters** — caller-supplied inputs on MainSequence
+  (Parameters.DUTSerial).
 - **File Globals** — values shared across every sequence in the file
-  (``FileGlobals.BatchID``).
+  (FileGlobals.BatchID).
 - **Station Globals** — values shared across every sequence file run on
-  this station, persisted via ``Engine.commit_globals_to_disk``
-  (``StationInfo.StationName``).
+  this station, persisted via Engine.commit_globals_to_disk
+  (StationInfo.StationName).
 
-Also adds a second subsequence ``MeasurementRoutine`` with its own
+Also adds a second subsequence MeasurementRoutine with its own
 parameter and local so the example shows how variables are scoped per
 sequence rather than per file.
 
 Demonstrates:
 - Creating sub-properties of arbitrary type via
-  ``PropertyObject.new_sub_property`` + ``PropValType``
-- Reading and writing values with ``PropertyObject.__setitem__`` / ``__getitem__``
-- Reaching ``Sequence.locals`` / ``Sequence.parameters`` /
-  ``SequenceFile.file_globals`` / ``Engine.globals``
-- Adding subsequences with ``SequenceFile.new_sequence``
+  PropertyObject.new_sub_property + PropValType
+- Reading and writing values with PropertyObject.__setitem__ / __getitem__
+- Reaching Sequence.locals / Sequence.parameters /
+  SequenceFile.file_globals / Engine.globals
+- Adding subsequences with SequenceFile.new_sequence
 - Committing station-globals changes to disk
 """
 
