@@ -1,5 +1,9 @@
 # py-teststand
 
+[![PyPI version](https://img.shields.io/pypi/v/py-teststand.svg)](https://pypi.org/project/py-teststand/)
+[![Python versions](https://img.shields.io/pypi/pyversions/py-teststand.svg)](https://pypi.org/project/py-teststand/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Community object-oriented Python 3 bindings for the [National Instruments TestStand™ COM API](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html).
 
 > ⚠️ **Early Implementation Stage** — Consider as experimental. Interfaces may change between releases without prior notice.
@@ -11,10 +15,6 @@ Community object-oriented Python 3 bindings for the [National Instruments TestSt
 ### Name
 
 The package is named `py-teststand` (with a dash) to avoid naming collision with the [pytest testing framework](https://pytest.org/) and for easier relation to TestStand™ test executive.
-
-[![PyPI version](https://img.shields.io/pypi/v/py-teststand.svg)](https://pypi.org/project/py-teststand/)
-[![Python versions](https://img.shields.io/pypi/pyversions/py-teststand.svg)](https://pypi.org/project/py-teststand/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
