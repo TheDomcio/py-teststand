@@ -5,7 +5,7 @@ try:
 
     __version__ = _version("py-teststand")
 except Exception:
-    __version__ = "1.0.0"
+    __version__ = "0.1.0"
 
 
 from .adapters import (
