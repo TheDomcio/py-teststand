@@ -15,7 +15,6 @@ The package is named `py-teststand` (with a dash) to avoid naming collision with
 [![PyPI version](https://img.shields.io/pypi/v/py-teststand.svg)](https://pypi.org/project/py-teststand/)
 [![Python versions](https://img.shields.io/pypi/pyversions/py-teststand.svg)](https://pypi.org/project/py-teststand/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/TheDomcio/py-teststand/actions/workflows/tests.yml/badge.svg)](https://github.com/TheDomcio/py-teststand/actions)
 
 ---
 
