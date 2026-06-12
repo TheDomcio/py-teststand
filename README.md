@@ -108,6 +108,12 @@ uv add py-teststand
 
 ## 📈 Popularity Over Time
 
+[![Downloads](https://static.pepy.tech/badge/py-teststand)](https://pepy.tech/projects/py-teststand)
+
+[![Downloads Over Time](https://static.pepy.tech/personalized-badge/py-teststand?period=month&units=international_system&left_color=grey&right_color=blue&left_text=downloads/month)](https://pepy.tech/projects/py-teststand)
+
+![Download Trend](https://pepy.tech/chart/py-teststand)
+
 ---
 
 ## ⚖️ Legal
