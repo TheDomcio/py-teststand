@@ -1,5 +1,11 @@
 # py-teststand
 
+[![PyPI version](https://img.shields.io/pypi/v/py-teststand.svg)](https://pypi.org/project/py-teststand/)
+[![Python versions](https://img.shields.io/pypi/pyversions/py-teststand.svg)](https://pypi.org/project/py-teststand/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/TheDomcio/py-teststand/actions/workflows/tests.yml/badge.svg)](https://github.com/TheDomcio/py-teststand/actions)
+[![Downloads](https://static.pepy.tech/badge/py-teststand)](https://pepy.tech/projects/py-teststand)
+
 Community object-oriented Python 3 bindings (twin API) for the [National Instruments TestStand™ COM API](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html).
 
 > ⚠️ **Early Implementation Stage**: Treat it as experimental. Interfaces may change between releases without notice.
@@ -108,11 +114,7 @@ uv add py-teststand
 
 ## 📈 Popularity Over Time
 
-[![Downloads](https://static.pepy.tech/badge/py-teststand)](https://pepy.tech/projects/py-teststand)
-
-[![Downloads Over Time](https://static.pepy.tech/personalized-badge/py-teststand?period=month&units=international_system&left_color=grey&right_color=blue&left_text=downloads/month)](https://pepy.tech/projects/py-teststand)
-
-![Download Trend](https://pepy.tech/chart/py-teststand)
+[![Star History Chart](https://api.star-history.com/svg?repos=TheDomcio/py-teststand&type=Date)](https://star-history.com/#TheDomcio/py-teststand&Date)
 
 ---
 
