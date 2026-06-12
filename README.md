@@ -95,17 +95,17 @@ This approach means the bindings target a specific version of the TestStand™ t
 
 ## 🚀 Installation
 
-### 📦 pip
-
-```powershell
-pip install py-teststand
-
-```
-
 ### ⚡ uv
 
 ```powershell
 uv add py-teststand
+
+```
+
+### 📦 pip
+
+```powershell
+pip install py-teststand
 
 ```
 
