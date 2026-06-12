@@ -60,7 +60,10 @@ class UndoStack(COMWrapper):
         com_pre = getattr(pre_edit_locations, "_com_obj", pre_edit_locations)
         com_post = getattr(post_edit_locations, "_com_obj", post_edit_locations)
         self._com_obj.AggregateTopUndoItems(
-            int(num_items_to_aggregate), str(description), com_pre, com_post
+            int(num_items_to_aggregate),
+            str(description),
+            com_pre,
+            com_post,
         )
 
     @ts_interface

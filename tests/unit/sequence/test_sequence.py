@@ -30,7 +30,12 @@ def test_sequence_contract_get_break_on_end_settings(engine):
     assert condition == "RunState.LoopIndex == 5"
 
     mock_com.GetBreakOnEndSettings.assert_called_once_with(
-        int(StepGroup.Main), None, None, None, None, None
+        int(StepGroup.Main),
+        None,
+        None,
+        None,
+        None,
+        None,
     )
 
 
@@ -51,7 +56,8 @@ def test_sequence_contract_load_modules(engine):
     assert res is True
 
     mock_com.LoadModules.assert_called_once_with(
-        int(LoadModuleOption.NoneValue), "real_context_obj"
+        int(LoadModuleOption.NoneValue),
+        "real_context_obj",
     )
 
 

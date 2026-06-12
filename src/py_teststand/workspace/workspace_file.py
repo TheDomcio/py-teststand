@@ -70,7 +70,9 @@ class WorkspaceFile(COMWrapper):
 
     @ts_interface
     def display_add_file_to_workspace_dialog(
-        self, selected_project: WorkspaceObject | typing.Any, full_path: str
+        self,
+        selected_project: WorkspaceObject | typing.Any,
+        full_path: str,
     ) -> bool:
         proj_com = getattr(selected_project, "_com_obj", selected_project)
         return bool(self._com_obj.DisplayAddFileToWorkspaceDialog(proj_com, full_path))

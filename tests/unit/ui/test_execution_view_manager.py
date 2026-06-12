@@ -1,71 +1,80 @@
+from __future__ import annotations
+
 from unittest.mock import MagicMock
 
 import pytest
 
-from py_teststand.ui.execution_view_manager import ExecutionViewManager, StepGroupMode
-
-
-class MockCOM(MagicMock):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.Execution = MagicMock()
-
-        self.Thread = MagicMock()
-
-        self.SequenceContext = MagicMock()
-
-        self.RunState = 1
-
-        self.TerminationState = 1
-
-        self.StepGroupMode = 1
-
-        self.SelectedSteps = MagicMock()
-
-        self.Connections = MagicMock()
+from py_teststand.execution.execution import Execution
+from py_teststand.sequence.step_group import StepGroupMode
+from py_teststand.ui.execution_view_manager import ExecutionViewManager
 
 
 @pytest.fixture
 def mock_engine():
-
     return MagicMock()
 
 
-@pytest.fixture
-def execution_view_manager(mock_engine):
+def test_execution_getter_wraps_com_execution(mock_engine):
+    com = MagicMock()
+    inner = MagicMock()
+    com.Execution = inner
 
-    return ExecutionViewManager(MockCOM(), mock_engine)
+    manager = ExecutionViewManager(com, mock_engine)
+    execution = manager.execution
 
-
-def test_execution_access(execution_view_manager):
-
-    assert execution_view_manager.execution is not None
-
-    execution_view_manager.execution = None
-
-    assert execution_view_manager._com_obj.Execution is None
+    assert isinstance(execution, Execution)
+    assert execution._com_obj is inner
 
 
-def test_step_group_mode(execution_view_manager):
+def test_execution_getter_returns_none_when_unset(mock_engine):
+    com = MagicMock()
+    com.Execution = None
 
-    assert execution_view_manager.step_group_mode == StepGroupMode.OneGroup
+    manager = ExecutionViewManager(com, mock_engine)
 
-    execution_view_manager.step_group_mode = StepGroupMode.AllGroups
-
-    assert execution_view_manager._com_obj.StepGroupMode == 2
+    assert manager.execution is None
 
 
-def test_control_methods(execution_view_manager):
+def test_execution_setter_writes_raw_com_object(mock_engine):
+    com = MagicMock()
+    inner = MagicMock()
+    manager = ExecutionViewManager(com, mock_engine)
 
-    execution_view_manager.abort_execution()
+    manager.execution = Execution(inner, mock_engine)
+    assert com.Execution is inner
 
-    execution_view_manager.break_execution()
+    manager.execution = None
+    assert com.Execution is None
 
-    execution_view_manager.resume_execution()
 
-    execution_view_manager.terminate_execution()
+def test_step_group_mode_casts_enum_and_setter_writes_int(mock_engine):
+    com = MagicMock()
+    com.StepGroupMode = int(StepGroupMode.OneGroup)
+    manager = ExecutionViewManager(com, mock_engine)
 
-    execution_view_manager.restart_execution()
+    assert manager.step_group_mode == StepGroupMode.OneGroup
 
-    execution_view_manager.refresh()
+    manager.step_group_mode = StepGroupMode.AllGroups
+    assert com.StepGroupMode == int(StepGroupMode.AllGroups)
+
+
+@pytest.mark.parametrize(
+    ("method_name", "com_member"),
+    [
+        ("abort_execution", "AbortExecution"),
+        ("break_execution", "BreakExecution"),
+        ("resume_execution", "ResumeExecution"),
+        ("terminate_execution", "TerminateExecution"),
+        ("restart_execution", "RestartExecution"),
+        ("refresh", "Refresh"),
+    ],
+)
+def test_control_method_calls_exact_com_member(mock_engine, method_name, com_member):
+    # Each control method must invoke its specific COM member with no arguments;
+    # a renamed or wrong member makes this fail instead of silently passing.
+    com = MagicMock()
+    manager = ExecutionViewManager(com, mock_engine)
+
+    getattr(manager, method_name)()
+
+    getattr(com, com_member).assert_called_once_with()

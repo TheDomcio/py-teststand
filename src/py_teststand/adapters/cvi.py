@@ -116,7 +116,9 @@ class CVIModule(CommonCModule):
 
     @ts_interface
     def execute(
-        self, sequence_context_param: typing.Any, arguments_param: typing.Any
+        self,
+        sequence_context_param: typing.Any,
+        arguments_param: typing.Any,
     ) -> typing.Any:
         ctx_obj = (
             sequence_context_param._com_obj
@@ -130,7 +132,9 @@ class CVIModule(CommonCModule):
 
     @ts_interface
     def get_module_path_from_project(
-        self, project_path_param: str, options: GetModuleFromProjectOption | int
+        self,
+        project_path_param: str,
+        options: GetModuleFromProjectOption | int,
     ) -> tuple[bool, str]:
         return self._com_obj.GetModulePathFromProject(project_path_param, int(options))
 
@@ -204,7 +208,7 @@ class CVIParameterList:
         return CVIArgumentList(self._com_obj.NewArguments(), self._engine_ref)
 
     def release(self) -> None:
-        "Releases the underlying COM object."
+        """Releases the underlying COM object."""
         self._com_obj = None
 
     def __del__(self) -> None:
@@ -255,7 +259,7 @@ class CVIParameter(COMWrapper):
         return CommonCParameter(self._com_obj.AsCommonCParameter(), self._engine_ref)
 
     def release(self) -> None:
-        "Releases the underlying COM object."
+        """Releases the underlying COM object."""
         self._com_obj = None
 
     def __del__(self) -> None:
@@ -280,7 +284,7 @@ class CVIArgumentList:
         return CVIArgument(self._com_obj.Item(index), self._engine_ref)
 
     def release(self) -> None:
-        "Releases the underlying COM object."
+        """Releases the underlying COM object."""
         self._com_obj = None
 
     def __del__(self) -> None:

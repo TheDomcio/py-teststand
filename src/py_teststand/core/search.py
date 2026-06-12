@@ -164,6 +164,7 @@ class SearchResults(COMWrapper):
     ) -> bool:
         return bool(
             self._com_obj.IsComplete(
-                bool(wait_for_complete), bool(process_windows_msgs_while_waiting)
-            )
+                bool(wait_for_complete),
+                bool(process_windows_msgs_while_waiting),
+            ),
         )

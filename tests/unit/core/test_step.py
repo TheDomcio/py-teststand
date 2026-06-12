@@ -181,39 +181,6 @@ def test_step_expression():
     assert step.expression == "Locals.MyVar = 1"
 
 
-def test_step_result():
-
-    mock_com = MockCOM(Result=MockCOM())
-
-    step = Step(mock_com)
-
-    result = step.result
-
-    assert result is not None
-
-
-def test_step_next_step():
-
-    mock_com = MockCOM(NextStep=MockCOM(Name="Next"))
-
-    step = Step(mock_com)
-
-    result = step.next_step
-
-    assert result is not None
-
-
-def test_step_previous_step():
-
-    mock_com = MockCOM(PreviousStep=MockCOM(Name="Previous"))
-
-    step = Step(mock_com)
-
-    result = step.previous_step
-
-    assert result is not None
-
-
 def test_step_result_status_setter():
 
     mock_com = MockCOM()
@@ -234,22 +201,11 @@ def test_step_adapter_key_name():
     assert step.adapter_key_name == "LabVIEW Adapter"
 
 
-def test_step_adapter():
-
-    mock_com = MockCOM(Adapter=MockCOM(KeyName="DLL"))
-
-    step = Step(mock_com)
-
-    result = step.adapter
-
-    assert result is not None
-
-
 def test_step_create_class_method():
 
-    mock_engine = typing.cast(typing.Any, MagicMock())
+    mock_engine = typing.cast("typing.Any", MagicMock())
 
-    mock_engine._engine = typing.cast(typing.Any, MockCOM())
+    mock_engine._engine = typing.cast("typing.Any", MockCOM())
 
     mock_engine._engine.NewStep = lambda *_args: MockCOM()
 

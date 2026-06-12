@@ -252,7 +252,9 @@ class ExecutionViewManager(COMWrapper):
 
     @ts_interface
     def build_interactive_args(
-        self, create_loop_args: bool, cancel: bool = False
+        self,
+        create_loop_args: bool,
+        cancel: bool = False,
     ) -> tuple[InteractiveArgs, bool]:
         from py_teststand.execution.interactive_args import InteractiveArgs
 
@@ -267,12 +269,15 @@ class ExecutionViewManager(COMWrapper):
 
     @ts_interface
     def connect_caption(
-        self, control: typing.Any, source: int | CaptionSource
+        self,
+        control: typing.Any,
+        source: int | CaptionSource,
     ) -> CaptionConnection:
         from .connections import CaptionConnection
 
         return CaptionConnection(
-            self._com_obj.ConnectCaption(control, int(source)), self._engine_ref
+            self._com_obj.ConnectCaption(control, int(source)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -288,7 +293,11 @@ class ExecutionViewManager(COMWrapper):
 
         return CommandConnection(
             self._com_obj.ConnectCommand(
-                control, command_kind, index, options, int(button_action_style)
+                control,
+                command_kind,
+                index,
+                options,
+                int(button_action_style),
             ),
             self._engine_ref,
         )
@@ -298,17 +307,21 @@ class ExecutionViewManager(COMWrapper):
         from .connections import ExecutionListConnection
 
         return ExecutionListConnection(
-            self._com_obj.ConnectExecutionList(control), self._engine_ref
+            self._com_obj.ConnectExecutionList(control),
+            self._engine_ref,
         )
 
     @ts_interface
     def connect_execution_view(
-        self, control: typing.Any, options: ExecutionViewConnectionOption | int = 0
+        self,
+        control: typing.Any,
+        options: ExecutionViewConnectionOption | int = 0,
     ) -> ExecutionViewConnection:
         from .connections import ExecutionViewConnection
 
         return ExecutionViewConnection(
-            self._com_obj.ConnectExecutionView(control, int(options)), self._engine_ref
+            self._com_obj.ConnectExecutionView(control, int(options)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -319,12 +332,15 @@ class ExecutionViewManager(COMWrapper):
 
     @ts_interface
     def connect_numeric(
-        self, control: typing.Any, source: int | NumericSource
+        self,
+        control: typing.Any,
+        source: int | NumericSource,
     ) -> NumericConnection:
         from .connections import NumericConnection
 
         return NumericConnection(
-            self._com_obj.ConnectNumeric(control, int(source)), self._engine_ref
+            self._com_obj.ConnectNumeric(control, int(source)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -347,7 +363,10 @@ class ExecutionViewManager(COMWrapper):
 
     @ts_interface
     def get_caption_text(
-        self, caption_source: int | CaptionSource, long_name: bool, format_expression: str = ""
+        self,
+        caption_source: int | CaptionSource,
+        long_name: bool,
+        format_expression: str = "",
     ) -> str:
         return str(self._com_obj.GetCaptionText(int(caption_source), long_name, format_expression))
 

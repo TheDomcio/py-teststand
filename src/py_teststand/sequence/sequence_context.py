@@ -322,11 +322,6 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def run_state(self) -> PropertyObject:
-        return PropertyObject(self._com_obj.RunState, self._engine_ref)
-
-    @property
-    @ts_interface
     def locals(self) -> PropertyObject:
         return PropertyObject(self._com_obj.Locals, self._engine_ref)
 
@@ -392,18 +387,6 @@ class SequenceContext(PropertyObject):
 
         com_step = self._com_obj.CallingStep
         return Step(com_step, self._engine_ref) if com_step else None
-
-    @ts_interface
-    def get_internal_option(self, option: int) -> typing.Any:
-        return self._com_obj.GetInternalOption(option)
-
-    @ts_interface
-    def set_internal_option(self, option: int, value: typing.Any) -> None:
-        self._com_obj.SetInternalOption(option, value)
-
-    @ts_interface
-    def set_step_index(self, group: int, index: int) -> None:
-        self._com_obj.SetStepIndex(int(group), index)
 
     @property
     @ts_interface

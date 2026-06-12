@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from py_teststand.analyzer.analysis_message import AnalysisMessage
 
 
-class TestStandError(Exception):
+class Error(Exception):
     __test__ = False
 
     def __init__(
@@ -31,27 +31,27 @@ class TestStandError(Exception):
             super().__init__(message)
 
 
-class TestStandCOMError(TestStandError):
+class COMError(Error):
     pass
 
 
-class TestStandLicenseError(TestStandError):
+class LicenseError(Error):
     pass
 
 
-class SequenceFileLoadError(TestStandError):
+class SequenceFileLoadError(Error):
     pass
 
 
-class StepExecutionError(TestStandError):
+class StepExecutionError(Error):
     pass
 
 
-class InvalidPropertyError(TestStandError):
+class InvalidPropertyError(Error):
     pass
 
 
-class SystemError(TestStandError):
+class SystemError(Error):
     pass
 
 
@@ -59,7 +59,7 @@ class MemoryError(SystemError):
     pass
 
 
-class IOError(TestStandError, OSError):
+class IOError(Error, OSError):
     pass
 
 
@@ -71,15 +71,15 @@ class FileAlreadyExistsError(IOError):
     pass
 
 
-class TestStandFileNotFoundError(IOError):
+class FileNotFoundError(IOError):
     pass
 
 
-class PathNotFoundError(TestStandFileNotFoundError):
+class PathNotFoundError(FileNotFoundError):
     pass
 
 
-class PropertyError(TestStandError):
+class PropertyError(Error):
     pass
 
 
@@ -91,7 +91,7 @@ class TypeMismatchError(PropertyError, TypeError):
     pass
 
 
-class ExecutionError(TestStandError):
+class ExecutionError(Error):
     pass
 
 
@@ -107,17 +107,19 @@ class SequenceTerminatedError(ExecutionError):
     pass
 
 
-class AdapterError(TestStandError):
+class AdapterError(Error):
     pass
 
 
-class DeploymentError(TestStandError):
+class DeploymentError(Error):
     pass
 
 
-class SequenceValidationError(TestStandError):
+class SequenceValidationError(Error):
     def __init__(
-        self, message: str, analysis_messages: list[AnalysisMessage | None] | None = None
+        self,
+        message: str,
+        analysis_messages: list[AnalysisMessage | None] | None = None,
     ) -> None:
         self.analysis_messages = analysis_messages or []
         super().__init__(message)
@@ -246,12 +248,12 @@ TESTSTAND_KNOWN_ERROR_CODES: frozenset = frozenset(
         19445,
         19446,
         19447,
-    }
+    },
 )
 
 
 def _generate_error_map():
-    emap: dict[int, type[TestStandError]] = {}
+    emap: dict[int, type[Error]] = {}
 
     for code in TESTSTAND_KNOWN_ERROR_CODES:
         if -17099 <= code <= -17000:
@@ -262,19 +264,17 @@ def _generate_error_map():
             emap[code] = PropertyError
         elif -17699 <= code <= -17400:
             emap[code] = ExecutionError
-        elif -17799 <= code <= -17700:
-            emap[code] = AdapterError
-        elif -18099 <= code <= -18000:
+        elif -17799 <= code <= -17700 or -18099 <= code <= -18000:
             emap[code] = AdapterError
         elif -19999 <= code <= -19000:
             emap[code] = DeploymentError
         else:
-            emap[code] = TestStandError
+            emap[code] = Error
 
     emap[-17000] = MemoryError
     emap[-17500] = ExecutionError
     emap[-17205] = AccessDeniedError
-    emap[-17208] = TestStandFileNotFoundError
+    emap[-17208] = FileNotFoundError
     emap[-17301] = IndexOutOfRangeError
     emap[-17306] = InvalidPropertyError
     emap[-17324] = IndexOutOfRangeError
@@ -284,9 +284,10 @@ def _generate_error_map():
     emap[-17603] = SequenceTerminatedError
     emap[-19036] = SequenceFileLoadError
 
-    emap[-18360] = TestStandLicenseError
+    emap[-18360] = LicenseError
 
     return emap
 
 
 ERROR_MAP = _generate_error_map()
+

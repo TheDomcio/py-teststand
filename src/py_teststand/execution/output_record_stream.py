@@ -2,12 +2,8 @@ from __future__ import annotations
 
 import typing
 from enum import IntEnum
-from typing import TYPE_CHECKING
 
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
-
-if TYPE_CHECKING:
-    pass
 
 
 class FileOpenMode(IntEnum):
@@ -110,13 +106,15 @@ class ExecutionOutputRecordStreams(COMWrapper):
     @ts_interface
     def get_stream(self, stream_name: str) -> ExecutionOutputRecordStream:
         return ExecutionOutputRecordStream(
-            self._com_obj.GetStream(str(stream_name)), self._engine_ref
+            self._com_obj.GetStream(str(stream_name)),
+            self._engine_ref,
         )
 
     @ts_interface
     def new_stream(self, stream_name: str) -> ExecutionOutputRecordStream:
         return ExecutionOutputRecordStream(
-            self._com_obj.NewStream(str(stream_name)), self._engine_ref
+            self._com_obj.NewStream(str(stream_name)),
+            self._engine_ref,
         )
 
     @ts_interface

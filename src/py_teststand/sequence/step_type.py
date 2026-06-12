@@ -95,11 +95,6 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def description(self) -> str:
-        return str(self._com_obj.Description)
-
-    @property
-    @ts_interface
     def description_expr(self) -> str:
         return str(self._com_obj.DescriptionExpr)
 
@@ -602,7 +597,8 @@ class StepType(PropertyObject):
     @ts_interface
     def create_combined_step_type(self, combine_with: StepType) -> typing.Any:
         return StepType(
-            self._com_obj.CreateCombinedStepType(combine_with._com_obj), self._engine_ref
+            self._com_obj.CreateCombinedStepType(combine_with._com_obj),
+            self._engine_ref,
         )
 
     @ts_interface

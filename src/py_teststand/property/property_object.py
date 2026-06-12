@@ -273,7 +273,9 @@ class PropertyObject(COMWrapper):
 
         if isinstance(value, COMWrapper):
             self._property_object.SetValVariant(
-                lookup_string, PropertyOption.NoneValue, value._com_obj
+                lookup_string,
+                PropertyOption.NoneValue,
+                value._com_obj,
             )
         else:
             self.set_val_variant(lookup_string, PropertyOption.NoneValue, value)
@@ -360,7 +362,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_variant(
-        self, lookup_string: str = "", options: int = 0, value: typing.Any = None
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: typing.Any = None,
     ) -> typing.Any:
         if pythoncom is not None and win32com is not None:
             if isinstance(value, bool):
@@ -376,10 +381,11 @@ class PropertyObject(COMWrapper):
             elif isinstance(value, (list, tuple)):
                 try:
                     value = win32com.client.VARIANT(
-                        pythoncom.VT_ARRAY | pythoncom.VT_VARIANT, list(value)
+                        pythoncom.VT_ARRAY | pythoncom.VT_VARIANT,
+                        list(value),
                     )
                 except Exception:
-                    value = tuple(typing.cast(typing.Any, value))
+                    value = tuple(typing.cast("typing.Any", value))
         elif isinstance(value, datetime.datetime) and pywintypes is not None:
             value = pywintypes.Time(value)
         self._property_object.SetValVariant(lookup_string, options, value)
@@ -390,7 +396,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_string(
-        self, lookup_string: str = "", options: int = 0, value: str = ""
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: str = "",
     ) -> typing.Any:
         self._property_object.SetValString(lookup_string, options, value)
 
@@ -400,7 +409,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_number(
-        self, lookup_string: str = "", options: int = 0, value: float = 0.0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: float = 0.0,
     ) -> typing.Any:
         self._property_object.SetValNumber(lookup_string, options, value)
 
@@ -410,7 +422,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_boolean(
-        self, lookup_string: str = "", options: int = 0, value: bool = False
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: bool = False,
     ) -> None:
         self._property_object.SetValBoolean(lookup_string, options, value)
 
@@ -424,7 +439,11 @@ class PropertyObject(COMWrapper):
         options: int = 0,
     ) -> None:
         self._property_object.NewSubProperty(
-            lookup_string, int(value_type), as_array, type_name, int(options)
+            lookup_string,
+            int(value_type),
+            as_array,
+            type_name,
+            int(options),
         )
 
     @ts_interface
@@ -444,7 +463,9 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def evaluate_ex(
-        self, expression: str, options: EvaluationOption = EvaluationOption.NoneValue
+        self,
+        expression: str,
+        options: EvaluationOption = EvaluationOption.NoneValue,
     ) -> PropertyObject | None:
         res_com = self._property_object.EvaluateEx(expression, int(options))
         return PropertyObject(res_com, self._engine_ref) if res_com else None
@@ -456,7 +477,8 @@ class PropertyObject(COMWrapper):
         options: PropertyOption = PropertyOption.NoneValue,
     ) -> PropertyObject:
         return PropertyObject(
-            self._property_object.Clone(lookup_string, int(options)), self._engine_ref
+            self._property_object.Clone(lookup_string, int(options)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -486,13 +508,18 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_flags(
-        self, lookup_string: str, options: PropertyOption | int, flags: PropertyFlag | int
+        self,
+        lookup_string: str,
+        options: PropertyOption | int,
+        flags: PropertyFlag | int,
     ) -> None:
         self._property_object.SetFlags(lookup_string, int(options), int(flags))
 
     @ts_interface
     def get_property_object(
-        self, lookup_string: str, options: PropertyOption | int = 0
+        self,
+        lookup_string: str,
+        options: PropertyOption | int = 0,
     ) -> PropertyObject | None:
         com_obj = self._property_object.GetPropertyObject(lookup_string, int(options))
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
@@ -514,7 +541,9 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def validate_new_sub_property_name(
-        self, name: str, allow_duplicates: bool = False
+        self,
+        name: str,
+        allow_duplicates: bool = False,
     ) -> tuple[bool, str]:
         res = self._property_object.ValidateNewSubPropertyName(name, allow_duplicates)
         if isinstance(res, tuple) and len(res) >= 2:
@@ -542,13 +571,14 @@ class PropertyObject(COMWrapper):
     def type_obj(self) -> typing.Any:
         return self._property_object.Type
 
-    @ts_interface
     def get_type_name(self, lookup_string: str = "", options: PropertyOption | int = 0) -> str:
-        return str(self._property_object.GetTypeName(lookup_string, int(options)))
+        return self.get_type(lookup_string, options)[3]
 
     @ts_interface
     def get_type(
-        self, lookup_string: str = "", options: PropertyOption | int = 0
+        self,
+        lookup_string: str = "",
+        options: PropertyOption | int = 0,
     ) -> tuple[PropValType, bool, bool, str]:
 
         res = self._property_object.GetType(lookup_string, int(options), False, False, "")
@@ -653,7 +683,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def delete_nth_sub_property(
-        self, lookup_string: str, index: int, options: int = 0
+        self,
+        lookup_string: str,
+        index: int,
+        options: int = 0,
     ) -> typing.Any:
         self._property_object.DeleteNthSubProperty(lookup_string, index, options)
 
@@ -671,13 +704,19 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def get_nth_sub_property_name(
-        self, lookup_string: str = "", index: int = 0, options: int = 0
+        self,
+        lookup_string: str = "",
+        index: int = 0,
+        options: int = 0,
     ) -> str:
         return str(self._property_object.GetNthSubPropertyName(lookup_string, index, options))
 
     @ts_interface
     def get_nth_sub_property(
-        self, lookup_string: str = "", index: int = 0, options: int = 0
+        self,
+        lookup_string: str = "",
+        index: int = 0,
+        options: int = 0,
     ) -> PropertyObject | None:
         com_obj = self._property_object.GetNthSubProperty(lookup_string, index, options)
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
@@ -711,13 +750,19 @@ class PropertyObject(COMWrapper):
     ) -> str:
         return str(
             self._property_object.GetFormattedValue(
-                lookup_string, options, format_string, use_value_format_if_defined, separator
-            )
+                lookup_string,
+                options,
+                format_string,
+                use_value_format_if_defined,
+                separator,
+            ),
         )
 
     @ts_interface
     def get_property_object_by_offset(
-        self, array_offset: int, options: int = 0
+        self,
+        array_offset: int,
+        options: int = 0,
     ) -> PropertyObject | None:
         com_obj = self._property_object.GetPropertyObjectByOffset(array_offset, options)
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
@@ -740,25 +785,37 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_boolean_by_offset(
-        self, array_offset: int, options: int = 0, value: bool = False
+        self,
+        array_offset: int,
+        options: int = 0,
+        value: bool = False,
     ) -> None:
         self._property_object.SetValBooleanByOffset(array_offset, options, value)
 
     @ts_interface
     def set_val_number_by_offset(
-        self, array_offset: int, options: int = 0, value: float = 0.0
+        self,
+        array_offset: int,
+        options: int = 0,
+        value: float = 0.0,
     ) -> None:
         self._property_object.SetValNumberByOffset(array_offset, options, value)
 
     @ts_interface
     def set_val_string_by_offset(
-        self, array_offset: int, options: int = 0, value: str = ""
+        self,
+        array_offset: int,
+        options: int = 0,
+        value: str = "",
     ) -> None:
         self._property_object.SetValStringByOffset(array_offset, options, value)
 
     @ts_interface
     def set_val_variant_by_offset(
-        self, array_offset: int, options: int = 0, value: typing.Any = None
+        self,
+        array_offset: int,
+        options: int = 0,
+        value: typing.Any = None,
     ) -> None:
         if pythoncom is not None and win32com is not None:
             if isinstance(value, bool):
@@ -774,7 +831,8 @@ class PropertyObject(COMWrapper):
             elif isinstance(value, (list, tuple)):
                 try:
                     value = win32com.client.VARIANT(
-                        pythoncom.VT_ARRAY | pythoncom.VT_VARIANT, list(value)
+                        pythoncom.VT_ARRAY | pythoncom.VT_VARIANT,
+                        list(value),
                     )
                 except Exception:
                     value = value
@@ -788,7 +846,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_integer64(
-        self, lookup_string: str = "", options: int = 0, value: int = 0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: int = 0,
     ) -> typing.Any:
         self._property_object.SetValInteger64(lookup_string, options, value)
 
@@ -798,7 +859,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_unsigned_integer64(
-        self, lookup_string: str = "", options: int = 0, value: int = 0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: int = 0,
     ) -> None:
         self._property_object.SetValUnsignedInteger64(lookup_string, options, value)
 
@@ -838,7 +902,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_val_interface(
-        self, lookup_string: str = "", options: int = 0, value: typing.Any = None
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: typing.Any = None,
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetValInterface(lookup_string, options, val_com)
@@ -853,14 +920,20 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_property_object(
-        self, lookup_string: str, options: int, value: typing.Any
+        self,
+        lookup_string: str,
+        options: int,
+        value: typing.Any,
     ) -> typing.Any:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetPropertyObject(lookup_string, options, val_com)
 
     @ts_interface
     def set_property_object_by_offset(
-        self, array_offset: int, options: int, value: typing.Any
+        self,
+        array_offset: int,
+        options: int,
+        value: typing.Any,
     ) -> typing.Any:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetPropertyObjectByOffset(array_offset, options, val_com)
@@ -883,7 +956,10 @@ class PropertyObject(COMWrapper):
         format_string: str = "",
     ) -> tuple[str, typing.Any, typing.Any]:
         result = self._property_object.GetXML(
-            int(generation_options), int(initial_indentation), default_name, format_string
+            int(generation_options),
+            int(initial_indentation),
+            default_name,
+            format_string,
         )
         if isinstance(result, tuple):
             xml_string = str(result[0]) if len(result) > 0 else ""
@@ -894,31 +970,46 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_xml(
-        self, xml_string: str, options: int = 0, initial_indentation: int = 0
+        self,
+        xml_string: str,
+        options: int = 0,
+        initial_indentation: int = 0,
     ) -> typing.Any:
         self._property_object.SetXML(str(xml_string), int(options), int(initial_indentation))
 
     @ts_interface
     def contains_type_instance(
-        self, lookup_string: str = "", options: int = 0, type_name: str = ""
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        type_name: str = "",
     ) -> bool:
         return bool(self._property_object.ContainsTypeInstance(lookup_string, options, type_name))
 
     @ts_interface
     def get_array_index(
-        self, lookup_string: str = "", options: int = 0, array_offset: int = 0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        array_offset: int = 0,
     ) -> str:
         return str(self._property_object.GetArrayIndex(lookup_string, options, array_offset))
 
     @ts_interface
     def get_array_offset(
-        self, lookup_string: str = "", options: int = 0, array_index: str = ""
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        array_index: str = "",
     ) -> int:
         return int(self._property_object.GetArrayOffset(lookup_string, options, array_index))
 
     @ts_interface
     def get_sub_property_index(
-        self, lookup_string: str, options: int, prop_name: str
+        self,
+        lookup_string: str,
+        options: int,
+        prop_name: str,
     ) -> typing.Any:
         return int(self._property_object.GetSubPropertyIndex(lookup_string, options, prop_name))
 
@@ -928,7 +1019,11 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_nth_sub_property_name(
-        self, lookup_string: str = "", index: int = 0, options: int = 0, new_value: str = ""
+        self,
+        lookup_string: str = "",
+        index: int = 0,
+        options: int = 0,
+        new_value: str = "",
     ) -> None:
         self._property_object.SetNthSubPropertyName(lookup_string, index, options, new_value)
 
@@ -943,7 +1038,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_instance_default_flags(
-        self, lookup_string: str = "", options: int = 0, flags: int = 0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        flags: int = 0,
     ) -> None:
         self._property_object.SetInstanceDefaultFlags(lookup_string, options, flags)
 
@@ -953,7 +1051,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_instance_override_flags(
-        self, lookup_string: str = "", options: int = 0, flags: int = 0
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        flags: int = 0,
     ) -> None:
         self._property_object.SetInstanceOverrideFlags(lookup_string, options, flags)
 
@@ -971,7 +1072,9 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def set_type_definition_protection(
-        self, new_value: int, password_string: str = ""
+        self,
+        new_value: int,
+        password_string: str = "",
     ) -> typing.Any:
         self._property_object.SetTypeDefinitionProtection(new_value, password_string)
 
@@ -989,7 +1092,11 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def read_ex(
-        self, path_string: str, object_name: str = "", rw_options: int = 0, handler_type: int = 1
+        self,
+        path_string: str,
+        object_name: str = "",
+        rw_options: int = 0,
+        handler_type: int = 1,
     ) -> None:
         self._property_object.ReadEx(path_string, object_name, rw_options, handler_type)
 
@@ -1003,7 +1110,9 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def get_property_object_elements(
-        self, lookup_string: str, options: int = 0
+        self,
+        lookup_string: str,
+        options: int = 0,
     ) -> list[PropertyObject]:
         elements_com = self._property_object.GetPropertyObjectElements(lookup_string, options)
         return [PropertyObject(el, self._engine_ref) for el in elements_com]
@@ -1020,40 +1129,59 @@ class PropertyObject(COMWrapper):
         from py_teststand.execution.report import ReportSection
 
         com_obj = self._property_object.CreateReportSection(
-            generation_options, initial_indentation, default_name, format_string, format
+            generation_options,
+            initial_indentation,
+            default_name,
+            format_string,
+            format,
         )
         return ReportSection(com_obj, self._engine_ref) if com_obj else None
 
     @ts_interface
     def set_val_idispatch(
-        self, lookup_string: str = "", options: int = 0, value: typing.Any = None
+        self,
+        lookup_string: str = "",
+        options: int = 0,
+        value: typing.Any = None,
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetValIDispatch(lookup_string, options, val_com)
 
     @ts_interface
     def set_val_idispatch_by_offset(
-        self, array_offset: int = 0, options: int = 0, value: typing.Any = None
+        self,
+        array_offset: int = 0,
+        options: int = 0,
+        value: typing.Any = None,
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetValIDispatchByOffset(array_offset, options, val_com)
 
     @ts_interface
     def set_val_integer64_by_offset(
-        self, array_offset: int = 0, options: int = 0, value: int = 0
+        self,
+        array_offset: int = 0,
+        options: int = 0,
+        value: int = 0,
     ) -> None:
         self._property_object.SetValInteger64ByOffset(array_offset, options, value)
 
     @ts_interface
     def set_val_interface_by_offset(
-        self, array_offset: int = 0, options: int = 0, value: typing.Any = None
+        self,
+        array_offset: int = 0,
+        options: int = 0,
+        value: typing.Any = None,
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value else None
         self._property_object.SetValInterfaceByOffset(array_offset, options, val_com)
 
     @ts_interface
     def set_val_unsigned_integer64_by_offset(
-        self, array_offset: int = 0, options: int = 0, value: int = 0
+        self,
+        array_offset: int = 0,
+        options: int = 0,
+        value: int = 0,
     ) -> None:
         self._property_object.SetValUnsignedInteger64ByOffset(array_offset, options, value)
 
@@ -1063,14 +1191,19 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def display_attributes_dialog(
-        self, dlg_title: str = "", file: typing.Any = None, dlg_options: int = 0
+        self,
+        dlg_title: str = "",
+        file: typing.Any = None,
+        dlg_options: int = 0,
     ) -> bool:
         file_com = getattr(file, "_com_obj", file) if file is not None else None
         return bool(self._com_obj.DisplayAttributesDialog(dlg_title, file_com, int(dlg_options)))
 
     @ts_interface
     def display_edit_numeric_format_dialog(
-        self, dlg_title: str, dlg_options: int = 0
+        self,
+        dlg_title: str,
+        dlg_options: int = 0,
     ) -> tuple[bool, str]:
         res = self._com_obj.DisplayEditNumericFormatDialog(dlg_title, "", int(dlg_options))
         if isinstance(res, tuple) and len(res) >= 2:
@@ -1083,7 +1216,10 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def display_properties_dialog(
-        self, dlg_title: str = "", file: typing.Any = None, dlg_options: int = 0
+        self,
+        dlg_title: str = "",
+        file: typing.Any = None,
+        dlg_options: int = 0,
     ) -> int:
         file_com = getattr(file, "_com_obj", file) if file is not None else None
         return int(self._com_obj.DisplayPropertiesDialog(dlg_title, file_com, int(dlg_options)))
@@ -1128,7 +1264,9 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def validate_new_element_name(
-        self, new_name: str, allow_duplicates: bool = False
+        self,
+        new_name: str,
+        allow_duplicates: bool = False,
     ) -> tuple[bool, str]:
         res = self._com_obj.ValidateNewElementName(new_name, bool(allow_duplicates))
         if isinstance(res, tuple) and len(res) >= 2:

@@ -34,9 +34,8 @@ def test_execution_context_manager_exception(engine):
     class DummyError(Exception):
         pass
 
-    with pytest.raises(DummyError):
-        with exec_obj:
-            raise DummyError("Fail")
+    with pytest.raises(DummyError), exec_obj:
+        raise DummyError("Fail")
     mock_com.Abort.assert_called_once()
     assert not hasattr(exec_obj, "_com_obj") or exec_obj._com_obj is None
 

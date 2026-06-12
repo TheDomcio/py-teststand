@@ -111,16 +111,20 @@ class WatchExpression(COMWrapper):
 
     @ts_interface
     def display_configuration_dialog(
-        self, title: str, context: SequenceContext, options: int = 0
+        self,
+        title: str,
+        context: SequenceContext,
+        options: int = 0,
     ) -> bool:
         return bool(
-            self._com_obj.DisplayConfigurationDialog(str(title), context._com_obj, int(options))
+            self._com_obj.DisplayConfigurationDialog(str(title), context._com_obj, int(options)),
         )
 
     @ts_interface
     def evaluate(self, seq_context: SequenceContext, reserved: int = 0) -> PropertyObject:
         return PropertyObject(
-            self._com_obj.Evaluate(seq_context._com_obj, int(reserved)), self._engine_ref
+            self._com_obj.Evaluate(seq_context._com_obj, int(reserved)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -128,7 +132,8 @@ class WatchExpression(COMWrapper):
         from py_teststand.sequence.sequence_context import SequenceContext
 
         return SequenceContext(
-            self._com_obj.GetScopingContext(current_seq_context._com_obj), self._engine_ref
+            self._com_obj.GetScopingContext(current_seq_context._com_obj),
+            self._engine_ref,
         )
 
 
@@ -151,7 +156,9 @@ class WatchExpressions(COMWrapper):
     ) -> WatchExpression:
         return WatchExpression(
             self._com_obj.Insert(
-                int(before_pos), str(client_sequence_file_param), bool(insert_in_engine)
+                int(before_pos),
+                str(client_sequence_file_param),
+                bool(insert_in_engine),
             ),
             self._engine_ref,
         )

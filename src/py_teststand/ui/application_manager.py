@@ -358,25 +358,16 @@ class ApplicationManager(COMWrapper):
 
     @property
     @ts_interface
-    def break_on_runtime_error(self) -> bool:
-        return bool(self._com_obj.BreakOnRunTimeError)
-
-    @break_on_runtime_error.setter
-    @ts_interface
-    def break_on_runtime_error(self, value: bool) -> None:
-        self._com_obj.BreakOnRunTimeError = value
-
-    @property
-    @ts_interface
     def automatically_reload_modified_files(self) -> AutomaticallyReloadModifiedFilesOption:
         return AutomaticallyReloadModifiedFilesOption(
-            self._com_obj.AutomaticallyReloadModifiedFiles
+            self._com_obj.AutomaticallyReloadModifiedFiles,
         )
 
     @automatically_reload_modified_files.setter
     @ts_interface
     def automatically_reload_modified_files(
-        self, value: AutomaticallyReloadModifiedFilesOption | int
+        self,
+        value: AutomaticallyReloadModifiedFilesOption | int,
     ) -> None:
         self._com_obj.AutomaticallyReloadModifiedFiles = int(value)
 
@@ -583,12 +574,16 @@ class ApplicationManager(COMWrapper):
 
     @ts_interface
     def connect_caption(
-        self, control: typing.Any, source: CaptionSource | int, long_name: bool = False
+        self,
+        control: typing.Any,
+        source: CaptionSource | int,
+        long_name: bool = False,
     ) -> CaptionConnection:
         from .connections import CaptionConnection
 
         return CaptionConnection(
-            self._com_obj.ConnectCaption(control, int(source), long_name), self._engine_ref
+            self._com_obj.ConnectCaption(control, int(source), long_name),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -623,7 +618,10 @@ class ApplicationManager(COMWrapper):
 
     @ts_interface
     def get_caption_text(
-        self, caption_source: CaptionSource | int, long_name: bool, format_expression: str = ""
+        self,
+        caption_source: CaptionSource | int,
+        long_name: bool,
+        format_expression: str = "",
     ) -> str:
         return str(self._com_obj.GetCaptionText(int(caption_source), long_name, format_expression))
 
@@ -705,7 +703,11 @@ class ApplicationManager(COMWrapper):
 
     @ts_interface
     def open_sequence_file_dialog(
-        self, title: str = "", initial_path: str = "", filter: str = "", options: int = 0
+        self,
+        title: str = "",
+        initial_path: str = "",
+        filter: str = "",
+        options: int = 0,
     ) -> str:
         return str(self._com_obj.OpenSequenceFileDialog(title, initial_path, filter, options))
 
@@ -721,8 +723,13 @@ class ApplicationManager(COMWrapper):
     ) -> list[str]:
         return list(
             self._com_obj.OpenSequenceFilesDialog(
-                title, initial_path, filter, allow_multi_select, allow_edit_only, options
-            )
+                title,
+                initial_path,
+                filter,
+                allow_multi_select,
+                allow_edit_only,
+                options,
+            ),
         )
 
     @ts_interface

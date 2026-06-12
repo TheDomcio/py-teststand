@@ -51,12 +51,12 @@ class ComboBox(COMWrapper):
     @property
     @ts_interface
     def height_with_dropdown(self) -> int:
-        return int(self._com_obj.HeightWithDropdown)
+        return int(self._com_obj.HeightWithDropDown)
 
     @height_with_dropdown.setter
     @ts_interface
     def height_with_dropdown(self, value: int) -> None:
-        self._com_obj.HeightWithDropdown = value
+        self._com_obj.HeightWithDropDown = value
 
     @property
     @ts_interface
@@ -150,9 +150,9 @@ class ComboBox(COMWrapper):
     @property
     @ts_interface
     def tooltip_visible(self) -> bool:
-        return bool(self._com_obj.TooltipVisible)
+        return bool(self._com_obj.ToolTipVisible)
 
     @tooltip_visible.setter
     @ts_interface
     def tooltip_visible(self, value: bool) -> None:
-        self._com_obj.TooltipVisible = value
+        self._com_obj.ToolTipVisible = value

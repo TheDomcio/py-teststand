@@ -140,7 +140,10 @@ class Thread(COMWrapper):
         synchronous: bool,
     ) -> None:
         self._com_obj.PostUIMessage(
-            int(event_code), float(numeric_data_param), str(string_data_param), bool(synchronous)
+            int(event_code),
+            float(numeric_data_param),
+            str(string_data_param),
+            bool(synchronous),
         )
 
     @ts_interface
@@ -194,5 +197,5 @@ class Thread(COMWrapper):
                 bool(process_windows_msgs),
                 step_to_store_results_in,
                 calling_sequence_context,
-            )
+            ),
         )

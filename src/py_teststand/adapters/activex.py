@@ -340,10 +340,10 @@ class ActiveXParameter(COMWrapper):
         return bool(self._com_obj.IsOptional)
 
     @ts_interface
-    def is_parameter_mapping(self) -> tuple[bool, str]:
+    def is_parameter_mapping_invalid(self) -> tuple[bool, str]:
         reason_not_valid = ""
-        is_valid = bool(self._com_obj.IsParameterMapping(reason_not_valid))
-        return is_valid, str(reason_not_valid)
+        is_invalid = bool(self._com_obj.IsParameterMappingInvalid(reason_not_valid))
+        return is_invalid, str(reason_not_valid)
 
     @property
     @ts_interface

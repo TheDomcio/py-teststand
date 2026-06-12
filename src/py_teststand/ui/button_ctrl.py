@@ -180,16 +180,6 @@ class Button(COMWrapper):
 
     @property
     @ts_interface
-    def show_focus_rect(self) -> bool:
-        return bool(self._com_obj.ShowFocusRect)
-
-    @show_focus_rect.setter
-    @ts_interface
-    def show_focus_rect(self, value: bool) -> None:
-        self._com_obj.ShowFocusRect = value
-
-    @property
-    @ts_interface
     def style(self) -> ButtonStyle:
         return ButtonStyle(self._com_obj.Style)
 

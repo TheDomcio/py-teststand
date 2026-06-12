@@ -176,18 +176,9 @@ class Adapter(PropertyObject):
     def can_edit_code(self) -> bool:
         return bool(self._com_obj.CanEditCode)
 
-    @property
-    @ts_interface
-    def can_verify_code(self) -> bool:
-        return bool(self._com_obj.CanVerifyCode)
-
     @ts_interface
     def configure(self, modal_window_handle: int = 0) -> bool:
         return bool(self._com_obj.Configure(modal_window_handle))
-
-    @ts_interface
-    def edit_adapter_configuration(self, modal_window_handle: int = 0) -> bool:
-        return bool(self._com_obj.EditAdapterConfiguration(modal_window_handle))
 
     @ts_interface
     def as_property_object(self) -> PropertyObject:
@@ -643,12 +634,17 @@ class CommonCModule(Module):
 
     @ts_interface
     def accept_function_call(
-        self, evaluation_context: PropertyObject, func_call: str, allow_editing_prototype: bool
+        self,
+        evaluation_context: PropertyObject,
+        func_call: str,
+        allow_editing_prototype: bool,
     ) -> bool:
         return bool(
             self._com_obj.AcceptFunctionCall(
-                evaluation_context._com_obj, func_call, allow_editing_prototype
-            )
+                evaluation_context._com_obj,
+                func_call,
+                allow_editing_prototype,
+            ),
         )
 
 

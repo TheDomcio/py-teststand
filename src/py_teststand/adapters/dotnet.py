@@ -158,14 +158,20 @@ class DotNetAdapter(Adapter):
 
     @ts_interface
     def cache_assembly_info_ex(
-        self, assembly_location: int, assembly_path: str, options: int
+        self,
+        assembly_location: int,
+        assembly_path: str,
+        options: int,
     ) -> None:
         self._warn_if_gac_unsupported(assembly_location)
         self._com_obj.CacheAssemblyInfoEx(assembly_location, assembly_path, options)
 
     @ts_interface
     def get_class_names(
-        self, assembly_location: int, assembly_path: str, options: int
+        self,
+        assembly_location: int,
+        assembly_path: str,
+        options: int,
     ) -> list[str]:
         self._warn_if_gac_unsupported(assembly_location)
         res = self._com_obj.GetClassNames(assembly_location, assembly_path, options)
@@ -173,7 +179,11 @@ class DotNetAdapter(Adapter):
 
     @ts_interface
     def get_member_names(
-        self, assembly_location: int, assembly_path: str, class_name: str, options: int
+        self,
+        assembly_location: int,
+        assembly_path: str,
+        class_name: str,
+        options: int,
     ) -> list[str]:
         self._warn_if_gac_unsupported(assembly_location)
         res = self._com_obj.GetMemberNames(assembly_location, assembly_path, class_name, options)
@@ -181,18 +191,25 @@ class DotNetAdapter(Adapter):
 
     @ts_interface
     def get_exclude_from_structure(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> bool:
         return bool(
-            self._com_obj.GetExcludeFromStructure(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetExcludeFromStructure(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
     def set_exclude_from_structure(
-        self, type_definition: PropertyObject, property_lookup_string: str, exclude: bool
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
+        exclude: bool,
     ) -> None:
         self._com_obj.SetExcludeFromStructure(
-            type_definition._com_obj, property_lookup_string, exclude
+            type_definition._com_obj,
+            property_lookup_string,
+            exclude,
         )
 
     @ts_interface
@@ -203,18 +220,25 @@ class DotNetAdapter(Adapter):
 
     @ts_interface
     def get_structure_member_label(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> str:
         return str(
-            self._com_obj.GetStructureMemberLabel(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetStructureMemberLabel(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
     def set_structure_member_label(
-        self, type_definition: PropertyObject, property_lookup_string: str, label: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
+        label: str,
     ) -> None:
         self._com_obj.SetStructureMemberLabel(
-            type_definition._com_obj, property_lookup_string, label
+            type_definition._com_obj,
+            property_lookup_string,
+            label,
         )
 
     @ts_interface
@@ -223,22 +247,31 @@ class DotNetAdapter(Adapter):
 
     @ts_interface
     def set_structure_passing_enabled(
-        self, type_definition: PropertyObject, enabled: bool
+        self,
+        type_definition: PropertyObject,
+        enabled: bool,
     ) -> typing.Any:
         self._com_obj.SetStructurePassingEnabled(type_definition._com_obj, enabled)
 
     @ts_interface
     def is_class_valid(
-        self, assembly_location: int, assembly_path: str, class_name: str
+        self,
+        assembly_location: int,
+        assembly_path: str,
+        class_name: str,
     ) -> typing.Any:
         return bool(self._com_obj.IsClassValid(assembly_location, assembly_path, class_name))
 
     @ts_interface
     def is_class_valid_ex(
-        self, assembly_location: int, assembly_path: str, class_name: str, options: int
+        self,
+        assembly_location: int,
+        assembly_path: str,
+        class_name: str,
+        options: int,
     ) -> bool:
         return bool(
-            self._com_obj.IsClassValidEx(assembly_location, assembly_path, class_name, options)
+            self._com_obj.IsClassValidEx(assembly_location, assembly_path, class_name, options),
         )
 
     @ts_interface
@@ -346,7 +379,9 @@ class DotNetModule(Module):
 
     @ts_interface
     def execute(
-        self, sequence_context: typing.Any = None, arguments: typing.Any = None
+        self,
+        sequence_context: typing.Any = None,
+        arguments: typing.Any = None,
     ) -> typing.Any:
         raw_ctx = getattr(sequence_context, "_com_obj", None) if sequence_context else None
         raw_args = getattr(arguments, "_com_obj", None) if arguments else None
@@ -380,10 +415,12 @@ class DotNetModule(Module):
 
     @ts_interface
     def load_constructor_prototype_from_metadata_token(
-        self, metadata_token: int, options: int = 0
+        self,
+        metadata_token: int,
+        options: int = 0,
     ) -> bool:
         return bool(
-            self._com_obj.LoadConstructorPrototypeFromMetadataToken(metadata_token, options)
+            self._com_obj.LoadConstructorPrototypeFromMetadataToken(metadata_token, options),
         )
 
     @ts_interface
@@ -392,7 +429,9 @@ class DotNetModule(Module):
 
     @ts_interface
     def load_prototype_from_metadata_token(
-        self, metadata_token: int, options: int = 0
+        self,
+        metadata_token: int,
+        options: int = 0,
     ) -> typing.Any:
         return bool(self._com_obj.LoadPrototypeFromMetadataToken(metadata_token, options))
 
@@ -493,7 +532,8 @@ class DotNetModule(Module):
     @ts_interface
     def unmapped_constructor_argument_values(self) -> UnmappedArgumentValueList:
         return UnmappedArgumentValueList(
-            self._com_obj.UnmappedConstructorArgumentValues, self._engine_ref
+            self._com_obj.UnmappedConstructorArgumentValues,
+            self._engine_ref,
         )
 
     @property
@@ -567,16 +607,7 @@ class DotNetModule(Module):
         try:
             self._com_obj.SetAssembly(loc, value)
         except Exception:
-            try:
-                if loc == DotNetModuleAssemblyLocation.GAC:
-                    self._com_obj.AssemblyStrongName = value
-                else:
-                    self._com_obj.AssemblyPath = value
-            except Exception:
-                try:
-                    self._com_obj.SetAssembly(loc, value, 0)
-                except Exception:
-                    raise
+            self._com_obj.SetAssembly(loc, value, 0)
 
     @property
     @ts_interface
@@ -597,14 +628,6 @@ class DotNetModule(Module):
     @ts_interface
     def specify_host_by_expression(self) -> bool:
         return bool(self._com_obj.SpecifyHostByExpression)
-
-    @ts_interface
-    def create_object(self) -> typing.Any:
-        return self._com_obj.CreateObject()
-
-    @ts_interface
-    def dispose_object(self) -> None:
-        self._com_obj.DisposeObject()
 
     @ts_interface
     def as_module(self) -> Module:
@@ -717,7 +740,10 @@ class DotNetCall(COMWrapper):
 
     @ts_interface
     def load_prototype_from_signature(
-        self, signature: str, allow_member_name_matching: bool, options: int = 0
+        self,
+        signature: str,
+        allow_member_name_matching: bool,
+        options: int = 0,
     ) -> bool:
         return bool(
             self._com_obj.LoadPrototypeFromSignature(signature, allow_member_name_matching, options)
@@ -794,7 +820,7 @@ class DotNetCalls(COMWrapper):
         return DotNetCall(self._com_obj.New(index), self._engine_ref)
 
     def release(self) -> None:
-        "Releases the underlying COM object."
+        """Releases the underlying COM object."""
         self._com_obj = None
 
     def __del__(self) -> None:

@@ -42,7 +42,9 @@ class UndoItemCreator(COMWrapper):
 
         user_data = getattr(locations_user_data, "_com_obj", locations_user_data)
         com_obj = self._com_obj.CreateAndPostUndoItem(
-            int(options), int(locations_application_site), user_data
+            int(options),
+            int(locations_application_site),
+            user_data,
         )
         if com_obj is None:
             return None

@@ -26,7 +26,6 @@ class ModuleLoadOption(IntEnum):
     DynamicLoad = 3
     PreloadWhenExecuted = 2
     PreloadWhenOpened = 1
-    UseStepTypeSetting = 4
     UseStepLoadOption = 4
 
 
@@ -91,7 +90,9 @@ class SequenceCollection:
         if isinstance(index, str):
             return self._sequence_file.get_sequence_by_name(index)
         if isinstance(index, slice):
-            return typing.cast(list[Sequence], [self[i] for i in range(*index.indices(len(self)))])
+            return typing.cast(
+                "list[Sequence]", [self[i] for i in range(*index.indices(len(self)))]
+            )
         return self._sequence_file.get_sequence(index)
 
     def __iter__(self):
@@ -353,11 +354,14 @@ class SequenceFile(PropertyObjectFile):
 
     @ts_interface
     def create_callback_override_sequence(
-        self, callback_name: str, allow_copy_default_steps: bool
+        self,
+        callback_name: str,
+        allow_copy_default_steps: bool,
     ) -> Sequence:
         return Sequence(
             self._com_obj.CreateCallbackOverrideSequence(
-                str(callback_name), bool(allow_copy_default_steps)
+                str(callback_name),
+                bool(allow_copy_default_steps),
             ),
             engine=self.engine,
         )

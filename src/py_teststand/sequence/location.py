@@ -211,26 +211,6 @@ class ApplicationSite(IntEnum):
 class Location(COMWrapper):
     @property
     @ts_interface
-    def name(self) -> str:
-        return str(self._com_obj.Name)
-
-    @name.setter
-    @ts_interface
-    def name(self, value: str) -> None:
-        self._com_obj.Name = value
-
-    @property
-    @ts_interface
-    def path(self) -> str:
-        return str(self._com_obj.Path)
-
-    @path.setter
-    @ts_interface
-    def path(self, value: str) -> None:
-        self._com_obj.Path = value
-
-    @property
-    @ts_interface
     def kind(self) -> typing.Any:
         return int(self._com_obj.Kind)
 
@@ -308,11 +288,6 @@ class Location(COMWrapper):
     @ts_interface
     def type_name(self, value: str) -> None:
         self._com_obj.TypeName = value
-
-    @property
-    @ts_interface
-    def display_string(self) -> str:
-        return str(self._com_obj.DisplayString)
 
     @property
     @ts_interface
@@ -413,12 +388,16 @@ class Locations(COMWrapper):
 
     @ts_interface
     def add_api_location(
-        self, base_obj: typing.Any, api_location: int, obj_file: typing.Any = None
+        self,
+        base_obj: typing.Any,
+        api_location: int,
+        obj_file: typing.Any = None,
     ) -> Location:
         com_base = getattr(base_obj, "_com_obj", base_obj)
         com_file = getattr(obj_file, "_com_obj", obj_file) if obj_file else None
         return Location(
-            self._com_obj.AddAPILocation(com_base, int(api_location), com_file), self._engine_ref
+            self._com_obj.AddAPILocation(com_base, int(api_location), com_file),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -433,7 +412,11 @@ class Locations(COMWrapper):
         com_ctx = getattr(seq_context, "_com_obj", seq_context)
         return Location(
             self._com_obj.AddExecutionLocation(
-                com_ctx, lookup_string, int(elem), int(selection_start), int(selection_length)
+                com_ctx,
+                lookup_string,
+                int(elem),
+                int(selection_start),
+                int(selection_length),
             ),
             self._engine_ref,
         )
@@ -451,7 +434,11 @@ class Locations(COMWrapper):
         com_obj = getattr(obj, "_com_obj", obj)
         return Location(
             self._com_obj.AddExecutionLocationByObject(
-                com_ctx, com_obj, int(elem), int(selection_start), int(selection_length)
+                com_ctx,
+                com_obj,
+                int(elem),
+                int(selection_start),
+                int(selection_length),
             ),
             self._engine_ref,
         )
@@ -468,7 +455,11 @@ class Locations(COMWrapper):
         com_file = getattr(file, "_com_obj", file)
         return Location(
             self._com_obj.AddFileLocation(
-                com_file, lookup_string, int(elem), int(selection_start), int(selection_length)
+                com_file,
+                lookup_string,
+                int(elem),
+                int(selection_start),
+                int(selection_length),
             ),
             self._engine_ref,
         )
@@ -484,7 +475,10 @@ class Locations(COMWrapper):
         com_obj = getattr(obj, "_com_obj", obj)
         return Location(
             self._com_obj.AddFileLocationByObject(
-                com_obj, int(elem), int(selection_start), int(selection_length)
+                com_obj,
+                int(elem),
+                int(selection_start),
+                int(selection_length),
             ),
             self._engine_ref,
         )
@@ -538,7 +532,11 @@ class Locations(COMWrapper):
         com_obj = getattr(obj, "_com_obj", obj)
         return Location(
             self._com_obj.AddTypeLocationByObject(
-                com_file, com_obj, int(elem), int(selection_start), int(selection_length)
+                com_file,
+                com_obj,
+                int(elem),
+                int(selection_start),
+                int(selection_length),
             ),
             self._engine_ref,
         )
@@ -572,6 +570,16 @@ class Locations(COMWrapper):
     @ts_interface
     def location_not_found_message(self, value: str) -> None:
         self._com_obj.LocationNotFoundMessage = str(value)
+
+    @property
+    @ts_interface
+    def user_data(self) -> typing.Any:
+        return self._com_obj.UserData
+
+    @user_data.setter
+    @ts_interface
+    def user_data(self, value: typing.Any) -> None:
+        self._com_obj.UserData = value
 
     @ts_interface
     def to_property_object(self) -> typing.Any:

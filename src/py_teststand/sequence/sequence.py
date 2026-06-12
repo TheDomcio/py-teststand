@@ -76,7 +76,7 @@ class StepCollection:
         if isinstance(index, str):
             return self._sequence.get_step_by_name(index, self._group)
         if isinstance(index, slice):
-            return typing.cast(list[Step], [self[i] for i in range(*index.indices(len(self)))])
+            return typing.cast("list[Step]", [self[i] for i in range(*index.indices(len(self)))])
         return self._sequence.get_step(index, self._group)
 
     def __iter__(self):
@@ -160,13 +160,13 @@ class Sequence(PropertyObject):
 
     @property
     @ts_interface
-    def entry_point_check_to_save_untitled_seq_files(self) -> bool:
-        return bool(self._com_obj.EntryPointCheckToSaveUntitledSeqFiles)
+    def entry_point_check_to_save_titled_seq_files(self) -> bool:
+        return bool(self._com_obj.EntryPointCheckToSaveTitledSeqFiles)
 
-    @entry_point_check_to_save_untitled_seq_files.setter
+    @entry_point_check_to_save_titled_seq_files.setter
     @ts_interface
-    def entry_point_check_to_save_untitled_seq_files(self, value: bool) -> None:
-        self._com_obj.EntryPointCheckToSaveUntitledSeqFiles = bool(value)
+    def entry_point_check_to_save_titled_seq_files(self, value: bool) -> None:
+        self._com_obj.EntryPointCheckToSaveTitledSeqFiles = bool(value)
 
     @property
     @ts_interface
@@ -270,16 +270,6 @@ class Sequence(PropertyObject):
 
     @property
     @ts_interface
-    def comment(self) -> str:
-        return str(self._com_obj.Comment)
-
-    @comment.setter
-    @ts_interface
-    def comment(self, value: str) -> None:
-        self._com_obj.Comment = value
-
-    @property
-    @ts_interface
     def type(self) -> SequenceType:
 
         return SequenceType(int(self._com_obj.Type))
@@ -288,16 +278,6 @@ class Sequence(PropertyObject):
     @ts_interface
     def type(self, value: SequenceType | int) -> None:
         self._com_obj.Type = int(value)
-
-    @property
-    @ts_interface
-    def priority(self) -> float:
-        return float(self._com_obj.Priority)
-
-    @priority.setter
-    @ts_interface
-    def priority(self, value: float) -> None:
-        self._com_obj.Priority = value
 
     @property
     @ts_interface
@@ -392,7 +372,9 @@ class Sequence(PropertyObject):
 
     @ts_interface
     def load_modules(
-        self, load_options: LoadModuleOption | int = 0, context: typing.Any | None = None
+        self,
+        load_options: LoadModuleOption | int = 0,
+        context: typing.Any | None = None,
     ) -> bool:
 
         ctx_com = getattr(context, "_com_obj", context)
@@ -421,7 +403,8 @@ class Sequence(PropertyObject):
 
     @ts_interface
     def eval_entry_point_name_expression_ex(
-        self, edit_args: typing.Any | None = None
+        self,
+        edit_args: typing.Any | None = None,
     ) -> typing.Any:
         arg_com = getattr(edit_args, "_com_obj", edit_args)
         return str(self._com_obj.EvalEntryPointNameExpressionEx(arg_com))
@@ -444,14 +427,18 @@ class Sequence(PropertyObject):
 
     @ts_interface
     def get_break_on_end(
-        self, group: StepGroup | int, execution: typing.Any | None = None
+        self,
+        group: StepGroup | int,
+        execution: typing.Any | None = None,
     ) -> typing.Any:
         exec_com = getattr(execution, "_com_obj", execution)
         return bool(self._com_obj.GetBreakOnEnd(int(group), exec_com))
 
     @ts_interface
     def get_break_on_end_settings(
-        self, group: StepGroup | int, execution: typing.Any | None = None
+        self,
+        group: StepGroup | int,
+        execution: typing.Any | None = None,
     ) -> tuple[bool, bool, int, str]:
         exec_com = getattr(execution, "_com_obj", execution)
         return self._com_obj.GetBreakOnEndSettings(int(group), None, None, None, None, exec_com)
@@ -463,7 +450,10 @@ class Sequence(PropertyObject):
 
     @ts_interface
     def set_break_on_end(
-        self, group: StepGroup | int, break_on_end: bool, execution: typing.Any | None = None
+        self,
+        group: StepGroup | int,
+        break_on_end: bool,
+        execution: typing.Any | None = None,
     ) -> None:
         exec_com = getattr(execution, "_com_obj", execution)
         self._com_obj.SetBreakOnEnd(int(group), break_on_end, exec_com)
@@ -480,7 +470,12 @@ class Sequence(PropertyObject):
     ) -> None:
         exec_com = getattr(execution, "_com_obj", execution)
         self._com_obj.SetBreakOnEndSettings(
-            int(group), is_set, enabled, pass_count, condition, exec_com
+            int(group),
+            is_set,
+            enabled,
+            pass_count,
+            condition,
+            exec_com,
         )
 
     @property

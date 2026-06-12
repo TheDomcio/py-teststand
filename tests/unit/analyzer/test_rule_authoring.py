@@ -155,8 +155,10 @@ def test_context_report_helper_builds_and_reports_message():
 
     ctx = AnalysisContext(com)
 
-    msg = ctx.report("missing precondition", rule_id="PY_Pre")
+    msg = ctx.report(rule_id="PY_Pre", text="missing precondition")
 
-    assert msg.text == "missing precondition" or new_msg_com.Text == "missing precondition"
-
+    # report() must forward rule_id then text (then the optional location) to
+    # NewMessage in that order, and hand the resulting message to ReportMessage.
+    com.NewMessage.assert_called_once_with("PY_Pre", "missing precondition", None)
     com.ReportMessage.assert_called_once_with(new_msg_com)
+    assert msg._com_obj is new_msg_com

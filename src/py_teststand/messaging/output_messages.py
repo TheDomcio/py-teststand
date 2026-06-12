@@ -42,7 +42,8 @@ class OutputMessages(COMWrapper):
     @ts_interface
     def to_property_object(self, store_execution_locations: bool) -> PropertyObject:
         return PropertyObject(
-            self._com_obj.ToPropertyObject(bool(store_execution_locations)), self._engine_ref
+            self._com_obj.ToPropertyObject(bool(store_execution_locations)),
+            self._engine_ref,
         )
 
     @ts_interface

@@ -1,6 +1,6 @@
 """Create string variables across every TestStand variable scope.
 
-Opens the sequence file produced by build_sequence.py and populates it
+Opens the sequence file produced by sequence_build.py and populates it
 with new string variables across the four standard TestStand scopes:
 
 - **Sequence Locals** — temporary per-call storage on MainSequence
@@ -32,8 +32,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from py_teststand import Engine
-from py_teststand.property.property_object import PropValType
+from py_teststand import Engine, PropValType
 
 
 def _ensure_string_var(container, name: str, value: str) -> None:
@@ -50,7 +49,7 @@ LATEST_POINTER = ROOT_TEMP_DIR / "latest_sequence.txt"
 def main() -> None:
     if not LATEST_POINTER.exists():
         print(f"Error: Pointer file not found at {LATEST_POINTER}")
-        print("Run build_sequence.py first.")
+        print("Run sequence_build.py first.")
         return
 
     sequence_path = Path(LATEST_POINTER.read_text(encoding="utf-8").strip())

@@ -68,7 +68,7 @@ class ExpressionEdit(COMWrapper):
     @property
     @ts_interface
     def auto_completion_h_wnd(self) -> int:
-        return int(self._com_obj.AutoCompletionHWnd)
+        return int(self._com_obj.AutoCompletionHwnd)
 
     @property
     @ts_interface
@@ -172,7 +172,7 @@ class ExpressionEdit(COMWrapper):
     @property
     @ts_interface
     def drop_down_list_h_wnd(self) -> int:
-        return int(self._com_obj.DropDownListHWnd)
+        return int(self._com_obj.DropDownListHwnd)
 
     @property
     @ts_interface
@@ -224,7 +224,7 @@ class ExpressionEdit(COMWrapper):
     @property
     @ts_interface
     def function_tip_h_wnd(self) -> int:
-        return int(self._com_obj.FunctionTipHWnd)
+        return int(self._com_obj.FunctionTipHwnd)
 
     @property
     @ts_interface
@@ -274,12 +274,12 @@ class ExpressionEdit(COMWrapper):
     @property
     @ts_interface
     def multi_line(self) -> bool:
-        return bool(self._com_obj.MultiLine)
+        return bool(self._com_obj.Multiline)
 
     @multi_line.setter
     @ts_interface
     def multi_line(self, value: bool) -> None:
-        self._com_obj.MultiLine = value
+        self._com_obj.Multiline = value
 
     @property
     @ts_interface
@@ -427,9 +427,9 @@ class ExpressionEdit(COMWrapper):
         self._com_obj.WordWrap = value
 
     @ts_interface
-    def check_expression2(self) -> tuple[int, str, int, int]:
+    def check_expression(self) -> tuple[int, str, int, int]:
 
-        return self._com_obj.CheckExpression2("", 0, 0)
+        return self._com_obj.CheckExpression()
 
     @ts_interface
     def display_browse_expr_dialog(self) -> bool:

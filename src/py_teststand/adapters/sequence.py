@@ -64,16 +64,6 @@ class SequenceCallModule(Module):
     def ignore_termination(self, value: bool) -> None:
         self._com_obj.IgnoreTermination = bool(value)
 
-    @property
-    @ts_interface
-    def initially_suspended(self) -> bool:
-        return bool(self._com_obj.InitiallySuspended)
-
-    @initially_suspended.setter
-    @ts_interface
-    def initially_suspended(self, value: bool) -> None:
-        self._com_obj.InitiallySuspended = bool(value)
-
     @ts_interface
     def load_parameters(
         self,
@@ -105,13 +95,13 @@ class SequenceCallModule(Module):
 
     @property
     @ts_interface
-    def new_execution_break_on_entry_ex(self) -> int:
-        return int(self._com_obj.NewExecutionBreakOnEntryEx)
+    def new_execution_break_on_entry_expr(self) -> str:
+        return str(self._com_obj.NewExecutionBreakOnEntryExpr)
 
-    @new_execution_break_on_entry_ex.setter
+    @new_execution_break_on_entry_expr.setter
     @ts_interface
-    def new_execution_break_on_entry_ex(self, value: int) -> None:
-        self._com_obj.NewExecutionBreakOnEntryEx = int(value)
+    def new_execution_break_on_entry_expr(self, value: str) -> None:
+        self._com_obj.NewExecutionBreakOnEntryExpr = str(value)
 
     @property
     @ts_interface
@@ -166,12 +156,12 @@ class SequenceCallModule(Module):
     @property
     @ts_interface
     def new_thread_options(self) -> int:
-        return int(self._com_obj.NewThreadOption)
+        return int(self._com_obj.NewThreadOptions)
 
     @new_thread_options.setter
     @ts_interface
     def new_thread_options(self, value: int) -> None:
-        self._com_obj.NewThreadOption = int(value)
+        self._com_obj.NewThreadOptions = int(value)
 
     @property
     @ts_interface
@@ -286,10 +276,6 @@ class SequenceCallModule(Module):
 
 
 class SequenceCallParameter(PropertyObject):
-    @ts_interface
-    def as_adapter_parameter(self) -> typing.Any:
-        return self._com_obj.AsAdapterParameter()
-
     @ts_interface
     def as_property_object(self) -> PropertyObject:
         return PropertyObject(self._com_obj.AsPropertyObject(), self._engine_ref)

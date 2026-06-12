@@ -146,46 +146,58 @@ class CommonCAdapter(Adapter):
 
     @ts_interface
     def get_exclude_from_struct(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> bool:
         return bool(
-            self._com_obj.GetExcludeFromStruct(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetExcludeFromStruct(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
     def get_struct_member_array_storage(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> StructMemberArrayStorageOption:
         return StructMemberArrayStorageOption(
             self._com_obj.GetStructMemberArrayStorage(
-                type_definition._com_obj, property_lookup_string
-            )
+                type_definition._com_obj,
+                property_lookup_string,
+            ),
         )
 
     @ts_interface
     def get_struct_member_storage(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> StructMemberStorageOption:
         return StructMemberStorageOption(
-            self._com_obj.GetStructMemberStorage(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetStructMemberStorage(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
     def get_struct_member_string_buffer_size(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> int:
         return int(
             self._com_obj.GetStructMemberStringBufferSize(
-                type_definition._com_obj, property_lookup_string
-            )
+                type_definition._com_obj,
+                property_lookup_string,
+            ),
         )
 
     @ts_interface
     def get_struct_member_type(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> StructMemberType:
         return StructMemberType(
-            self._com_obj.GetStructMemberType(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetStructMemberType(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
@@ -198,7 +210,9 @@ class CommonCAdapter(Adapter):
 
     @ts_interface
     def set_allow_struct_passing(
-        self, type_definition: PropertyObject, allow_struct_passing: bool
+        self,
+        type_definition: PropertyObject,
+        allow_struct_passing: bool,
     ) -> None:
         self._com_obj.SetAllowStructPassing(type_definition._com_obj, allow_struct_passing)
 
@@ -210,7 +224,9 @@ class CommonCAdapter(Adapter):
         exclude_from_struct: bool,
     ) -> None:
         self._com_obj.SetExcludeFromStruct(
-            type_definition._com_obj, property_lookup_string, exclude_from_struct
+            type_definition._com_obj,
+            property_lookup_string,
+            exclude_from_struct,
         )
 
     @ts_interface
@@ -221,7 +237,9 @@ class CommonCAdapter(Adapter):
         storage_option: StructMemberArrayStorageOption | int,
     ) -> None:
         self._com_obj.SetStructMemberArrayStorage(
-            type_definition._com_obj, property_lookup_string, int(storage_option)
+            type_definition._com_obj,
+            property_lookup_string,
+            int(storage_option),
         )
 
     @ts_interface
@@ -232,7 +250,9 @@ class CommonCAdapter(Adapter):
         storage_option: StructMemberStorageOption | int,
     ) -> None:
         self._com_obj.SetStructMemberStorage(
-            type_definition._com_obj, property_lookup_string, int(storage_option)
+            type_definition._com_obj,
+            property_lookup_string,
+            int(storage_option),
         )
 
     @ts_interface
@@ -243,7 +263,9 @@ class CommonCAdapter(Adapter):
         buffer_size: int,
     ) -> None:
         self._com_obj.SetStructMemberStringBufferSize(
-            type_definition._com_obj, property_lookup_string, buffer_size
+            type_definition._com_obj,
+            property_lookup_string,
+            buffer_size,
         )
 
     @ts_interface
@@ -254,12 +276,16 @@ class CommonCAdapter(Adapter):
         member_type: StructMemberType | int,
     ) -> None:
         self._com_obj.SetStructMemberType(
-            type_definition._com_obj, property_lookup_string, int(member_type)
+            type_definition._com_obj,
+            property_lookup_string,
+            int(member_type),
         )
 
     @ts_interface
     def set_struct_packing(
-        self, type_definition: PropertyObject, packing_option: StructPassingOption | int
+        self,
+        type_definition: PropertyObject,
+        packing_option: StructPassingOption | int,
     ) -> None:
         self._com_obj.SetStructPacking(type_definition._com_obj, int(packing_option))
 
@@ -286,7 +312,9 @@ class DLLModule(CommonCModule):
 
     @ts_interface
     def execute(
-        self, sequence_context: typing.Any = None, arguments: typing.Any = None
+        self,
+        sequence_context: typing.Any = None,
+        arguments: typing.Any = None,
     ) -> typing.Any:
         ctx_obj = (
             sequence_context._com_obj if hasattr(sequence_context, "_com_obj") else sequence_context

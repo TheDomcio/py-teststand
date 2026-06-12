@@ -15,9 +15,9 @@ except ImportError:
 from py_teststand.core.com_wrapper import ts_interface
 from py_teststand.core.exceptions import (
     AccessDeniedError,
+    COMError,
+    FileNotFoundError,
     IndexOutOfRangeError,
-    TestStandCOMError,
-    TestStandFileNotFoundError,
 )
 
 
@@ -30,7 +30,7 @@ def test_hresult_mapping_file_not_found():
 
         raise pythoncom.com_error(-17208, "File not found", None, None)
 
-    with pytest.raises(TestStandFileNotFoundError):
+    with pytest.raises(FileNotFoundError):
         fail_file()
 
 
@@ -69,7 +69,7 @@ def test_fallback_to_generic_error():
 
         raise pythoncom.com_error(-999999, "Unknown COM error", None, None)
 
-    with pytest.raises(TestStandCOMError) as excinfo:
+    with pytest.raises(COMError) as excinfo:
         fail_unknown()
 
     assert "Unknown COM error" in str(excinfo.value)

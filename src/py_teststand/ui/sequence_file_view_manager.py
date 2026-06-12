@@ -236,7 +236,9 @@ class SequenceFileViewManager(COMWrapper):
 
     @ts_interface
     def build_interactive_args(
-        self, create_loop_args: bool, cancel: bool = False
+        self,
+        create_loop_args: bool,
+        cancel: bool = False,
     ) -> tuple[InteractiveArgs, bool]:
         from py_teststand.execution.interactive_args import InteractiveArgs
 
@@ -245,12 +247,15 @@ class SequenceFileViewManager(COMWrapper):
 
     @ts_interface
     def connect_caption(
-        self, control: typing.Any, source: int | CaptionSource
+        self,
+        control: typing.Any,
+        source: int | CaptionSource,
     ) -> CaptionConnection:
         from .connections import CaptionConnection
 
         return CaptionConnection(
-            self._com_obj.ConnectCaption(control, int(source)), self._engine_ref
+            self._com_obj.ConnectCaption(control, int(source)),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -266,7 +271,11 @@ class SequenceFileViewManager(COMWrapper):
 
         return CommandConnection(
             self._com_obj.ConnectCommand(
-                control, command_kind, index, options, button_action_style
+                control,
+                command_kind,
+                index,
+                options,
+                button_action_style,
             ),
             self._engine_ref,
         )
@@ -286,7 +295,8 @@ class SequenceFileViewManager(COMWrapper):
         from .connections import SequenceFileListConnection
 
         return SequenceFileListConnection(
-            self._com_obj.ConnectSequenceFileList(control), self._engine_ref
+            self._com_obj.ConnectSequenceFileList(control),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -306,7 +316,8 @@ class SequenceFileViewManager(COMWrapper):
         from .connections import StepGroupListConnection
 
         return StepGroupListConnection(
-            self._com_obj.ConnectStepGroupList(control), self._engine_ref
+            self._com_obj.ConnectStepGroupList(control),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -317,7 +328,10 @@ class SequenceFileViewManager(COMWrapper):
 
     @ts_interface
     def get_caption_text(
-        self, caption_source: int | CaptionSource, long_name: bool, format_expression: str = ""
+        self,
+        caption_source: int | CaptionSource,
+        long_name: bool,
+        format_expression: str = "",
     ) -> str:
         return str(self._com_obj.GetCaptionText(int(caption_source), long_name, format_expression))
 

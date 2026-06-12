@@ -159,7 +159,9 @@ class Mutex(SyncObject):
 
     @ts_interface
     def early_unlock_mutex_ex(
-        self, sequence_context: typing.Any = None, thread_id: str = ""
+        self,
+        sequence_context: typing.Any = None,
+        thread_id: str = "",
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.EarlyUnlockMutexEx(com_context, thread_id)
@@ -194,7 +196,7 @@ class Semaphore(SyncObject):
 
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         return WaitResult(
-            self._com_obj.AcquireSemaphore(timeout_in_seconds, com_context, process_msgs)
+            self._com_obj.AcquireSemaphore(timeout_in_seconds, com_context, process_msgs),
         )
 
     @ts_interface
@@ -207,7 +209,9 @@ class Semaphore(SyncObject):
 
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.AcquireSemaphoreWithAutoReleaser(
-            timeout_in_seconds, com_context, process_msgs
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return AutoReleaser(res[0], self._engine_ref), WaitResult(res[1])
 
@@ -222,7 +226,9 @@ class Semaphore(SyncObject):
 
     @ts_interface
     def release_semaphore_ex(
-        self, sequence_context: typing.Any = None, thread_id: str = ""
+        self,
+        sequence_context: typing.Any = None,
+        thread_id: str = "",
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.ReleaseSemaphoreEx(com_context, thread_id)
@@ -272,7 +278,11 @@ class Batch(SyncObject):
 
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.EnterSynchronizedSection(
-            section_name, batch_sync_type, timeout_in_seconds, com_context, process_msgs
+            section_name,
+            batch_sync_type,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return WaitResult(res[0]), bool(res[1])
 
@@ -289,8 +299,12 @@ class Batch(SyncObject):
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         return WaitResult(
             self._com_obj.ExitSynchronizedSection(
-                section_name, timeout_in_seconds, com_context, process_msgs, rte_occurred
-            )
+                section_name,
+                timeout_in_seconds,
+                com_context,
+                process_msgs,
+                rte_occurred,
+            ),
         )
 
     @ts_interface
@@ -305,8 +319,11 @@ class Batch(SyncObject):
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         return WaitResult(
             self._com_obj.ExitAllSynchronizedSectionsInCurrentSequence(
-                timeout_in_seconds, com_context, process_msgs, rte_occurred
-            )
+                timeout_in_seconds,
+                com_context,
+                process_msgs,
+                rte_occurred,
+            ),
         )
 
     @ts_interface
@@ -391,7 +408,11 @@ class Notification(SyncObject):
         raw_notifications = [n._com_obj for n in notifications]
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.WaitMultiple(
-            raw_notifications, wait_all, timeout_in_seconds, com_context, process_msgs
+            raw_notifications,
+            wait_all,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return int(res[0]), WaitResult(res[1])
 
@@ -417,7 +438,11 @@ class Notification(SyncObject):
         raw_notifications = [n._com_obj for n in notifications]
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.DoWaitForMultiWait(
-            raw_notifications, wait_all, timeout_in_seconds, com_context, process_msgs
+            raw_notifications,
+            wait_all,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return int(res[0]), WaitResult(res[1])
 
@@ -459,7 +484,11 @@ class Queue(SyncObject):
         raw_data = getattr(data_prop_obj, "_com_obj", data_prop_obj)
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.Enqueue(
-            raw_data, enqueue_location, timeout_in_seconds, com_context, process_msgs
+            raw_data,
+            enqueue_location,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return EnqueueResult(res[0]), int(res[1])
 
@@ -489,7 +518,10 @@ class Queue(SyncObject):
         raw_dests = [getattr(p, "_com_obj", p) for p in destination_prop_objs]
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.DequeueMultiple(
-            raw_dests, timeout_in_seconds, com_context, process_msgs
+            raw_dests,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return list(res[0]), WaitResult(res[1])
 
@@ -524,7 +556,10 @@ class Queue(SyncObject):
         raw_dests = [getattr(p, "_com_obj", p) for p in destination_prop_objs]
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         res = self._com_obj.DoDequeueForMultiDequeue(
-            raw_dests, timeout_in_seconds, com_context, process_msgs
+            raw_dests,
+            timeout_in_seconds,
+            com_context,
+            process_msgs,
         )
         return list(res[0]), WaitResult(res[1])
 
@@ -543,7 +578,10 @@ class SyncManager(COMWrapper):
 
     @ts_interface
     def create_semaphore(
-        self, name: str, initial_count: int = 1, max_count: int = 1
+        self,
+        name: str,
+        initial_count: int = 1,
+        max_count: int = 1,
     ) -> tuple[Semaphore, bool]:
         res = self._com_obj.CreateSemaphore(name, initial_count, max_count)
         if isinstance(res, (list, tuple)):
@@ -677,15 +715,15 @@ class SyncManager(COMWrapper):
 
         if sync_obj_type == SyncObjType.Mutex:
             return Mutex(res, self._engine_ref)
-        elif sync_obj_type == SyncObjType.Semaphore:
+        if sync_obj_type == SyncObjType.Semaphore:
             return Semaphore(res, self._engine_ref)
-        elif sync_obj_type == SyncObjType.Queue:
+        if sync_obj_type == SyncObjType.Queue:
             return Queue(res, self._engine_ref)
-        elif sync_obj_type == SyncObjType.Notification:
+        if sync_obj_type == SyncObjType.Notification:
             return Notification(res, self._engine_ref)
-        elif sync_obj_type == SyncObjType.Rendezvous:
+        if sync_obj_type == SyncObjType.Rendezvous:
             return Rendezvous(res, self._engine_ref)
-        elif sync_obj_type == SyncObjType.Batch:
+        if sync_obj_type == SyncObjType.Batch:
             return Batch(res, self._engine_ref)
 
         return SyncObject(res, self._engine_ref)
@@ -702,10 +740,17 @@ class SyncManager(COMWrapper):
 
     @ts_interface
     def record_thread_waiting_for_lock_mutex(
-        self, thread_id: str, thread_display_name: str, mutex_name: str, mutex_sync_mgr: SyncManager
+        self,
+        thread_id: str,
+        thread_display_name: str,
+        mutex_name: str,
+        mutex_sync_mgr: SyncManager,
     ) -> None:
         self._com_obj.RecordThreadWaitingForLockMutex(
-            thread_id, thread_display_name, mutex_name, mutex_sync_mgr._com_obj
+            thread_id,
+            thread_display_name,
+            mutex_name,
+            mutex_sync_mgr._com_obj,
         )
 
     @ts_interface

@@ -49,7 +49,7 @@ class EditArgs(COMWrapper):
     @ts_interface
     def set_selected_property_object_file(self, property_file: PropertyObjectFile | None) -> None:
         self._com_obj.SetSelectedPropertyObjectFile(
-            property_file._com_obj if property_file else None
+            property_file._com_obj if property_file else None,
         )
 
     @ts_interface

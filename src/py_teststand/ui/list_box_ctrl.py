@@ -241,12 +241,12 @@ class ListBox(COMWrapper):
     @property
     @ts_interface
     def tooltip_visible(self) -> bool:
-        return bool(self._com_obj.TooltipVisible)
+        return bool(self._com_obj.ToolTipVisible)
 
     @tooltip_visible.setter
     @ts_interface
     def tooltip_visible(self, value: bool) -> None:
-        self._com_obj.TooltipVisible = value
+        self._com_obj.ToolTipVisible = value
 
     @ts_interface
     def edit_label(self) -> None:

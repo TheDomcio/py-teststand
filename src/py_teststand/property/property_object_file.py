@@ -44,7 +44,10 @@ class PropertyObjectFile(COMWrapper):
         version_inc_option: int,
     ) -> None:
         self._com_obj.CheckForModifiedTypes(
-            str(dlg_title), str(ok_button_text), int(options), int(version_inc_option)
+            str(dlg_title),
+            str(ok_button_text),
+            int(options),
+            int(version_inc_option),
         )
 
     @ts_interface
@@ -285,7 +288,10 @@ class TypeUsageList(COMWrapper):
     ) -> PropertyObject:
         return PropertyObject(
             self._com_obj.CreateAndInsertNewTypeFromExisting(
-                existing_type._com_obj, int(index), int(type_category), int(reserved)
+                existing_type._com_obj,
+                int(index),
+                int(type_category),
+                int(reserved),
             ),
             self._engine_ref,
         )

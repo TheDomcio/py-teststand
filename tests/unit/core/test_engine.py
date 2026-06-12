@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from unittest.mock import MagicMock
 
 import pytest
@@ -54,7 +56,8 @@ def test_engine_delocalize_expression(mock_engine_com):
     assert result == "1.5"
 
     mock_engine_com.DelocalizeExpression.assert_called_with(
-        "1,5", int(DecimalPointLocalizationOption.UseComma)
+        "1,5",
+        int(DecimalPointLocalizationOption.UseComma),
     )
 
 

@@ -12,9 +12,7 @@ engine without external dependencies.
 
 from __future__ import annotations
 
-from py_teststand import Engine
-from py_teststand.core.engine import AdapterKeyName
-from py_teststand.sequence.step_group import StepGroup
+from py_teststand import AdapterKeyName, Engine, StepGroup
 
 
 def main() -> None:

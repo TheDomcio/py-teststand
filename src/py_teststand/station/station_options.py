@@ -463,7 +463,7 @@ class StationOptions(PropertyObject):
         from py_teststand.core.engine import AllowAutomaticTypeConflictResolution
 
         return AllowAutomaticTypeConflictResolution(
-            int(self._com_obj.AllowAutomaticTypeConflictResolution)
+            int(self._com_obj.AllowAutomaticTypeConflictResolution),
         )
 
     @allow_automatic_type_conflict_resolution.setter

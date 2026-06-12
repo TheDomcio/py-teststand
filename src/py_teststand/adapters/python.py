@@ -426,20 +426,25 @@ class PythonAdapter(Adapter):
 
     @ts_interface
     def get_exclude_from_object(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> bool:
         return bool(
-            self._com_obj.GetExcludeFromObject(type_definition._com_obj, property_lookup_string)
+            self._com_obj.GetExcludeFromObject(type_definition._com_obj, property_lookup_string),
         )
 
     @ts_interface
     def get_parameter_category_in_object(
-        self, type_definition: PropertyObject, property_lookup_string: str
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
     ) -> PythonParameterCategory:
         return PythonParameterCategory(
             self._com_obj.GetParameterCategoryInObject(
-                type_definition._com_obj, property_lookup_string
-            )
+                type_definition._com_obj,
+                property_lookup_string,
+            ),
         )
 
     @ts_interface
@@ -452,10 +457,15 @@ class PythonAdapter(Adapter):
 
     @ts_interface
     def set_exclude_from_object(
-        self, type_definition: PropertyObject, property_lookup_string: str, exclude: bool
+        self,
+        type_definition: PropertyObject,
+        property_lookup_string: str,
+        exclude: bool,
     ) -> None:
         self._com_obj.SetExcludeFromObject(
-            type_definition._com_obj, property_lookup_string, exclude
+            type_definition._com_obj,
+            property_lookup_string,
+            exclude,
         )
 
     @ts_interface
@@ -466,7 +476,9 @@ class PythonAdapter(Adapter):
         category: PythonParameterCategory | int,
     ) -> None:
         self._com_obj.SetParameterCategoryInObject(
-            type_definition._com_obj, property_lookup_string, int(category)
+            type_definition._com_obj,
+            property_lookup_string,
+            int(category),
         )
 
     @ts_interface
@@ -475,10 +487,13 @@ class PythonAdapter(Adapter):
 
     @ts_interface
     def validate_python_version_and_virtual_environment_path(
-        self, python_version: str, virtual_env_path: str
+        self,
+        python_version: str,
+        virtual_env_path: str,
     ) -> str:
         return str(
             self._com_obj.ValidatePythonVersionAndVirtualEnvironmentPath(
-                python_version, virtual_env_path
-            )
+                python_version,
+                virtual_env_path,
+            ),
         )

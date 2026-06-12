@@ -4,7 +4,7 @@ Creates a new sequence file, populates MainSequence with two
 NumericLimitTest steps (a temperature check and a voltage monitor) whose
 high/low limits are configured through the underlying
 PropertyObject, adds a CustomSubsequence containing an Action
-step so downstream examples (insert_step.py) have something to target,
+step so downstream examples (step_insert.py) have something to target,
 prints a verification summary of the constructed sequence, and writes
 the file to a temp directory.
 
@@ -23,8 +23,7 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from py_teststand import Engine
-from py_teststand.sequence.step_group import StepGroup
+from py_teststand import Engine, StepGroup
 
 ROOT_TEMP_DIR = Path(tempfile.gettempdir()) / "py-teststand"
 LATEST_POINTER = ROOT_TEMP_DIR / "latest_sequence.txt"

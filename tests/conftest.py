@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 from unittest.mock import MagicMock, patch
 
@@ -59,7 +61,8 @@ def mock_win32com_environment():
     mock_engine.VersionString = "23.0.0"
 
     with patch("win32com.client.Dispatch", return_value=mock_engine), patch(
-        "win32com.client.gencache.EnsureDispatch", return_value=mock_engine
+        "win32com.client.gencache.EnsureDispatch",
+        return_value=mock_engine,
     ), patch("win32com.client.DispatchEx", return_value=mock_engine):
         yield mock_engine
 
@@ -76,17 +79,17 @@ def engine():
     try:
         eng.shutdown()
 
-    except Exception:
-        pass
+    finally:
+        eng.release()
 
 
 def pytest_addoption(parser):
 
     parser.addoption(
-        "--run-live-com",
+        "--run-teststand-engine",
         action="store_true",
         default=False,
-        help="run tests that require a live TestStand COM installation",
+        help="run tests that require a live TestStand engine",
     )
 
 
@@ -99,17 +102,18 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "no_cover: disable coverage tracer")
 
     config.addinivalue_line(
-        "markers", "live_com: mark test as requiring live TestStand COM instance"
+        "markers",
+        "teststand_engine: mark test as requiring a live TestStand engine",
     )
 
 
 def pytest_collection_modifyitems(config, items):
 
-    if config.getoption("--run-live-com"):
+    if config.getoption("--run-teststand-engine"):
         return
 
-    skip_live = pytest.mark.skip(reason="need --run-live-com option to run")
+    skip_live = pytest.mark.skip(reason="need --run-teststand-engine option to run")
 
     for item in items:
-        if "live_com" in item.keywords or "integration" in item.keywords:
+        if "teststand_engine" in item.keywords or "integration" in item.keywords:
             item.add_marker(skip_live)

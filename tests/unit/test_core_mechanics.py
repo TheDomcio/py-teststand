@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
-from py_teststand.core.exceptions import TestStandError
+from py_teststand.core.exceptions import Error
 
 
 class DummyWrapper(COMWrapper):
@@ -50,12 +50,15 @@ def test_ts_interface_exception_mapping() -> None:
     mock_com = MagicMock()
 
     mock_com.FailingMethod.side_effect = ComError(
-        -2147467259, "Error", (0, "Source", "Description", None, 0, 0), 0
+        -2147467259,
+        "Error",
+        (0, "Source", "Description", None, 0, 0),
+        0,
     )
 
     wrapper = DummyWrapper(mock_com)
 
-    with pytest.raises(TestStandError) as exc_info:
+    with pytest.raises(Error) as exc_info:
         wrapper.failing_method()
 
     assert "Description" in str(exc_info.value) or "Error" in str(exc_info.value)
@@ -80,8 +83,8 @@ def test_call_after_release_fails() -> None:
 
     wrapper.release()
 
-    with pytest.raises(TestStandError):
+    with pytest.raises(Error):
         wrapper.working_method()
 
-    with pytest.raises(TestStandError):
+    with pytest.raises(Error):
         _ = wrapper.some_property

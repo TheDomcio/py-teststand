@@ -1,6 +1,6 @@
 [project]
 name = "py-teststand"
-version = "0.1.0"
+version = "0.2.0"
 description = "Community object-oriented Python 3 bindings for the National Instruments TestStand™ COM API"
 readme = "README.md"
 requires-python = ">=3.8.20"
@@ -69,9 +69,9 @@ fix = true
 show-fixes = true
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "ARG", "PTH", "RUF"]
+select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "ARG", "PTH", "RUF", "FA", "PGH", "FLY"]
 ignore = []
-per-file-ignores = { "src/**" = ["N801"], "tests/**" = ["N801"]  }
+per-file-ignores = { "tests/**" = ["N801"] }
 unfixable = []
 fixable = ["ALL"]
 
@@ -92,7 +92,7 @@ python_files = ["test_*.py"]
 markers = [
     "integration: marks tests as integration tests (slow, requires TestStand™ installation)",
     "unit: marks tests as unit tests (fast, no TestStand™ required)",
-    "live_com: marks tests as requiring live TestStand™ COM registration",
+    "teststand_engine: marks tests as requiring a live TestStand engine",
 ]
 
 [dependency-groups]

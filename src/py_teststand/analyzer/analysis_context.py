@@ -132,19 +132,26 @@ class AnalysisContext(PropertyObject):
         options: GetRuleAnalysisDataOption | int = (GetRuleAnalysisDataOption.NoneValue),
     ) -> PropertyObject:
         return PropertyObject(
-            self._com_obj.GetRuleAnalysisData(int(scope), int(options)), self._engine_ref
+            self._com_obj.GetRuleAnalysisData(int(scope), int(options)),
+            self._engine_ref,
         )
 
     @ts_interface
-    def get_rule_configuration(self) -> RuleConfiguration:
-        return RuleConfiguration(self._com_obj.GetRuleConfiguration(), self._engine_ref)
+    def get_rule_configuration(self, rule_id: str) -> RuleConfiguration:
+        return RuleConfiguration(self._com_obj.GetRuleConfiguration(str(rule_id)), self._engine_ref)
 
     @ts_interface
-    def new_message(self, text: str = "") -> AnalysisMessage:
-        message = AnalysisMessage(self._com_obj.NewMessage(), self._engine_ref)
-        if text:
-            message.text = text
-        return message
+    def new_message(
+        self,
+        rule_id: str,
+        text: str,
+        location_object: PropertyObject | None = None,
+    ) -> AnalysisMessage:
+        location_com = location_object._com_obj if location_object is not None else None
+        return AnalysisMessage(
+            self._com_obj.NewMessage(str(rule_id), str(text), location_com),
+            self._engine_ref,
+        )
 
     @ts_interface
     def report_message(self, message: AnalysisMessage) -> None:
@@ -154,10 +161,13 @@ class AnalysisContext(PropertyObject):
     def stop_analysis(self) -> None:
         self._com_obj.StopAnalysis()
 
-    def report(self, text: str, *, rule_id: str | None = None) -> AnalysisMessage:
-        message = self.new_message(text)
-        if rule_id is not None:
-            message.rule_id = rule_id
+    def report(
+        self,
+        rule_id: str,
+        text: str,
+        location_object: PropertyObject | None = None,
+    ) -> AnalysisMessage:
+        message = self.new_message(rule_id, text, location_object)
         self.report_message(message)
         return message
 

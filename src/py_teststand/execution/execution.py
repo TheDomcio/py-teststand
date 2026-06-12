@@ -296,7 +296,8 @@ class Execution(COMWrapper):
     @post_results_callback_post_flush_mask.setter
     @ts_interface
     def post_results_callback_post_flush_mask(
-        self, value: PostResultsCallbackMaskOption | int
+        self,
+        value: PostResultsCallbackMaskOption | int,
     ) -> None:
         self._com_obj.PostResultsCallback_PostFlushMask = int(value)
 
@@ -309,7 +310,8 @@ class Execution(COMWrapper):
     @post_results_callback_pre_flush_mask.setter
     @ts_interface
     def post_results_callback_pre_flush_mask(
-        self, value: PostResultsCallbackMaskOption | int
+        self,
+        value: PostResultsCallbackMaskOption | int,
     ) -> None:
         self._com_obj.PostResultsCallback_PreFlushMask = int(value)
 
@@ -338,12 +340,12 @@ class Execution(COMWrapper):
     @ts_interface
     def post_results_callback_options(self) -> PostResultsCallbackOption:
 
-        return PostResultsCallbackOption(int(self._com_obj.PostResultsCallbackOption))
+        return PostResultsCallbackOption(int(self._com_obj.PostResultsCallbackOptions))
 
     @post_results_callback_options.setter
     @ts_interface
     def post_results_callback_options(self, value: PostResultsCallbackOption | int) -> None:
-        self._com_obj.PostResultsCallbackOption = int(value)
+        self._com_obj.PostResultsCallbackOptions = int(value)
 
     @property
     @ts_interface
@@ -479,7 +481,9 @@ class Execution(COMWrapper):
         custom_ui_message_options: int = 0,
     ) -> None:
         self._com_obj.AddPostStepCustomUIMessage(
-            int(message_code), str(expression), int(custom_ui_message_options)
+            int(message_code),
+            str(expression),
+            int(custom_ui_message_options),
         )
 
     @ts_interface
@@ -522,7 +526,8 @@ class Execution(COMWrapper):
     @ts_interface
     def get_file_globals(self, sequence_file: SequenceFile) -> PropertyObject:
         return PropertyObject(
-            self._com_obj.GetFileGlobals(sequence_file._com_obj), self._engine_ref
+            self._com_obj.GetFileGlobals(sequence_file._com_obj),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -541,7 +546,8 @@ class Execution(COMWrapper):
         from py_teststand.sequence.sequence import Sequence
 
         ret_com = self._com_obj.GetSequenceDefaultValues(
-            orig_sequence._com_obj, int(default_value_type)
+            orig_sequence._com_obj,
+            int(default_value_type),
         )
         return Sequence(ret_com, self._engine_ref) if ret_com else None
 
@@ -567,7 +573,7 @@ class Execution(COMWrapper):
     ) -> bool:
         ctx_com = sequence_context._com_obj if sequence_context else None
         return bool(
-            self._com_obj.GetTerminationMonitorStatus(termination_monitor_data._com_obj, ctx_com)
+            self._com_obj.GetTerminationMonitorStatus(termination_monitor_data._com_obj, ctx_com),
         )
 
     @ts_interface
@@ -589,7 +595,8 @@ class Execution(COMWrapper):
         from py_teststand.sequence.sequence import Sequence
 
         return Sequence(
-            self._com_obj.NewSequenceDefaultValues(orig_sequence._com_obj), self._engine_ref
+            self._com_obj.NewSequenceDefaultValues(orig_sequence._com_obj),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -607,7 +614,11 @@ class Execution(COMWrapper):
         args_com = sequence_args._com_obj if sequence_args else None
         return Thread(
             self._com_obj.NewThread(
-                sequence_file._com_obj, str(sequence_name), int(options), ctx_com, args_com
+                sequence_file._com_obj,
+                str(sequence_name),
+                int(options),
+                ctx_com,
+                args_com,
             ),
             self._engine_ref,
         )
@@ -678,7 +689,10 @@ class Execution(COMWrapper):
             calling_sequence_context._com_obj if calling_sequence_context else pythoncom.Missing
         )
         res = self._com_obj.WaitForEndEx(
-            int(timeout_ms), bool(process_windows_msgs), step_com, ctx_com
+            int(timeout_ms),
+            bool(process_windows_msgs),
+            step_com,
+            ctx_com,
         )
         if isinstance(res, tuple):
             return bool(res[0])

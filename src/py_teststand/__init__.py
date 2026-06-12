@@ -33,12 +33,15 @@ from .adapters import (
 from .adapters.adapter import Adapter, Module
 from .core.com_wrapper import COMWrapper, ts_interface  # noqa: F401
 from .core.engine import (
+    AdapterKeyName,
+    AllowAutomaticTypeConflictResolution,
     ConflictResolution,
     EditKind,
     Engine,
     FindFilePromptOption,
     FindFileSearchListOption,
     GetSeqFileOption,
+    GetTemplatesFileOption,
     OpenWorkspaceFileOption,
     ReleaseSeqFileOption,
     RTEOption,
@@ -47,12 +50,16 @@ from .core.engine import (
 from .core.exceptions import (
     AccessDeniedError,
     AdapterError,
+    COMError,
     DeploymentError,
+    Error,
     ExecutionError,
     FileAlreadyExistsError,
+    FileNotFoundError,
     IndexOutOfRangeError,
     InvalidPropertyError,
     IOError,
+    LicenseError,
     MemoryError,
     ModuleLoadError,
     PathNotFoundError,
@@ -63,10 +70,6 @@ from .core.exceptions import (
     SequenceValidationError,
     StepExecutionError,
     SystemError,
-    TestStandCOMError,
-    TestStandError,
-    TestStandFileNotFoundError,
-    TestStandLicenseError,
     TypeMismatchError,
 )
 from .core.file_information import FileInformation
@@ -109,7 +112,7 @@ from .execution.thread import (
 from .execution.watch_expression import WatchExpression, WatchExpressions
 from .messaging.output_message import OutputMessage
 from .messaging.output_messages import OutputMessages
-from .messaging.ui_message import UIMessage
+from .messaging.ui_message import UIMessage, UIMessageCode
 from .property.array_dimensions import ArrayDimensions
 from .property.data_type import (
     DataType,
@@ -118,25 +121,36 @@ from .property.data_type import (
     PropertyValueTypeFlag,
     PropValType,
 )
-from .property.property_object import PropertyFlag, PropertyObject
-from .property.property_object_file import PropertyObjectFile, PropertyObjectFileType, TypeUsageList
+from .property.property_object import PropertyFlag, PropertyObject, PropertyOption, TypeCategory
+from .property.property_object_file import (
+    FileWritingFormat,
+    PropertyObjectFile,
+    PropertyObjectFileType,
+    TypeUsageList,
+)
 from .sequence.code_template import CodeTemplate, CodeTemplates
 from .sequence.expression import EvaluationType, Expression
-from .sequence.location import Location, Locations
+from .sequence.location import AutoCreateVariableLocation, Location, Locations
 from .sequence.sequence import Sequence
 from .sequence.sequence_context import SequenceContext
 from .sequence.sequence_file import SequenceFile
-from .sequence.step import Step
+from .sequence.step import RunMode, Step
+from .sequence.step_group import StepGroup, StepGroupMode
 from .sequence.step_type import StepType
 from .station.search_directories import SearchDirectories, SearchDirectory
-from .station.station_options import StationOptions
+from .station.station_options import (
+    DebugOption,
+    InteractiveBranchMode,
+    StationOptions,
+    TimeLimitAction,
+)
 from .ui.application_manager import ApplicationManager
 from .ui.execution_view_manager import ExecutionViewManager
 from .ui.sequence_file_view_manager import SequenceFileViewManager
 from .undo.undo_item import UndoItem
 from .undo.undo_item_creator import UndoItemCreator
 from .undo.undo_stack import UndoStack
-from .users.user import User, UserGroup
+from .users.user import User, UserGroup, UserPrivilege
 from .users.users_file import UsersFile
 from .workspace.workspace_file import SaveWorkspaceFileOption, WorkspaceFile
 from .workspace.workspace_object import (
@@ -153,13 +167,17 @@ __all__ = [
     "ActiveXModule",
     "Adapter",
     "AdapterError",
+    "AdapterKeyName",
     "AdditionalResult",
     "AdditionalResultKind",
     "AdditionalResults",
+    "AllowAutomaticTypeConflictResolution",
     "ApplicationManager",
     "ArrayDimensions",
+    "AutoCreateVariableLocation",
     "AutoReleaser",
     "Batch",
+    "COMError",
     "CVIAdapter",
     "CVIModule",
     "CheckedState",
@@ -170,12 +188,14 @@ __all__ = [
     "DLLModule",
     "DataType",
     "DatabaseLogOptions",
+    "DebugOption",
     "DeploymentError",
     "DotNetAdapter",
     "DotNetModule",
     "EditArgs",
     "EditKind",
     "Engine",
+    "Error",
     "EvaluationType",
     "Execution",
     "ExecutionError",
@@ -184,20 +204,25 @@ __all__ = [
     "Expression",
     "FileAlreadyExistsError",
     "FileInformation",
+    "FileNotFoundError",
+    "FileWritingFormat",
     "FindFilePromptOption",
     "FindFileSearchListOption",
     "GetSeqFileOption",
+    "GetTemplatesFileOption",
     "HTBasicAdapter",
     "HTBasicModule",
     "IOError",
     "IndexOutOfRangeError",
     "InteractiveArgs",
+    "InteractiveBranchMode",
     "InteractiveContext",
     "InvalidPropertyError",
     "LabVIEWAdapter",
     "LabVIEWModule",
     "LabVIEWNXGAdapter",
     "LabVIEWNXGModule",
+    "LicenseError",
     "Location",
     "Locations",
     "MemoryError",
@@ -216,6 +241,7 @@ __all__ = [
     "PropertyObjectFile",
     "PropertyObjectFileType",
     "PropertyObjectType",
+    "PropertyOption",
     "PropertyRepresentation",
     "PropertyValueTypeFlag",
     "PythonAdapter",
@@ -232,6 +258,7 @@ __all__ = [
     "ResultLog",
     "ResultLogRecordType",
     "ResultLogger",
+    "RunMode",
     "SaveWorkspaceFileOption",
     "SearchDirectories",
     "SearchDirectory",
@@ -261,18 +288,19 @@ __all__ = [
     "StationOptions",
     "Step",
     "StepExecutionError",
+    "StepGroup",
+    "StepGroupMode",
     "StepType",
     "SyncManager",
     "SystemError",
-    "TestStandCOMError",
-    "TestStandError",
-    "TestStandFileNotFoundError",
-    "TestStandLicenseError",
     "TestStandPath",
     "Thread",
+    "TimeLimitAction",
+    "TypeCategory",
     "TypeMismatchError",
     "TypeUsageList",
     "UIMessage",
+    "UIMessageCode",
     "UndoItem",
     "UndoItemCreator",
     "UndoStack",
@@ -280,6 +308,7 @@ __all__ = [
     "UnmappedArgumentValueList",
     "User",
     "UserGroup",
+    "UserPrivilege",
     "UsersFile",
     "WatchExpression",
     "WatchExpressions",

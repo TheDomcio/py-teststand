@@ -399,16 +399,6 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def comment(self) -> str:
-        return str(self._com_obj.Comment)
-
-    @comment.setter
-    @ts_interface
-    def comment(self, value: str) -> None:
-        self._com_obj.Comment = value
-
-    @property
-    @ts_interface
     def result_status(self) -> str:
         return str(self._com_obj.ResultStatus)
 
@@ -454,17 +444,6 @@ class Step(COMWrapper):
     @ts_interface
     def runtime_run_mode(self, value: str) -> None:
         self._com_obj.RunTimeRunMode = value
-
-    @ts_interface
-    def reset(self) -> None:
-        self._com_obj.Reset()
-
-    @property
-    @ts_interface
-    def interactive_args(self) -> typing.Any:
-        from py_teststand.execution.interactive_args import InteractiveArgs
-
-        return InteractiveArgs(self._com_obj.InteractiveArgs, self.engine)
 
     @property
     @ts_interface
@@ -555,12 +534,12 @@ class Step(COMWrapper):
     @ts_interface
     def block_flags(self) -> BlockFlag:
 
-        return BlockFlag(int(self._com_obj.BlockFlag))
+        return BlockFlag(int(self._com_obj.BlockFlags))
 
     @block_flags.setter
     @ts_interface
     def block_flags(self, value: BlockFlag | int) -> None:
-        self._com_obj.BlockFlag = int(value)
+        self._com_obj.BlockFlags = int(value)
 
     @property
     @ts_interface
@@ -591,16 +570,6 @@ class Step(COMWrapper):
     @ts_interface
     def post_expression(self, value: str) -> None:
         self._com_obj.PostExpression = value
-
-    @property
-    @ts_interface
-    def postcondition(self) -> str:
-        return str(self._com_obj.Postcondition)
-
-    @postcondition.setter
-    @ts_interface
-    def postcondition(self, value: str) -> None:
-        self._com_obj.Postcondition = value
 
     @property
     @ts_interface
@@ -1001,7 +970,9 @@ class Step(COMWrapper):
 
     @ts_interface
     def display_additional_results_dialog(
-        self, title: str = "", read_only: bool = False
+        self,
+        title: str = "",
+        read_only: bool = False,
     ) -> typing.Any:
         return bool(self._com_obj.DisplayAdditionalResultsDialog(title, read_only))
 
@@ -1022,10 +993,6 @@ class Step(COMWrapper):
     @ts_interface
     def log_additional_result(self, result_name: str, result_value: typing.Any) -> typing.Any:
         self._com_obj.LogAdditionalResult(result_name, result_value)
-
-    @ts_interface
-    def load_prototype(self) -> None:
-        self._com_obj.LoadPrototype()
 
     @ts_interface
     def as_property_object(self) -> PropertyObject:
@@ -1082,7 +1049,8 @@ class Step(COMWrapper):
 
     @ts_interface
     def get_break_settings(
-        self, execution: Execution | typing.Any = None
+        self,
+        execution: Execution | typing.Any = None,
     ) -> tuple[bool, bool, int, str]:
         exec_com = getattr(execution, "_com_obj", execution) if execution else None
         return self._com_obj.GetBreakSettings(None, None, None, None, exec_com)
@@ -1118,11 +1086,6 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def num_substeps(self) -> int:
-        return int(self._com_obj.NumSubsteps)
-
-    @property
-    @ts_interface
     def icon_name(self) -> str:
         return str(self._com_obj.IconName)
 
@@ -1145,22 +1108,6 @@ class Step(COMWrapper):
     @ts_interface
     def small_icon_index(self) -> int:
         return int(self._com_obj.SmallIconIndex)
-
-    @ts_interface
-    def add_substep(self, name: str, index: int, type: int) -> None:
-        self._com_obj.AddSubstep(name, index, type)
-
-    @ts_interface
-    def remove_substep(self, index: int) -> None:
-        self._com_obj.RemoveSubstep(index)
-
-    @ts_interface
-    def get_substep(self, index: int) -> Step:
-        return Step(self._com_obj.GetSubstep(index), self.engine)
-
-    @ts_interface
-    def swap_substeps(self, index1: int, index2: int) -> None:
-        self._com_obj.SwapSubsteps(index1, index2)
 
     @property
     @ts_interface

@@ -2,13 +2,9 @@ from __future__ import annotations
 
 import typing
 from enum import IntEnum
-from typing import TYPE_CHECKING
 
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 from py_teststand.property.property_object import PropertyObject
-
-if TYPE_CHECKING:
-    pass
 
 
 class ReportConversion(IntEnum):
@@ -102,12 +98,16 @@ class Report(COMWrapper):
         linefeed_conversion: int,
     ) -> None:
         self._com_obj.Save(
-            str(path_string), bool(append_if_already_exists), int(linefeed_conversion)
+            str(path_string),
+            bool(append_if_already_exists),
+            int(linefeed_conversion),
         )
 
     @ts_interface
     def set_temp_file_directory_ex(
-        self, directory: str, temp_file_directory_option: int = 0
+        self,
+        directory: str,
+        temp_file_directory_option: int = 0,
     ) -> None:
         self._com_obj.SetTempFileDirectoryEx(str(directory), int(temp_file_directory_option))
 
@@ -272,7 +272,11 @@ class ReportSections(COMWrapper):
 
     @ts_interface
     def insert(
-        self, index: int = -1, header: str = "", body: str = "", footer: str = ""
+        self,
+        index: int = -1,
+        header: str = "",
+        body: str = "",
+        footer: str = "",
     ) -> ReportSection:
         return ReportSection(
             self._com_obj.Insert(int(index), str(header), str(body), str(footer)),

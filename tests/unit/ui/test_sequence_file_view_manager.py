@@ -1,65 +1,77 @@
+from __future__ import annotations
+
 from unittest.mock import MagicMock
 
 import pytest
 
+from py_teststand.execution.execution import Execution
+from py_teststand.sequence.sequence_file import SequenceFile
 from py_teststand.ui.sequence_file_view_manager import SequenceFileViewManager
-
-
-class MockCOM(MagicMock):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.SequenceFile = MagicMock()
-
-        self.Sequence = MagicMock()
-
-        self.StepGroup = 0
-
-        self.StepGroupMode = 1
-
-        self.SelectedSteps = MagicMock()
-
-        self.Connections = MagicMock()
-
-        self.UndoStack = MagicMock()
-
-    def LoopOnSelectedSteps(self, _interactive_args=None):  # noqa: N802
-
-        return MagicMock()
 
 
 @pytest.fixture
 def mock_engine():
-
     return MagicMock()
 
 
-@pytest.fixture
-def sequence_file_view_manager(mock_engine):
+def test_sequence_file_getter_wraps_com_object(mock_engine):
+    com = MagicMock()
+    inner = MagicMock()
+    com.SequenceFile = inner
 
-    return SequenceFileViewManager(MockCOM(), mock_engine)
+    manager = SequenceFileViewManager(com, mock_engine)
+    sequence_file = manager.sequence_file
 
-
-def test_sequence_file_access(sequence_file_view_manager):
-
-    assert sequence_file_view_manager.sequence_file is not None
-
-    sequence_file_view_manager.sequence_file = None
-
-    assert sequence_file_view_manager._com_obj.SequenceFile is None
+    assert isinstance(sequence_file, SequenceFile)
+    assert sequence_file._com_obj is inner
 
 
-def test_step_group(sequence_file_view_manager):
+def test_sequence_file_getter_returns_none_when_unset(mock_engine):
+    com = MagicMock()
+    com.SequenceFile = None
 
-    assert sequence_file_view_manager.step_group == 0
+    manager = SequenceFileViewManager(com, mock_engine)
 
-    sequence_file_view_manager.step_group = 1
-
-    assert sequence_file_view_manager._com_obj.StepGroup == 1
+    assert manager.sequence_file is None
 
 
-def test_control_methods(sequence_file_view_manager):
+def test_sequence_file_setter_writes_raw_com_object(mock_engine):
+    com = MagicMock()
+    manager = SequenceFileViewManager(com, mock_engine)
 
-    sequence_file_view_manager.loop_on_selected_steps()
+    manager.sequence_file = None
+    assert com.SequenceFile is None
 
-    sequence_file_view_manager.refresh()
+
+def test_step_group_getter_is_int_and_setter_writes(mock_engine):
+    com = MagicMock()
+    com.StepGroup = 2
+    manager = SequenceFileViewManager(com, mock_engine)
+
+    assert manager.step_group == 2
+    assert isinstance(manager.step_group, int)
+
+    manager.step_group = 1
+    assert com.StepGroup == 1
+
+
+def test_loop_on_selected_steps_calls_com_and_wraps_execution(mock_engine):
+    com = MagicMock()
+    inner = MagicMock()
+    com.LoopOnSelectedSteps.return_value = inner
+    manager = SequenceFileViewManager(com, mock_engine)
+
+    execution = manager.loop_on_selected_steps()
+
+    com.LoopOnSelectedSteps.assert_called_once_with(None)
+    assert isinstance(execution, Execution)
+    assert execution._com_obj is inner
+
+
+def test_refresh_calls_com_member(mock_engine):
+    com = MagicMock()
+    manager = SequenceFileViewManager(com, mock_engine)
+
+    manager.refresh()
+
+    com.Refresh.assert_called_once_with()

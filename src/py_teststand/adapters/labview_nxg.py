@@ -143,14 +143,18 @@ class LabVIEWNXGAdapter(Adapter):
 
     @ts_interface
     def get_cluster_member_is_binary_string(
-        self, type_definition: typing.Any, property_lookup_string: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
     ) -> bool:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetClusterMemberIsBinaryString(com_po, property_lookup_string))
 
     @ts_interface
     def get_cluster_member_label(
-        self, type_definition: typing.Any, property_lookup_string: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
     ) -> typing.Any:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return str(self._com_obj.GetClusterMemberLabel(com_po, property_lookup_string))
@@ -162,7 +166,9 @@ class LabVIEWNXGAdapter(Adapter):
 
     @ts_interface
     def get_exclude_from_cluster(
-        self, type_definition: typing.Any, property_lookup_string: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
     ) -> typing.Any:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetExcludeFromCluster(com_po, property_lookup_string))
@@ -180,10 +186,20 @@ class LabVIEWNXGAdapter(Adapter):
 
     @ts_interface
     def get_properties_for_node_class(
-        self, type_name: str, class_name: str, options: int = 0
+        self,
+        type_name: str,
+        class_name: str,
+        options: int = 0,
     ) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
         res = self._com_obj.GetPropertiesForNodeClass(
-            type_name, class_name, None, None, None, None, None, options
+            type_name,
+            class_name,
+            None,
+            None,
+            None,
+            None,
+            None,
+            options,
         )
         if isinstance(res, tuple) and len(res) >= 7:
             return list(res[2]), list(res[3]), list(res[4]), list(res[5]), list(res[6])
@@ -226,14 +242,20 @@ class LabVIEWNXGAdapter(Adapter):
 
     @ts_interface
     def set_cluster_member_is_binary_string(
-        self, type_definition: typing.Any, property_lookup_string: str, val: bool
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        val: bool,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterMemberIsBinaryString(com_po, property_lookup_string, val)
 
     @ts_interface
     def set_cluster_member_label(
-        self, type_definition: typing.Any, property_lookup_string: str, label: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        label: str,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterMemberLabel(com_po, property_lookup_string, label)
@@ -245,7 +267,10 @@ class LabVIEWNXGAdapter(Adapter):
 
     @ts_interface
     def set_exclude_from_cluster(
-        self, type_definition: typing.Any, property_lookup_string: str, val: bool
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        val: bool,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetExcludeFromCluster(com_po, property_lookup_string, val)
@@ -555,7 +580,12 @@ class LabVIEWNXGNodeProperties(PropertyObject):
 
     @ts_interface
     def new(
-        self, index: typing.Any, long_name: str, data_name: str, unique_id: str, direction: int
+        self,
+        index: typing.Any,
+        long_name: str,
+        data_name: str,
+        unique_id: str,
+        direction: int,
     ) -> None:
         self._com_obj.New(index, long_name, data_name, unique_id, direction)
 
@@ -683,7 +713,7 @@ class LabVIEWNXGParameter(PropertyObject):
         return str(self._com_obj.GetArrayElementIndex)
 
     @ts_interface
-    def get_nxg_array_index(self, offset: int) -> typing.Any:
+    def get_array_index_from_offset(self, offset: int) -> typing.Any:
         return str(self._com_obj.GetArrayIndex(int(offset)))
 
     @ts_interface

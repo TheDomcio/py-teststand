@@ -151,7 +151,7 @@ class WorkspaceObject(COMWrapper):
         item_list: typing.Any | None = None,
     ) -> bool:
         return bool(
-            self._com_obj.CanDoSourceControlCommand(int(sc_command), int(options), item_list)
+            self._com_obj.CanDoSourceControlCommand(int(sc_command), int(options), item_list),
         )
 
     @ts_interface

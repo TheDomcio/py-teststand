@@ -168,7 +168,7 @@ class LabVIEWAdapter(Adapter):
     @ts_interface
     def labview_development_environment_bitness(self) -> LabVIEWDevelopmentEnvironmentBitness:
         return LabVIEWDevelopmentEnvironmentBitness(
-            self._com_obj.LabVIEWDevelopmentEnvironmentBitness
+            self._com_obj.LabVIEWDevelopmentEnvironmentBitness,
         )
 
     @property
@@ -307,20 +307,28 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def get_cluster_member_is_binary_string(
-        self, type_name: str, member_name: str, options: int = 0
+        self,
+        type_name: str,
+        member_name: str,
+        options: int = 0,
     ) -> bool:
         return bool(
             self._com_obj.GetClusterMemberIsBinaryString(
-                str(type_name), str(member_name), int(options)
-            )
+                str(type_name),
+                str(member_name),
+                int(options),
+            ),
         )
 
     @ts_interface
     def get_cluster_member_label(
-        self, type_name: str, member_name: str, options: int = 0
+        self,
+        type_name: str,
+        member_name: str,
+        options: int = 0,
     ) -> typing.Any:
         return str(
-            self._com_obj.GetClusterMemberLabel(str(type_name), str(member_name), int(options))
+            self._com_obj.GetClusterMemberLabel(str(type_name), str(member_name), int(options)),
         )
 
     @ts_interface
@@ -329,7 +337,9 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def get_exclude_from_cluster(
-        self, type_definition: typing.Any, property_lookup_string: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
     ) -> typing.Any:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetExcludeFromCluster(com_po, str(property_lookup_string)))
@@ -340,7 +350,10 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def get_member_names(
-        self, library_name: str, generic_type: str, class_data_name: str
+        self,
+        library_name: str,
+        generic_type: str,
+        class_data_name: str,
     ) -> list[str]:
         return list(
             self._com_obj.GetMemberNames(str(library_name), str(generic_type), str(class_data_name))
@@ -386,12 +399,17 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def get_properties_for_node_class(
-        self, library_name: str, generic_type: str, class_data_name: str
+        self,
+        library_name: str,
+        generic_type: str,
+        class_data_name: str,
     ) -> list[str]:
         return list(
             self._com_obj.GetPropertiesForNodeClass(
-                str(library_name), str(generic_type), str(class_data_name)
-            )
+                str(library_name),
+                str(generic_type),
+                str(class_data_name),
+            ),
         )
 
     @ts_interface
@@ -430,15 +448,10 @@ class LabVIEWAdapter(Adapter):
     def is_labview_activex_server_connection_valid(self) -> bool:
         return bool(self._com_obj.IsLabVIEWActiveXServerConnectionValid)
 
+    @property
     @ts_interface
-    def is_supported_labview_development_system(
-        self, version: str, bitness: int, bitness_matching_policy: int
-    ) -> bool:
-        return bool(
-            self._com_obj.IsSupportedLabVIEWDevelopmentSystem(
-                str(version), int(bitness), int(bitness_matching_policy)
-            )
-        )
+    def is_supported_labview_development_system_installed(self) -> bool:
+        return bool(self._com_obj.IsSupportedLabVIEWDevelopmentSystemInstalled)
 
     @ts_interface
     def new_module(self) -> LabVIEWModule:
@@ -466,16 +479,24 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def set_cluster_member_is_binary_string(
-        self, type_definition: typing.Any, property_lookup_string: str, value: bool
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        value: bool,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterMemberIsBinaryString(
-            com_po, str(property_lookup_string), bool(value)
+            com_po,
+            str(property_lookup_string),
+            bool(value),
         )
 
     @ts_interface
     def set_cluster_member_label(
-        self, type_definition: typing.Any, property_lookup_string: str, label: str
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        label: str,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterMemberLabel(com_po, str(property_lookup_string), str(label))
@@ -487,7 +508,10 @@ class LabVIEWAdapter(Adapter):
 
     @ts_interface
     def set_exclude_from_cluster(
-        self, type_definition: typing.Any, property_lookup_string: str, value: bool
+        self,
+        type_definition: typing.Any,
+        property_lookup_string: str,
+        value: bool,
     ) -> None:
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetExcludeFromCluster(com_po, str(property_lookup_string), bool(value))
@@ -575,16 +599,6 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def class_name(self) -> str:
-        return str(self._com_obj.ClassName)
-
-    @class_name.setter
-    @ts_interface
-    def class_name(self, value: str) -> None:
-        self._com_obj.ClassName = value
-
-    @property
-    @ts_interface
     def class_path(self) -> str:
         return str(self._com_obj.ClassPath)
 
@@ -607,56 +621,30 @@ class LabVIEWModule(Module):
 
     @ts_interface
     def display_select_class_from_project_dialog_ex(
-        self, reserved: int = 0, property_value: int = 0
+        self,
+        reserved: int = 0,
+        property_value: int = 0,
     ) -> bool:
         return bool(
-            self._com_obj.DisplaySelectClassFromProjectDialogEx(int(reserved), int(property_value))
+            self._com_obj.DisplaySelectClassFromProjectDialogEx(int(reserved), int(property_value)),
         )
 
     @ts_interface
-    def display_select_class_from_project_dialog_ex2(
-        self, reserved: int = 0, property_value: int = 0, options: int = 0
-    ) -> bool:
-        return bool(
-            self._com_obj.DisplaySelectClassFromProjectDialogEx2(
-                int(reserved), int(property_value), int(options)
-            )
-        )
+    def display_select_class_member_from_project_dialog(self, reserved: int = 0) -> bool:
+        return bool(self._com_obj.DisplaySelectClassMemberFromProjectDialog(int(reserved)))
 
     @ts_interface
-    def display_select_class_member_from_project_dialog_ex(
-        self, reserved: int = 0, property_value: int = 0
-    ) -> bool:
-        return bool(
-            self._com_obj.DisplaySelectClassMemberFromProjectDialogEx(
-                int(reserved), int(property_value)
-            )
-        )
-
-    @ts_interface
-    def display_select_member_from_class_dialog_ex(
-        self, reserved: int = 0, property_value: int = 0
-    ) -> bool:
-        return bool(
-            self._com_obj.DisplaySelectMemberFromClassDialogEx(int(reserved), int(property_value))
-        )
+    def display_select_member_from_class_dialog(self, reserved: int = 0) -> bool:
+        return bool(self._com_obj.DisplaySelectMemberFromClassDialog(int(reserved)))
 
     @ts_interface
     def display_select_vi_from_project_dialog_ex(
-        self, reserved: int = 0, property_value: int = 0
+        self,
+        reserved: int = 0,
+        property_value: int = 0,
     ) -> bool:
         return bool(
-            self._com_obj.DisplaySelectVIFromProjectDialogEx(int(reserved), int(property_value))
-        )
-
-    @ts_interface
-    def display_select_vi_from_project_dialog_ex2(
-        self, reserved: int = 0, property_value: int = 0, options: int = 0
-    ) -> bool:
-        return bool(
-            self._com_obj.DisplaySelectVIFromProjectDialogEx2(
-                int(reserved), int(property_value), int(options)
-            )
+            self._com_obj.DisplaySelectVIFromProjectDialogEx(int(reserved), int(property_value)),
         )
 
     @ts_interface
@@ -728,14 +716,6 @@ class LabVIEWModule(Module):
     @ts_interface
     def is_project_valid(self) -> typing.Any:
         return bool(self._com_obj.IsProjectValid)
-
-    @ts_interface
-    def load_prototype(self, options: int = 0) -> typing.Any:
-        return bool(self._com_obj.LoadPrototype(bool(options)))
-
-    @ts_interface
-    def load_prototype_ex(self, discard_parameter_values: bool = False) -> typing.Any:
-        return bool(self._com_obj.LoadPrototype(discard_parameter_values))
 
     @ts_interface
     def get_parameters(self) -> typing.Iterator[typing.Any]:
@@ -975,22 +955,6 @@ class LabVIEWModule(Module):
         return str(self._com_obj.ExpressVIName)
 
     @ts_interface
-    def find_class_url_using_class_path(self, class_path: str) -> typing.Any:
-        return str(self._com_obj.FindClassURLUsingClassPath(str(class_path)))
-
-    @ts_interface
-    def find_class_url_using_class_path_ex(self, class_path: str, options: int = 0) -> typing.Any:
-        return str(self._com_obj.FindClassURLUsingClassPathEx(str(class_path), int(options)))
-
-    @ts_interface
-    def find_vi_url_using_vi_path(self, vi_path: str) -> typing.Any:
-        return str(self._com_obj.FindVIURLUsingVIPath(str(vi_path)))
-
-    @ts_interface
-    def find_vi_url_using_vi_path_ex(self, vi_path: str, options: int = 0) -> typing.Any:
-        return str(self._com_obj.FindVIURLUsingVIPathEx(str(vi_path), int(options)))
-
-    @ts_interface
     def get_binary_build_specifications(self) -> typing.Any:
         return list(self._com_obj.GetBinaryBuildSpecifications())
 
@@ -1003,16 +967,70 @@ class LabVIEWModule(Module):
         return str(self._com_obj.GetClassAbsolutePathEx(str(class_path), int(options)))
 
     @ts_interface
-    def get_project_url_paths_for_classes(self) -> list[str]:
-        return list(self._com_obj.GetProjectURLPathsForClasses())
-
-    @ts_interface
-    def get_project_url_paths_for_vis(self) -> list[str]:
-        return list(self._com_obj.GetProjectURLPathsForVIs())
-
-    @ts_interface
     def convert_express_vi_to_standard_vi(self, new_vi_path: str) -> typing.Any:
         return bool(self._com_obj.ConvertExpressVIToStandardVI(new_vi_path))
+
+    @property
+    @ts_interface
+    def configured_with_old_checksum(self) -> bool:
+        return bool(self._com_obj.ConfiguredWithOldChecksum)
+
+    @property
+    @ts_interface
+    def labview_version_that_will_be_used_to_run_vi(self) -> str:
+        return str(self._com_obj.LabVIEWVersionThatWillBeUsedToRunVI)
+
+    @property
+    @ts_interface
+    def td_checksum(self) -> str:
+        return str(self._com_obj.TDChecksum)
+
+    @td_checksum.setter
+    @ts_interface
+    def td_checksum(self, value: str) -> None:
+        self._com_obj.TDChecksum = str(value)
+
+    @ts_interface
+    def display_select_class_from_project_dialog(self, reserved: int = 0) -> bool:
+        return bool(self._com_obj.DisplaySelectClassFromProjectDialog(int(reserved)))
+
+    @ts_interface
+    def display_select_vi_from_project_dialog(
+        self,
+        path_to_use: LabVIEWProjectPath | int = 0,
+    ) -> bool:
+        return bool(self._com_obj.DisplaySelectVIFromProjectDialog(int(path_to_use)))
+
+    @ts_interface
+    def find_class_url_using_class_path(self) -> str:
+        return str(self._com_obj.FindClassUrlUsingClassPath())
+
+    @ts_interface
+    def find_class_url_using_class_path_ex(
+        self,
+        property_value: LabVIEWPropertyOption | int,
+    ) -> str:
+        return str(self._com_obj.FindClassUrlUsingClassPathEx(int(property_value)))
+
+    @ts_interface
+    def find_vi_url_using_vi_path(self, path_to_use: LabVIEWProjectPath | int) -> str:
+        return str(self._com_obj.FindVIUrlUsingVIPath(int(path_to_use)))
+
+    @ts_interface
+    def find_vi_url_using_vi_path_ex(
+        self,
+        property_value: LabVIEWPropertyOption | int,
+        path_to_use: LabVIEWProjectPath | int,
+    ) -> str:
+        return str(self._com_obj.FindVIUrlUsingVIPathEx(int(property_value), int(path_to_use)))
+
+    @ts_interface
+    def get_project_url_paths_for_classes(self) -> list[str]:
+        return list(self._com_obj.GetProjectUrlPathsForClasses())
+
+    @ts_interface
+    def get_project_url_paths_for_vis(self, path_to_use: LabVIEWProjectPath | int) -> list[str]:
+        return list(self._com_obj.GetProjectUrlPathsForVIs(int(path_to_use)))
 
     @ts_interface
     def as_module(self) -> typing.Any:
@@ -1090,7 +1108,10 @@ class LabVIEWParameter(PropertyObject):
 
     @ts_interface
     def expr_cluster_type_mismatch(
-        self, sequence_context: typing.Any, expr: str, error_msg: str
+        self,
+        sequence_context: typing.Any,
+        expr: str,
+        error_msg: str,
     ) -> tuple[bool, str]:
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         result = self._com_obj.ExprClusterTypeMismatch(raw_ctx, str(expr), str(error_msg))
@@ -1099,7 +1120,7 @@ class LabVIEWParameter(PropertyObject):
         return (bool(result), str(error_msg))
 
     @ts_interface
-    def get_nxg_array_index(self, dimension: int) -> typing.Any:
+    def get_array_index_from_offset(self, dimension: int) -> typing.Any:
         return int(self._com_obj.GetArrayIndex(int(dimension)))
 
     @ts_interface
@@ -1295,7 +1316,10 @@ class LabVIEWParameterElement(PropertyObject):
 
     @ts_interface
     def expr_cluster_type_mismatch(
-        self, sequence_context: typing.Any, expr: str, error_msg: str
+        self,
+        sequence_context: typing.Any,
+        expr: str,
+        error_msg: str,
     ) -> tuple[bool, str]:
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         result = self._com_obj.ExprClusterTypeMismatch(raw_ctx, str(expr), str(error_msg))
@@ -1304,7 +1328,7 @@ class LabVIEWParameterElement(PropertyObject):
         return (bool(result), str(error_msg))
 
     @ts_interface
-    def get_nxg_array_index(self, dimension: int) -> typing.Any:
+    def get_array_index_from_offset(self, dimension: int) -> typing.Any:
         return int(self._com_obj.GetArrayIndex(int(dimension)))
 
     @ts_interface
@@ -1336,13 +1360,18 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def parameter_caption(self) -> str:
-        return str(self._com_obj.ParameterCaption)
+    def element_caption(self) -> str:
+        return str(self._com_obj.ElementCaption)
 
     @property
     @ts_interface
-    def parameter_name(self) -> str:
-        return str(self._com_obj.ParameterName)
+    def element_name(self) -> str:
+        return str(self._com_obj.ElementName)
+
+    @property
+    @ts_interface
+    def index_string(self) -> str:
+        return str(self._com_obj.IndexString)
 
     @property
     @ts_interface

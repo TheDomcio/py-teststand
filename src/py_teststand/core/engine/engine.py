@@ -5,12 +5,10 @@ import functools
 import gc
 import re
 import shutil
-import signal
 import time
 import typing
 import warnings
 import weakref
-from enum import Enum, IntEnum, IntFlag
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
@@ -30,7 +28,7 @@ else:
         win32com = None  # type: ignore[assignment]
 
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
-from py_teststand.core.exceptions import TestStandError
+from py_teststand.core.exceptions import Error
 from py_teststand.execution.execution import ExecutionMask, ExecutionTypeMask
 from py_teststand.messaging.ui_message import MsgBoxType, UIMessageCode
 from py_teststand.property.property_object import (
@@ -70,6 +68,49 @@ if TYPE_CHECKING:
     from py_teststand.undo.undo_stack import UndoStack
 
 from py_teststand.adapters.adapter import Adapter
+from py_teststand.core.engine.enums import (
+    AcquireLicense,
+    AdapterKeyName,
+    BrowseExprDialogOption,
+    CommonDialogOption,
+    ConflictHandler,
+    CrashCallbackOption,
+    DecimalPointLocalizationOption,
+    EditBreakAndWatchOption,
+    EditKind,
+    EditNumericFormatOption,
+    EditPathsDialogOption,
+    FileOpenMode,
+    FileVersionAutoIncrement,
+    FindFilePromptOption,
+    FindFileSearchListOption,
+    FindPathStatusOption,
+    GetSeqFileOption,
+    GetTemplatesFileOption,
+    HierarchicalExecutionFlag,
+    InternalOption,
+    LicenseType,
+    LockUnlockDialogOption,
+    OpenFileDialogOption,
+    OpenWorkspaceFileOption,
+    OutputMessageSeverityType,
+    ParseLookupStringOption,
+    ProfilerOption,
+    ProfilerState,
+    ReadPropertyObjectFileOption,
+    ReleaseSeqFileOption,
+    ResetTypeInstanceOption,
+    RTEOption,
+    SaveAllSeqFileOption,
+    SearchDirectory,
+    SearchElement,
+    SerializationOption,
+    TestStandPath,
+    ToolMenuItemAttribute,
+    TSError,
+    WatchExpressionFilterOption,
+    WorkspaceBrowserDialogOption,
+)
 from py_teststand.execution.execution import Execution
 from py_teststand.ext.events import UIMessageHandler
 from py_teststand.messaging.ui_message import UIMessage
@@ -81,845 +122,6 @@ from py_teststand.station.station_options import StationOptions
 from py_teststand.users.user import User
 from py_teststand.users.users_file import UsersFile
 from py_teststand.workspace.workspace_file import WorkspaceFile
-
-
-class FileOpenMode(IntFlag):
-    NoneValue = 0
-    Truncate = 0x1
-    Append = 0x2
-    Uniquify = 0x4
-
-
-class FileVersionAutoIncrement(IntEnum):
-    NoneValue = 0
-    Major = 1
-    Minor = 2
-    Revision = 3
-    Build = 4
-
-
-class FindFilePromptOption(IntEnum):
-    HonorUserPreference = 1
-    Enable = 2
-    Disable = 3
-
-
-class FindFileSearchListOption(IntEnum):
-    Ask = 1
-    Always = 2
-    Never = 3
-    AskIgnorePrivileges = 4
-    AlwaysIgnorePrivileges = 5
-
-
-class GetSeqFileOption(IntFlag):
-    NoneValue = 0
-    PreloadModules = 1
-    UpdateFromDisk = 2
-    AllowTypeConflicts = 4
-    CheckModelOptions = 8
-    DoNotRunLoadCallback = 16
-    FindFile = 32
-    SearchCurrentDir = 64
-    OperatorInterfaceFlags = 107
-    GetFileOnlyIfInCache = 512
-
-
-class GetTemplatesFileOption(IntFlag):
-    NoneValue = 0
-    LoadIfNotLoaded = 1
-
-
-class HierarchicalExecutionFlag(IntFlag):
-    NoneValue = 0
-    DontRunSetupAndCleanup = 2
-    RunRemainingSequence = 4
-    IgnorePreconditions = 8
-
-
-class FindPathStatusOption(IntFlag):
-    PathIsFile = 1
-    PathIsDir = 2
-    PathNotFound = 3
-    PathNotValid = 4
-
-
-class ConflictResolution(IntEnum):
-    Always = 0
-    OnlyIfTypePaletteFilesWillNotBeModified = 1
-    OnlyIfATypePaletteFileHasTheHigherVersion = 2
-    Never = 3
-
-
-class RTEOption(IntEnum):
-    ShowDialog = 0
-    Continue = 1
-    Ignore = 2
-    Abort = 3
-    Retry = 4
-
-
-class AcquireLicense(IntEnum):
-    NoneValue = 0
-    SuppressStartupDialog = 1
-    SuppressStartupDialogIfAlreadyShown = 2
-    ShowExitButton = 4
-
-
-class BrowseExprDialogOption(IntFlag):
-    NoneValue = 0
-    UsesCRLF = 0x1
-    NoContextMenus = 0x2
-    ForViewingTypes = 0x4
-    ModalToAppMainWind = 0x10000
-
-
-class CommonDialogOption(IntEnum):
-    NoneValue = 0
-    ModalToAppMainWind = 0x10000
-    ReadOnly = 0x20000
-    DisableGotoLocation = 0x80000
-
-
-class CrashCallbackOption(IntEnum):
-    NoneValue = 0
-    PreloadFile = 1
-
-
-class DecimalPointLocalizationOption(IntEnum):
-    UsePreference = 1
-    UseSystemSetting = 2
-    UsePeriod = 3
-    UseComma = 4
-
-
-class ReleaseSeqFileOption(IntEnum):
-    NoneValue = 0
-    UnloadFileIfModified = 0x1
-    DoNotRunUnloadCallback = 0x2
-    UnloadFile = 0x4
-
-
-class WatchExpressionFilterOption(IntEnum):
-    NoneValue = 0
-    IncludeGlobals = 0x1
-    FilterByExecution = 0x2
-    FilterBySequenceFile = 0x4
-    FilterBySequence = 0x8
-
-
-class EditBreakAndWatchOption(IntEnum):
-    NoneValue = 0
-    DisplayBreakpointTab = 0x1
-    DisplayWatchExpressionTab = 0x2
-    ModalToAppMainWind = 0x10000
-    ReadOnly = 0x20000
-
-
-class EditNumericFormatOption(IntEnum):
-    NoneValue = 0
-    AllowDefaultFormat = 0x1
-    ModalToAppMainWind = 0x10000
-
-
-class EditPathsDialogOption(IntEnum):
-    NoneValue = 0x0
-    AllowEditOfReadOnlyFiles = 0x1
-    ModalToAppMainWind = 0x10000
-    ReadOnly = 0x20000
-
-
-class LockUnlockDialogOption(IntEnum):
-    NoneValue = 0
-    Lock = 0x1
-    Unlock = 0x2
-    HideRememberPasswordControls = 0x4
-    ModalToAppMainWind = 0x10000
-
-
-class WorkspaceBrowserDialogOption(IntEnum):
-    NoneValue = 0x0
-    Editable = 0x1
-    ModalToAppMainWind = 0x10000
-
-
-class LicenseType(IntEnum):
-    DevelopmentSystem = 1
-    DebugDeploymentEnv = 2
-    BaseDeploymentEngine = 3
-    OEM = 4
-    Evaluation = 5
-    NoLicense = 6
-    Temporary = 7
-    Other = 8
-    CustomEditorDeployment = 9
-
-
-class ConflictHandler(IntEnum):
-    Error = 1
-    Prompt = 3
-    UseGlobalType = 4
-
-
-class OpenFileDialogOption(IntEnum):
-    NoneValue = 0
-    DisableUseAbsPathCheck = 0x1
-    InitialSetUseAbsPathCheck = 0x2
-    InitialUnsetUseAbsPathCheck = 0x4
-    ResolveNonExistentFile = 0x8
-    FileMustNotExist = 0x10
-    InitialSetBrowseIntoLLB = 0x20
-    SaveAsDialog = 0x40
-    HideUseAbsPathCheck = 0x80
-    UseAbsolutePath = 131
-    UseRelativePath = 133
-    ShowBrowseIntoLLBCheck = 0x100
-    SelectDirectoriesOnly = 0x200
-    HideMultiSelectListCtrl = 0x400
-    UseSequenceFileFilters = 0x800
-    IgnoreInitialPathExtension = 0x1000
-    SubstituteMacrosByDefault = 0x2000
-    ModalToAppMainWind = 0x10000
-
-
-class SearchDirectory(IntEnum):
-    TestStandDir = 1
-    TestStandBinDir = 2
-    AdapterSupportDir = 3
-    ApplicationDir = 4
-    InitialWorkingDir = 5
-    WindowsSystemDir = 6
-    WindowsDir = 7
-    PathEnvironmentVarDir = 8
-    CurrentSequenceFileDir = 9
-    PublicComponentsDir = 11
-    UserComponentsDir = 11
-    NIComponentsDir = 12
-    CurrentWorkspaceDir = 13
-    ContainingProjectDir = 14
-    ExplicitDir = 15
-    TestStandPublicDir = 16
-
-
-class ProfilerState(IntEnum):
-    NotAState = 0
-    Blocked = 1
-    InUse = 2
-    Aborted = 3
-    TimedOut = 4
-    Completed = 5
-
-
-class EditKind(IntEnum):
-    NoneValue = 0
-    ChangeValue = 1
-    Rename = 2
-    ModifyComment = 3
-    ModifyFlags = 4
-    ChangeNumericFormat = 5
-    InsertProperty = 6
-    DeleteProperty = 7
-    MoveProperty = 8
-    ReplaceProperty = 9
-    InsertStep = 10
-    DeleteStep = 11
-    MoveStep = 12
-    InsertSequence = 13
-    DeleteSequence = 14
-    MoveSequence = 15
-    ChangeObject = 16
-    ChangeStep = 17
-    ChangeSequenceProperties = 18
-    ChangeSequenceFileProperties = 19
-    ChangeRunMode = 20
-    InsertType = 21
-    ChangeRepresentation = 22
-    ModifyAttributes = 23
-    MoveType = 24
-
-
-class AdapterKeyName:
-    StdCVIAdapterKeyName = "C/CVI Std Prototype Adapter"
-    FlexCAdapterKeyName = "DLL Flexible Prototype Adapter"
-    LVAdapterKeyName = "G Std Prototype Adapter"
-    GAdapterKeyName = "G Std Prototype Adapter"
-    SequenceAdapterKeyName = "Sequence Adapter"
-    AutomationAdapterKeyName = "Automation Adapter"
-    NoneAdapterKeyName = "None Adapter"
-    HTBasicAdapterKeyName = "HTBasic Adapter"
-    FlexLVAdapterKeyName = "G Flexible VI Adapter"
-    FlexCVIAdapterKeyName = "C/CVI Flexible Prototype Adapter"
-    DotNetAdapterKeyName = "DotNet Adapter"
-
-
-class TSError(IntEnum):
-    AccessDenied = -17205
-    ActiveXAutomationServerException = -17811
-    AdapterNoConnectToAutoServer = -18201
-    AdapterServerConnectionLost = -18202
-    ArrayDimensionExpected = -17344
-    ArrayDimensionSizeExpected = -17345
-    ArrayIndexOutOfBounds = -17324
-    ArrayLocked = -17310
-    ArrayTypeExpected = -17343
-    AutomationObjNotValid = -17810
-    BadExpressionError = -17322
-    BadFileFormat = -17100
-    BadNetPath = -17202
-    BadPropertyOrVariableName = -17319
-    CVIAutoCmdFailed = -17704
-    CVICantConnectToTecrunServer = -17711
-    CVIFuncNotFoundInModule = -17710
-    CVIModuleHasUnresolvedReferences = -17709
-    CVINonDllModuleNotSupported = -17713
-    CVINotReg = -17703
-    CVIOleError = -17702
-    CVIRegGenericReadError = -17708
-    CVIRegKeyNotFound = -17707
-    CVIRegValueNotFound = -17706
-    CVIRegValueTypeMismatch = -17705
-    CVIUnableToTerminateUserProgInCVI = -17712
-    CVIVersionNotSupported = -17714
-    ConvertedErrorCode = -17009
-    CurrentSeqFileNotAvailable = -17330
-    DDEFail = -18101
-    DLLNotLoadable = -17004
-    DNAssemblyMissing = -18700
-    DiskFull = -17207
-    DispMissingParamID = -17807
-    DispMissingParamName = -17806
-    DispMissingRequiredArg = -17809
-    DispObsoleteMember = -17812
-    DispUnknownInterface = -17801
-    DispUnknownMemberID = -17803
-    DispUnknownMemberName = -17802
-    DispUnknownParamID = -17805
-    DispUnknownParamName = -17804
-    DispWrongNumPositionalParams = -17808
-    DoesNotHaveRequiredPrivilege = -18360
-    DriveNotReady = -17203
-    DuplicateItemOrValue = -17305
-    EmptyExpressionError = -17347
-    EvaluateFunctionEmptyExpressionError = -17350
-    EvaluationContextNotAvailable = -17316
-    ExprTypeIncompatibleWithParameter = -17313
-    ExprValueNotSuperSetOfParameter = -17314
-    ExternalServerUnavailable = -17012
-    FailToRegisterClipFormat = -18251
-    FileAlreadyExists = -17206
-    FileFormatIsOutOfDate = -17099
-    FileFormatNewerThanCurrentVersion = -17098
-    FileNotConvertableToSeqFile = -17901
-    FileWasNotFound = -17208
-    FunctionNotFoundInLib = -17005
-    IOError = -17200
-    IllegalOperationOnValue = -17309
-    IncompatibleParameters = -17311
-    IndexOutOfRange = -17301
-    Int32Overflow = -17010
-    Int64Overflow = -17013
-    InvalidAdapterName = -17336
-    InvalidDrive = -17211
-    InvalidPathname = -17204
-    InvalidPointer = -17346
-    InvalidRegularExpression = -17342
-    ItemCannotBeDeleted = -17331
-    LVAutoServerError = -18001
-    LVMissingRequiredArg = -18003
-    LVRTDllNotLoaded = -17338
-    LVReportedError = -18002
-    LVRunTimeEngineError = -18004
-    LVTypeConversionError = -18005
-    LV_NXG_AutoBuildError = -18526
-    LV_NXG_AutoServerError = -18520
-    LV_NXG_MissingRequiredArg = -18522
-    LV_NXG_RTEDllNotLoaded = -18525
-    LV_NXG_ReportedError = -18521
-    LV_NXG_RunTimeEngineError = -18523
-    LV_NXG_TypeConversionError = -18524
-    LValueExpected = -17318
-    LabVIEWTypeNotSupportedInCVI = -17341
-    MeasStudioInterfaceNotFound = -18390
-    MemoryChecking = -17214
-    MethodOrPropertyNotAvailable = -18400
-    MismatchedArrayBounds = -17326
-    MismatchedItems = -17348
-    MissingType = -17328
-    ModuleLoadFailure = -17600
-    ModuleNotSpecified = -17601
-    NameAlreadyInUse = -17327
-    NoError = 0
-    NoFileAssoc = -18151
-    NoItemsInList = -17302
-    NotSupported = -17503
-    OS_Exception = -17502
-    ObjectCannotBeAdded = -17335
-    ObjectLocked = -17349
-    ObjectTypeIncompatibleWithParameter = -17332
-    OperationCanceled = -17604
-    OperationFailed = -17500
-    OperationInProgress = -17401
-    OperationOnlyValidWhenSuspended = -17323
-    OperationTimedOut = -17402
-    OutOfMemory = -17000
-    PathNotFound = -17212
-    ProgramError = -17001
-    RStringNotFound = -18051
-    ReadObjectNotFound = -17339
-    RegistryAccessError = -17002
-    RegistryItemNotFound = -17003
-    RemoteHostNotSpecified = -17853
-    RemoteSequenceError = -17850
-    RemoteSequenceErrorUnableToConnect = -17851
-    RemoteSequenceRemoteExecutionDenied = -17852
-    SequenceAborted = -17602
-    SequenceTerminated = -17603
-    SharingViolation = -17209
-    SingleDimensionalNumericArrayExpected = -17317
-    SourceCodeControlError = -18370
-    StackOverflow = -17008
-    StepTypeNotFound = -17337
-    ThreadCreationFailed = -17400
-    TooManyItems = -17303
-    TwoDimensionalNumericArrayExpected = -17340
-    TypeCannotBeDeleted = -17333
-    TypeConflict = -17329
-    TypeLibraryReadError = -18351
-    TypeMismatchError = -17321
-    TypePaletteFileLoadErrors = -17902
-    TypeWithDependingInstancesCannotBeDeleted = -17334
-    UInt32Overflow = -17011
-    UInt64Overflow = -17014
-    UnRecognizedValue = -17304
-    UnableToAllocateSystemResource = -17006
-    UnableToCloseFile = -17213
-    UnableToInitializeOLESystemDLLs = -17007
-    UnableToLaunchCVI = -17701
-    UnableToOpenDirectory = -17215
-    UnableToOpenFile = -17201
-    UnableToPassByReference = -17312
-    UnexpectedChangeCount = -17351
-    UnexpectedEndOfFile = -17216
-    UnexpectedSystemError = -17501
-    UnexpectedType = -17308
-    UnknownFunctionOrSequenceName = -17320
-    UnknownType = -17307
-    UnknownVariableOrProperty = -17306
-    ValueIsInvalidOrOutOfRange = -17300
-    VisualStudioAutomationError = -18500
-    XMLError = -18600
-
-
-class InternalOption(IntEnum):
-    WarnOnAPICallThroughDispatchInterface = 1
-    AutomationAdapterUsesDispatchForDualInterfaces = 2
-    UpdateExternalEnvironments = 3
-    ApplicationManager = 5
-    DisableFloatingWindowsForModalDialogs = 10
-
-
-class SearchElement(IntFlag):
-    Name = 0x1
-    Comment = 0x2
-    StringValue = 0x4
-    NumericValue = 0x8
-    BooleanValue = 0x10
-    Attributes = 0x20
-    TypeName = 0x40
-    Enumerators = 0x80
-    AllValues = 0x1C
-    All = 0xFFFFFFFF
-
-
-class TestStandPath(IntEnum):
-    Bin = 2
-    CommonAppData = 5
-    Config = 3
-    GlobalCommonAppData = 13
-    GlobalConfig = 11
-    GlobalLocalAppData = 14
-    GlobalPublic = 12
-    LocalAppData = 6
-    NIComponents = 8
-    Public = 4
-    PublicComponents = 7
-    Temp = 9
-    Temporary = 10
-    TestStand = 1
-
-
-class ToolMenuItemAttribute(IntFlag):
-    SeparatorBefore = 0x1
-    Enabled = 0x2
-    EditsSelectedFile = 0x4
-
-
-class ProfilerOption(IntFlag):
-    NoOptions = 0
-    ExcludeStepTypeModules = 1
-    ExcludeStepModules = 2
-    ExcludeLoad = 4
-    ExcludeUnload = 8
-    ExcludeSteps = 16
-    ExcludeSynchronization = 32
-    ExcludeProcessModels = 64
-    ExcludeLocationInformation = 128
-    IncludeModulePathsAndEnvironments = 256
-    IncludeModuleInputs = 512
-    IncludeModuleOutputs = 1024
-
-
-class OutputMessageSeverityType(IntEnum):
-    Information = 0
-    Warning = 1
-    Error = 2
-
-
-class OpenWorkspaceFileOption(IntFlag):
-    NoneValue = 0x0
-    IgnoreMissingFiles = 0x1
-    SearchCurrentDirectory = 0x2
-    UseSearchDirectories = 0x4
-
-
-class ParseLookupStringOption(IntFlag):
-    NoneValue = 0x0
-    TreatArrayIndicesAsSeparateTokens = 0x1
-
-
-class ReadPropertyObjectFileOption(IntFlag):
-    NoneValue = 0x0
-    TypesOnly = 0x2
-
-
-class SaveAllSeqFileOption(IntFlag):
-    NoneValue = 0x0
-    PromptUser = 0x1
-
-
-class SerializationOption(IntFlag):
-    NoneValue = 0
-    SupportNonTypedefMatchingInstances = 4
-    SupportOneDimensionalArrays = 1
-    SupportTwoDimensionalArrays = 2
-
-
-class FileOpenStatusFlag(IntFlag):
-    InWindow = 0x1
-
-
-class GetUpdatedStatusOption(IntFlag):
-    NoneValue = 0
-    GVIDescriptionChanged = 0x1
-    GVIChecksumChanged = 0x2
-    GVIStateChanged = 0x4
-    ExpectedGLLPathChanged = 0x8
-    QualifiedNamePresentInGLL = 0x10
-
-
-class FrontEndCallback(str, Enum):
-    LoginLogout = "LoginLogout"
-
-
-class FileGlobalsScopeOption(IntEnum):
-    SeparateForEachExecution = 0
-    AllExecutionsShare = 1
-
-
-class UnloadModuleOption(IntEnum):
-    Never = 0
-    AfterStepCompletes = 1
-    AfterSequenceCompletes = 2
-    WhenSequenceFileCloses = 3
-    WhenEngineShutsDown = 4
-
-
-class EscapingOption(IntEnum):
-    NoneValue = 0
-    SurroundedByQuotes = 1
-
-
-class AllowAutomaticTypeConflictResolution(IntEnum):
-    Always = 0
-    OnlyIfTypePaletteFilesWillNotBeModified = 1
-    OnlyIfATypePaletteFileHasTheHigherVersion = 2
-    Never = 3
-
-
-class ApplicationLicense(IntEnum):
-    Unspecified = 0
-    OperatorInterface = 100
-    CustomEditor = 200
-    SequenceEditor = 300
-
-
-class ApplicationSite(IntEnum):
-    DefaultSite = 0
-    ItemList = 1
-    PropertyBrowser = 3
-    Variables = 2
-    Settings = 4
-
-
-class ArrayBoundsDialogOption(IntFlag):
-    NoneValue = 0x0
-    InitializeArray = 0x1
-    ReturnOkCancel = 0x2
-
-
-class CheckForModifiedType(IntFlag):
-    UseStationOptions = 0x0
-    AutoIncrementVersions = 0x1
-    Prompt = 0x2
-    NoAction = 0x4
-    RemoveTypesModifiedMark = 0xC
-
-
-class CheckUpdatedStatusOption(IntFlag):
-    All = 0x0
-    GVIDescription = 0x1
-    GVIState = 0x4
-    GVIChecksum = 0x2
-    ExpectedGLLPath = 0x8
-    QualifiedNamePresentInGLL = 0x10
-
-
-class CreateUndoItemOption(IntEnum):
-    NoneValue = 0
-    CreateOnly = 1
-
-
-class DeployProjectLibraryOption(IntEnum):
-    Deploy = 0
-    Undeploy = 1
-
-
-class DefaultModelCallback(str, Enum):
-    DatabaseOptions = "DatabaseOptions"
-    GetReportFilePath = "GetReportFilePath"
-    LogToDatabase = "LogToDatabase"
-    ModelOption = "ModelOption"
-    ModelPluginConfiguration = "ModelPluginConfiguration"
-    ModelPluginOptions = "ModelPluginOptions"
-    ModifyReportEntry = "ModifyReportEntry"
-    ModifyReportFooter = "ModifyReportFooter"
-    ModifyReportHeader = "ModifyReportHeader"
-    PostMainSequence = "PostMainSequence"
-    PostUUT = "PostUUT"
-    PostUUTLoop = "PostUUTLoop"
-    PreMainSequence = "PreMainSequence"
-    PreUUT = "PreUUT"
-    PreUUTLoop = "PreUUTLoop"
-    ProcessCleanup = "ProcessCleanup"
-    ProcessSetup = "ProcessSetup"
-    ReportOptions = "ReportOptions"
-    TestReport = "TestReport"
-
-
-class WindowsFileDialogFlag(IntFlag):
-    READONLY = 0x1
-    OVERWRITEPROMPT = 0x2
-    HIDEREADONLY = 0x4
-    NOCHANGEDIR = 0x8
-    SHOWHELP = 0x10
-    ENABLEHOOK = 0x20
-    ENABLETEMPLATE = 0x40
-    ENABLETEMPLATEHANDLE = 0x80
-    ALLOWMULTISELECT = 0x200
-    EXTENSIONDIFFERENT = 0x400
-    PATHMUSTEXIST = 0x800
-    FILEMUSTEXIST = 0x1000
-    CREATEPROMPT = 0x2000
-    SHAREAWARE = 0x4000
-    NOREADONLYRETURN = 0x8000
-    NOTESTFILECREATE = 0x10000
-    NONETWORKBUTTON = 0x20000
-    NOLONGNAMES = 0x40000
-    EXPLORER = 0x80000
-    NODEREFERENCELINKS = 0x100000
-    LONGNAMES = 0x200000
-    ENABLEINCLUDENOTIFY = 0x400000
-    ENABLESIZING = 0x800000
-    DONTADDTORECENT = 0x2000000
-    FORCESHOWHIDDEN = 0x10000000
-
-
-class MessageStatus(IntEnum):
-    Active = 0
-    Fixed = 1
-    Ignored = 2
-
-
-class ContextChangedReason(IntEnum):
-    SetContext = 1
-    VariableCreatedFromContextMenu = 2
-    ExpressionBrowserDialogBox = 3
-
-
-class ShortcutKey(IntEnum):
-    VK_NOT_A_KEY = 0
-    VK_F1 = 0x70
-    VK_F2 = 0x71
-    VK_F3 = 0x72
-    VK_F4 = 0x73
-    VK_F5 = 0x74
-    VK_F6 = 0x75
-    VK_F7 = 0x76
-    VK_F8 = 0x77
-    VK_F9 = 0x78
-    VK_F10 = 0x79
-    VK_F11 = 0x7A
-    VK_F12 = 0x7B
-
-
-class PerformActionOption(IntFlag):
-    No = 1
-    Prompt = 2
-    Yes = 0
-
-
-class ProcessCommandLineError(IntEnum):
-    NoneValue = 0
-    UnrecognizedArgumentError = 1
-    CustomError = 2
-
-
-class DisplayErrorOption(IntFlag):
-    NoneValue = 0x0
-    ForAll = 0x1
-
-
-class EditingDenialReason(IntFlag):
-    NoneValue = 0
-    IsReadOnly = 0x1
-    IsNotEditor = 0x2
-    IsExecuting = 0x4
-    IsLocked = 0x8
-    NoFileEditingPrivilege = 0x10
-
-
-class QueryShutdownOption(IntEnum):
-    ShowDialog = 0
-    Continue = 1
-    Cancel = 2
-
-
-class RefreshOption(IntFlag):
-    AllSequenceFileViewMgrs = 0x1
-    AllExecutionViewMgrs = 0x2
-    Commands = 0x4
-    Captions = 0x8
-    AllCommands = 0x10
-    AllCaptions = 0x20
-    AdapterList = 0x40
-    EntryPoints = 0x80
-    All = 0xFFFFFFFF
-
-
-class ReloadFileOption(IntFlag):
-    NoneValue = 0x0
-    OnlyIfModifiedOnDisk = 0x1
-    OnlyIfModifiedInMemory = 0x2
-
-
-class ReloadFile(IntEnum):
-    NoneValue = 0
-    Selected = 1
-    All = 2
-
-
-class ValidatePathOption(IntFlag):
-    NoneValue = 0x0
-    IgnoreAbsolutePath = 0x1
-    DoNotCheckIfExists = 0x2
-    NotRequiredForExecution = 0x4
-    IsCommand = 0x8
-    IsDirectory = 0x10
-    DoNotAllowEmpty = 0x20
-
-
-class ImportVIOption(IntFlag):
-    NoneValue = 0
-    ConfigureExpressVI = 0x1
-
-
-class ImportVIType(IntEnum):
-    ExpressVIWrapper = 0
-    ExpressVITemplate = 1
-    PropertyNodeVIUpdate = 2
-    PropertyNodeVICreate = 3
-
-
-class InternalStartupOption(IntFlag):
-    NoneValue = 0
-    TestStandReserved1 = 0x1
-
-
-class LoadPrototypeOption(IntFlag):
-    NoneValue = 0
-    MapExistingParameters = 0x1
-
-
-class LoadTypePaletteFilesOption(IntFlag):
-    NoneValue = 0x0
-    DisplayErrors = 0x1
-
-
-class ProtectedObjectOption(IntEnum):
-    NoneValue = 0
-    NotEditable = 1
-    NotViewable = 2
-
-
-class WindowActivationOption(IntFlag):
-    ActivateWhenStepCompletes = 2
-    IfActiveReactivateWhenStepCompletes = 3
-    NoneValue = 1
-
-
-class SetTempFileDirectoryOption(IntEnum):
-    Default = 0
-    DoNotChangeOnLoadOrSave = 1
-
-
-class SourceControlCommandOption(IntFlag):
-    DoNotRecurse = 0x1
-    NoneValue = 0x0
-    ShowPromptDialog = 0x4
-
-
-class SourceControlCommand(IntEnum):
-    AddToSC = 1
-    CheckIn = 4
-    CheckOut = 3
-    GetLatest = 5
-
-
-class SourceControlStatus(IntFlag):
-    CheckedOut = 0x2
-    CheckedOutByUser = 0x1000
-
-
-class ResetTypeInstanceOption(IntFlag):
-    NoneValue = 0
-    RecurseSubProperties = 4
-    ResetFlags = 2
-    ResetValues = 1
-
-
-class TypeVersionAutoIncrement(IntFlag):
-    Build = 4
-    Major = 1
-    Minor = 2
-    NoneValue = 0
-    Revision = 3
-
-
-class VisualStudioDTEVersion(str, Enum):
-    V2022 = "VisualStudio.DTE.17.0"
-    AlwaysPrompt = "AlwaysPrompt"
-    MatchProject = "MatchProject"
-
 
 SearchOption = typing.Any
 SearchFilterOption = typing.Any
@@ -936,8 +138,17 @@ class Engine(COMWrapper):
     _loaded_files: typing.ClassVar[dict[str, SequenceFile]] = {}
     _engine: typing.Any
 
-    def __init__(self, com_obj: typing.Any = None) -> None:
+    def __init__(
+        self,
+        com_obj: typing.Any = None,
+        *,
+        suppress_popups: bool = True,
+        shutdown_timeout: float = 5.0,
+    ) -> None:
 
+        # Upper bound (seconds) for waiting on the engine to finish shutting down;
+        # keeps a stuck execution from hanging teardown forever. See shutdown().
+        self._shutdown_timeout = shutdown_timeout
         self._co_initialized = False
         if com_obj is None:
             try:
@@ -953,7 +164,7 @@ class Engine(COMWrapper):
             except pythoncom.com_error as e:
                 hr = getattr(e, "hresult", None)
                 if hr == -2147221005:
-                    raise TestStandError(
+                    raise Error(
                         "TestStand Engine not found. Ensure NI TestStand is installed and matches "
                         "your Python bitness (32-bit Python requires 32-bit TestStand, "
                         "64-bit Python requires 64-bit TestStand).",
@@ -967,13 +178,13 @@ class Engine(COMWrapper):
                 except pythoncom.com_error as e2:
                     hr2 = getattr(e2, "hresult", None)
                     if hr2 == -2147221005:
-                        raise TestStandError(
+                        raise Error(
                             "TestStand Engine not found. Ensure NI TestStand is installed "
                             "and matches your Python bitness (32-bit Python requires "
                             "32-bit TestStand, 64-bit Python requires 64-bit TestStand).",
                             hresult=hr2,
                         ) from e2
-                    raise TestStandError(
+                    raise Error(
                         f"Failed to initialize TestStand Engine: {e2}",
                         hresult=hr2,
                     ) from e2
@@ -981,7 +192,7 @@ class Engine(COMWrapper):
                 try:
                     com_obj = win32com.client.DispatchEx("TestStand.Engine.1")
                 except pythoncom.com_error as dispatch_error:
-                    raise TestStandError(
+                    raise Error(
                         "TestStand Engine not found. Ensure NI TestStand is installed and matches "
                         "your Python bitness (32-bit Python requires 32-bit TestStand, "
                         "64-bit Python requires 64-bit TestStand).",
@@ -996,6 +207,9 @@ class Engine(COMWrapper):
         super().__init__(_com, self)
         self._engine = _com
 
+        self._station_options: StationOptions | None = None
+        self._ui_handler: UIMessageHandler | None = None
+
         _self_ref = weakref.ref(self)
 
         def _atexit_shutdown() -> None:
@@ -1003,29 +217,21 @@ class Engine(COMWrapper):
             if obj is not None:
                 obj.shutdown()
 
-        def _signal_shutdown(_s: typing.Any, _f: typing.Any) -> None:
-            obj = _self_ref()
-            if obj is not None:
-                obj.shutdown()
-
         self._atexit_callable = _atexit_shutdown
         atexit.register(_atexit_shutdown)
-        signal.signal(signal.SIGTERM, _signal_shutdown)
-        signal.signal(signal.SIGINT, _signal_shutdown)
 
         is_mock = type(com_obj).__name__ in ("MagicMock", "Mock") or "MockCOM" in str(type(com_obj))
-        if not is_mock:
-            try:
-                self.station_options.disable_popups = True
-            except Exception:
-                try:
-                    opts = self.station_options
-                    opts.rte_option = RTEOption.Abort
-                    opts.prompt_to_find_files = False
-                    opts.type_version_auto_increment_prompt_opt = False
-                    opts.use_dialog_for_check_out = False
-                except Exception:
-                    pass
+        # The TestStand engine is one process-wide instance: when another live
+        # wrapper already initialized it, this wrapper only attaches. Re-running
+        # the startup work (type-palette load, station-option writes) against an
+        # engine that is already serving another wrapper corrupts its state and
+        # the eventual final ShutDown dies with it.
+        already_initialized = any(
+            other._engine is not None and not other.is_mock for other in Engine._instances
+        )
+        if not is_mock and not already_initialized:
+            if suppress_popups:
+                self._suppress_popups()
             try:
                 self._engine.LoadTypePaletteFilesEx(int(ConflictHandler.Error), 0)
             except pythoncom.com_error:
@@ -1034,9 +240,36 @@ class Engine(COMWrapper):
                 except pythoncom.com_error:
                     pass
 
-        self._station_options: StationOptions | None = None
-        self._ui_handler: UIMessageHandler | None = None
         self._instances.add(self)
+
+    def _suppress_popups(self) -> None:
+        """Set station options so the engine does not block on a modal dialog.
+
+        Automated callers (CI, provisioning, services) have no one to dismiss a
+        dialog, so an engine left at its defaults can hang. Pass
+        ``suppress_popups=False`` to keep the station's configured behaviour.
+        Only documented StationOptions members are written.
+        """
+        from py_teststand.station.station_options import DebugOption
+
+        try:
+            options = self.station_options
+            options.rte_option = RTEOption.Abort
+            options.prompt_to_find_files = False
+            options.type_version_auto_increment_prompt_opt = False
+            options.use_dialog_for_check_out = False
+            # ReportObjectLeaks and ReportKnownOSandComponentProblems each launch a
+            # modal dialog during engine shutdown (per the TestStand docs), which
+            # hangs a headless or async run with no one to dismiss it. Clear only
+            # those two bits for this session; other debug flags are left intact.
+            # This suppresses the shutdown dialog, not leak detection itself: the
+            # wrapper's release discipline and the interface-count leak test still
+            # catch unreleased references.
+            options.debug_options = int(options.debug_options) & ~int(
+                DebugOption.ReportObjectLeaks | DebugOption.ReportKnownOSandComponentProblems,
+            )
+        except Exception:
+            pass
 
     def __enter__(self) -> Engine:
 
@@ -1049,6 +282,12 @@ class Engine(COMWrapper):
 
     def release(self) -> None:
 
+        # Drop our references to the COM objects. We deliberately do NOT call
+        # pythoncom.CoUninitialize() here: the engine and the objects obtained from
+        # it are released by pythoncom as the thread/interpreter unwinds, and
+        # uninitialising COM while any of those objects still exist aborts the
+        # process. Pairing CoInitialize with an explicit CoUninitialize is the
+        # documented footgun for a long-lived in-process COM server like the engine.
         try:
             if hasattr(self, "_engine"):
                 self._engine = None
@@ -1056,14 +295,6 @@ class Engine(COMWrapper):
                 object.__setattr__(self, "_com_obj", None)
         except Exception:
             pass
-
-        if getattr(self, "_co_initialized", False):
-            try:
-                if pythoncom is not None:
-                    pythoncom.CoUninitialize()
-                self._co_initialized = False
-            except Exception:
-                pass
 
     def __del__(self) -> None:
 
@@ -1082,7 +313,7 @@ class Engine(COMWrapper):
     @property
     def is_mock(self) -> bool:
         return type(self._engine).__name__ in ("MagicMock", "Mock") or "MockCOM" in str(
-            type(self._engine)
+            type(self._engine),
         )
 
     @ts_interface
@@ -1196,10 +427,13 @@ class Engine(COMWrapper):
 
     @ts_interface
     def call_front_end_callback(
-        self, sequence_name: str, argument_list: PropertyObject
+        self,
+        sequence_name: str,
+        argument_list: PropertyObject,
     ) -> Execution:
         return Execution(
-            self._engine.CallFrontEndCallback(sequence_name, argument_list._com_obj), self
+            self._engine.CallFrontEndCallback(sequence_name, argument_list._com_obj),
+            self,
         )
 
     @ts_interface
@@ -1212,7 +446,10 @@ class Engine(COMWrapper):
     ) -> Execution:
         return Execution(
             self._engine.CallFrontEndCallbackEx(
-                sequence_name, argument_list._com_obj, int(handler_type), reserved
+                sequence_name,
+                argument_list._com_obj,
+                int(handler_type),
+                reserved,
             ),
             self,
         )
@@ -1248,7 +485,10 @@ class Engine(COMWrapper):
         start_err_pos = 0
         end_err_pos = 0
         is_valid = self._engine.CheckExprSyntax(
-            expression_str, error_description, start_err_pos, end_err_pos
+            expression_str,
+            error_description,
+            start_err_pos,
+            end_err_pos,
         )
         return bool(is_valid), str(error_description), int(start_err_pos), int(end_err_pos)
 
@@ -1399,8 +639,9 @@ class Engine(COMWrapper):
     ) -> str:
         return str(
             self._engine.DelocalizeExpression(
-                localized_expression_string, int(decimal_point_option)
-            )
+                localized_expression_string,
+                int(decimal_point_option),
+            ),
         )
 
     @property
@@ -1429,7 +670,7 @@ class Engine(COMWrapper):
                 bool(adapter_cfg_read_only),
                 bool(hide_adapter_selector),
                 bool(modal_to_app_main_wind),
-            )
+            ),
         )
 
     @ts_interface
@@ -1452,7 +693,7 @@ class Engine(COMWrapper):
                 step_com,
                 int(step_group),
                 int(dlg_options),
-            )
+            ),
         )
 
     @ts_interface
@@ -1522,22 +763,31 @@ class Engine(COMWrapper):
         dlg_options: CommonDialogOption | int = 0,
     ) -> None:
         self._engine.DisplayBrowsePropertyObjectDialog(
-            dlg_title, object_to_browse._com_obj, initial_location, int(dlg_options)
+            dlg_title,
+            object_to_browse._com_obj,
+            initial_location,
+            int(dlg_options),
         )
 
     @ts_interface
     def display_configure_type_palettes_dialog(
-        self, dlg_title: str, dlg_options: CommonDialogOption | int = 0
+        self,
+        dlg_title: str,
+        dlg_options: CommonDialogOption | int = 0,
     ) -> bool:
         return bool(self._engine.DisplayConfigureTypePalettesDialog(dlg_title, int(dlg_options)))
 
     @ts_interface
     def display_edit_break_and_watch_dialog(
-        self, dlg_title: str, dlg_options: EditBreakAndWatchOption | int = 0
+        self,
+        dlg_title: str,
+        dlg_options: EditBreakAndWatchOption | int = 0,
     ) -> tuple[bool, SelectedBreakpointItem | None]:
         selected_item_com = None
         result = self._engine.DisplayEditBreakAndWatchDialog(
-            dlg_title, int(dlg_options), selected_item_com
+            dlg_title,
+            int(dlg_options),
+            selected_item_com,
         )
         item = SelectedBreakpointItem(selected_item_com, self) if selected_item_com else None
         return bool(result), item
@@ -1552,7 +802,10 @@ class Engine(COMWrapper):
     ) -> tuple[bool, str]:
         num_format_io = numeric_format
         result = self._engine.DisplayEditNumericFormatDialog(
-            dlg_title, num_format_io, int(dlg_options), float(sample_number)
+            dlg_title,
+            num_format_io,
+            int(dlg_options),
+            float(sample_number),
         )
         return bool(result), str(num_format_io)
 
@@ -1567,7 +820,11 @@ class Engine(COMWrapper):
         num_format_io = numeric_format
         valid_format = False
         result = self._engine.DisplayEditNumericFormatDialogEx(
-            dlg_title, num_format_io, valid_format, int(dlg_options), float(sample_number)
+            dlg_title,
+            num_format_io,
+            valid_format,
+            int(dlg_options),
+            float(sample_number),
         )
         return bool(result), str(num_format_io), bool(valid_format)
 
@@ -1580,22 +837,29 @@ class Engine(COMWrapper):
     ) -> bool:
         file_com = initial_file._com_obj if initial_file else None
         return bool(
-            self._engine.DisplayEditPathsInFilesDialog(dlg_title, int(dlg_options), file_com)
+            self._engine.DisplayEditPathsInFilesDialog(dlg_title, int(dlg_options), file_com),
         )
 
     @ts_interface
     def display_edit_user_dialog(
-        self, dlg_title: str, user: User, modal_to_app_main_wind: bool = False
+        self,
+        dlg_title: str,
+        user: User,
+        modal_to_app_main_wind: bool = False,
     ) -> bool:
         return bool(
             self._engine.DisplayEditUserDialog(
-                dlg_title, user._com_obj, bool(modal_to_app_main_wind)
-            )
+                dlg_title,
+                user._com_obj,
+                bool(modal_to_app_main_wind),
+            ),
         )
 
     @ts_interface
     def display_environment_configuration_dialog(
-        self, dlg_options: int = 0, path: str = ""
+        self,
+        dlg_options: int = 0,
+        path: str = "",
     ) -> tuple[bool, str]:
         path_io = path
         result = self._engine.DisplayEnvironmentConfigurationDialog(int(dlg_options), path_io)
@@ -1613,7 +877,9 @@ class Engine(COMWrapper):
 
     @ts_interface
     def display_expression_edit_options_dialog(
-        self, dlg_title: str = "", dlg_options: CommonDialogOption | int = 0
+        self,
+        dlg_title: str = "",
+        dlg_options: CommonDialogOption | int = 0,
     ) -> bool:
         return bool(self._engine.DisplayExpressionEditOptionsDialog(dlg_title, int(dlg_options)))
 
@@ -1626,8 +892,10 @@ class Engine(COMWrapper):
     ) -> bool:
         return bool(
             self._engine.DisplayExternalViewerDialog(
-                dlg_title, bool(read_only), bool(modal_to_app_main_wind)
-            )
+                dlg_title,
+                bool(read_only),
+                bool(modal_to_app_main_wind),
+            ),
         )
 
     @ts_interface
@@ -1690,7 +958,7 @@ class Engine(COMWrapper):
                 index_file,
                 home_file,
                 window_caption,
-            )
+            ),
         )
 
     @ts_interface
@@ -1711,7 +979,7 @@ class Engine(COMWrapper):
                 index_file,
                 home_file,
                 window_caption,
-            )
+            ),
         )
 
     @ts_interface
@@ -1734,7 +1002,11 @@ class Engine(COMWrapper):
         obj_com = prop_object._com_obj if prop_object else None
         password_io = password_string if password_string is not None else ""
         result = self._engine.DisplayLockUnlockDialog(
-            dlg_title, dlg_msg, obj_com, int(options), password_io
+            dlg_title,
+            dlg_msg,
+            obj_com,
+            int(options),
+            password_io,
         )
         return bool(result), str(password_io)
 
@@ -1786,17 +1058,25 @@ class Engine(COMWrapper):
     ) -> int:
         return int(
             self._engine.DisplayMessageBox(
-                dlg_title, message_text, int(msg_box_type), int(dlg_options), int(win32_flags)
-            )
+                dlg_title,
+                message_text,
+                int(msg_box_type),
+                int(dlg_options),
+                int(win32_flags),
+            ),
         )
 
     @ts_interface
     def display_new_user_dialog(
-        self, dlg_title: str, modal_to_app_main_wind: bool
+        self,
+        dlg_title: str,
+        modal_to_app_main_wind: bool,
     ) -> tuple[bool, User | None]:
         user_com = None
         result = self._engine.DisplayNewUserDialog(
-            dlg_title, bool(modal_to_app_main_wind), user_com
+            dlg_title,
+            bool(modal_to_app_main_wind),
+            user_com,
         )
         user = User(user_com, self) if user_com else None
         return bool(result), user
@@ -1834,12 +1114,17 @@ class Engine(COMWrapper):
 
     @ts_interface
     def display_options_dialog(
-        self, dlg_title: str, read_only: bool, modal_to_app_main_wind: bool
+        self,
+        dlg_title: str,
+        read_only: bool,
+        modal_to_app_main_wind: bool,
     ) -> bool:
         return bool(
             self._engine.DisplayOptionsDialog(
-                dlg_title, bool(read_only), bool(modal_to_app_main_wind)
-            )
+                dlg_title,
+                bool(read_only),
+                bool(modal_to_app_main_wind),
+            ),
         )
 
     @ts_interface
@@ -1851,7 +1136,9 @@ class Engine(COMWrapper):
         type_coms = [t._com_obj for t in type_definitions]
         modified_types_com = []
         result = self._engine.DisplayPasswordProtectTypeDefinitionsDialog(
-            type_coms, modified_types_com, int(dlg_options)
+            type_coms,
+            modified_types_com,
+            int(dlg_options),
         )
         modified_types = [PropertyObject(t, self) for t in modified_types_com]
         return bool(result), modified_types
@@ -1868,7 +1155,11 @@ class Engine(COMWrapper):
         expr_io = precondition_expr
         ctx_com = sequence_context._com_obj if sequence_context else None
         result = self._engine.DisplayPreconditionBuilderDialog(
-            dlg_title, expr_io, sequence._com_obj, int(dlg_options), ctx_com
+            dlg_title,
+            expr_io,
+            sequence._com_obj,
+            int(dlg_options),
+            ctx_com,
         )
         return bool(result), str(expr_io)
 
@@ -1889,7 +1180,7 @@ class Engine(COMWrapper):
                 bool(read_only),
                 bool(modal_to_app_main_wind),
                 step_com,
-            )
+            ),
         )
 
     @ts_interface
@@ -1940,12 +1231,17 @@ class Engine(COMWrapper):
 
     @ts_interface
     def display_search_dir_dialog(
-        self, dlg_title: str, read_only: bool, modal_to_app_main_wind: bool
+        self,
+        dlg_title: str,
+        read_only: bool,
+        modal_to_app_main_wind: bool,
     ) -> bool:
         return bool(
             self._engine.DisplaySearchDirDialog(
-                dlg_title, bool(read_only), bool(modal_to_app_main_wind)
-            )
+                dlg_title,
+                bool(read_only),
+                bool(modal_to_app_main_wind),
+            ),
         )
 
     @ts_interface
@@ -2038,7 +1334,7 @@ class Engine(COMWrapper):
         dlg_options: CommonDialogOption | int = 0,
     ) -> bool:
         return bool(
-            self._engine.DisplayStepTypeMenuEditor(dlg_title, bool(for_substeps), int(dlg_options))
+            self._engine.DisplayStepTypeMenuEditor(dlg_title, bool(for_substeps), int(dlg_options)),
         )
 
     @ts_interface
@@ -2051,18 +1347,26 @@ class Engine(COMWrapper):
     ) -> bool:
         return bool(
             self._engine.DisplayStepTypeMenuEditorEx(
-                dlg_title, selected_file._com_obj, bool(for_substeps), int(dlg_options)
-            )
+                dlg_title,
+                selected_file._com_obj,
+                bool(for_substeps),
+                int(dlg_options),
+            ),
         )
 
     @ts_interface
     def display_tool_menu_dialog(
-        self, dlg_title: str, read_only: bool, modal_to_app_main_wind: bool
+        self,
+        dlg_title: str,
+        read_only: bool,
+        modal_to_app_main_wind: bool,
     ) -> bool:
         return bool(
             self._engine.DisplayToolMenuDialog(
-                dlg_title, bool(read_only), bool(modal_to_app_main_wind)
-            )
+                dlg_title,
+                bool(read_only),
+                bool(modal_to_app_main_wind),
+            ),
         )
 
     @ts_interface
@@ -2074,7 +1378,9 @@ class Engine(COMWrapper):
         type_coms = [t._com_obj for t in type_definitions]
         all_unlocked_out = False
         result = self._engine.DisplayUnlockTypeDefinitionsDialog(
-            type_coms, all_unlocked_out, int(dlg_options)
+            type_coms,
+            all_unlocked_out,
+            int(dlg_options),
         )
         return bool(result), bool(all_unlocked_out)
 
@@ -2275,10 +1581,14 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_engine_config_file(
-        self, config_file_type: PropertyObjectFileType | int
+        self,
+        config_file_type: PropertyObjectFileType | int,
     ) -> PropertyObjectFile:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return PropertyObjectFile(
-            self._get_com_prop("GetEngineConfigFile", int(config_file_type)), self
+            self._get_com_prop("GetEngineConfigFile", int(config_file_type)),
+            self,
         )
 
     @ts_interface
@@ -2322,7 +1632,8 @@ class Engine(COMWrapper):
     ) -> PropertyObject:
         file_com = selected_file._com_obj if selected_file else None
         return PropertyObject(
-            self._engine.GetInsertStepMenuStructure(file_com, int(hidden_flags)), self
+            self._engine.GetInsertStepMenuStructure(file_com, int(hidden_flags)),
+            self,
         )
 
     @ts_interface
@@ -2333,7 +1644,8 @@ class Engine(COMWrapper):
     ) -> PropertyObject:
         file_com = selected_file._com_obj if selected_file else None
         return PropertyObject(
-            self._engine.GetInsertVariableMenuStructure(file_com, int(hidden_flags)), self
+            self._engine.GetInsertVariableMenuStructure(file_com, int(hidden_flags)),
+            self,
         )
 
     @ts_interface
@@ -2346,20 +1658,26 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_localized_decimal_point(
-        self, decimal_point_option: DecimalPointLocalizationOption | int
+        self,
+        decimal_point_option: DecimalPointLocalizationOption | int,
     ) -> str:
         return str(self._engine.GetLocalizedDecimalPoint(int(decimal_point_option)))
 
     @ts_interface
     def get_location_for_next_dialog(
-        self, clear_loc: bool = True
+        self,
+        clear_loc: bool = True,
     ) -> tuple[str, SearchElement, int, int]:
         lookup_out = ""
         element_out = 0
         start_out = 0
         length_out = 0
         self._engine.GetLocationForNextDialog(
-            lookup_out, element_out, start_out, length_out, bool(clear_loc)
+            lookup_out,
+            element_out,
+            start_out,
+            length_out,
+            bool(clear_loc),
         )
         return str(lookup_out), SearchElement(element_out), int(start_out), int(length_out)
 
@@ -2399,7 +1717,10 @@ class Engine(COMWrapper):
         search_dir_out = ""
         ctx_com = search_context._com_obj if search_context else None
         result = self._engine.GetRelativePathFromAbsolutePath(
-            absolute_path, ctx_com, relative_path_out, search_dir_out
+            absolute_path,
+            ctx_com,
+            relative_path_out,
+            search_dir_out,
         )
         return bool(result), str(relative_path_out), str(search_dir_out)
 
@@ -2427,7 +1748,8 @@ class Engine(COMWrapper):
         from py_teststand.ui.menu_item import RunTimeMenuItems
 
         return RunTimeMenuItems(
-            self._engine.GetRunTimeToolMenuItems(edit_args, int(reserved)), self
+            self._engine.GetRunTimeToolMenuItems(edit_args, int(reserved)),
+            self,
         )
 
     @ts_interface
@@ -2437,7 +1759,8 @@ class Engine(COMWrapper):
         get_seq_file_flags: GetSeqFileOption | int = GetSeqFileOption.OperatorInterfaceFlags,
     ) -> SequenceFile:
         return SequenceFile(
-            self._engine.GetSequenceFile(seq_file_path, int(get_seq_file_flags)), self
+            self._engine.GetSequenceFile(seq_file_path, int(get_seq_file_flags)),
+            self,
         )
 
     @ts_interface
@@ -2449,7 +1772,9 @@ class Engine(COMWrapper):
     ) -> SequenceFile:
         return SequenceFile(
             self._engine.GetSequenceFileEx(
-                seq_file_path, int(get_seq_file_flags), int(handler_type)
+                seq_file_path,
+                int(get_seq_file_flags),
+                int(handler_type),
             ),
             self,
         )
@@ -2466,6 +1791,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_templates_file(self, options: GetTemplatesFileOption | int = 0) -> typing.Any:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return PropertyObjectFile(self._engine.GetTemplatesFile(int(options)), self)
 
     @ts_interface
@@ -2474,7 +1801,9 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_tool_menu_item_info(
-        self, menu_index: int, item_index: int
+        self,
+        menu_index: int,
+        item_index: int,
     ) -> tuple[str, int, bool, int]:
         item_text_out = ""
         sub_menu_index_out = 0
@@ -2492,7 +1821,9 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_tool_menu_item_info_ex(
-        self, menu_index: int, item_index: int
+        self,
+        menu_index: int,
+        item_index: int,
     ) -> tuple[str, int, ToolMenuItemAttribute, int]:
         item_text_out = ""
         sub_menu_index_out = 0
@@ -2519,19 +1850,26 @@ class Engine(COMWrapper):
         sub_menu_index_out = 0
         enabled_out = False
         self._engine.GetToolMenuItemInfoWithID(
-            int(unique_item_id), item_text_out, sub_menu_index_out, enabled_out
+            int(unique_item_id),
+            item_text_out,
+            sub_menu_index_out,
+            enabled_out,
         )
         return str(item_text_out), int(sub_menu_index_out), bool(enabled_out)
 
     @ts_interface
     def get_tool_menu_item_info_with_id_ex(
-        self, unique_item_id: int
+        self,
+        unique_item_id: int,
     ) -> tuple[str, int, ToolMenuItemAttribute]:
         item_text_out = ""
         sub_menu_index_out = 0
         item_attributes_out = 0
         self._engine.GetToolMenuItemInfoWithIDEx(
-            int(unique_item_id), item_text_out, sub_menu_index_out, item_attributes_out
+            int(unique_item_id),
+            item_text_out,
+            sub_menu_index_out,
+            item_attributes_out,
         )
         return (
             str(item_text_out),
@@ -2554,6 +1892,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_type_palette_file_list(self) -> list[PropertyObjectFile]:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return [PropertyObjectFile(f, self) for f in self._engine.GetTypePaletteFileList()]
 
     @ts_interface
@@ -2564,6 +1904,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def get_type_usage_locations(self, type_name: str) -> typing.Any:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return [PropertyObjectFile(f, self) for f in self._engine.GetTypeUsageLocations(type_name)]
 
     @ts_interface
@@ -2614,6 +1956,8 @@ class Engine(COMWrapper):
     @property
     @ts_interface
     def globals_file(self) -> PropertyObjectFile:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return PropertyObjectFile(self._engine.GlobalsFile, self)
 
     @ts_interface
@@ -2795,7 +2139,10 @@ class Engine(COMWrapper):
     ) -> PropertyObject:
         return PropertyObject(
             self._engine.NewDataType(
-                int(value_type), bool(as_array), type_name_param, int(options)
+                int(value_type),
+                bool(as_array),
+                type_name_param,
+                int(options),
             ),
             self,
         )
@@ -2813,12 +2160,15 @@ class Engine(COMWrapper):
         edit_args_param: EditArgs | typing.Any | None = None,
         location_string: str | None = None,
     ) -> SequenceContext:
+        from py_teststand.sequence.sequence_context import SequenceContext
+
         args_com = (
             edit_args_param._com_obj if hasattr(edit_args_param, "_com_obj") else edit_args_param
         )
 
         return SequenceContext(
-            self._engine.NewEditContext(obj._com_obj, args_com, location_string), self
+            self._engine.NewEditContext(obj._com_obj, args_com, location_string),
+            self,
         )
 
     @ts_interface
@@ -2829,7 +2179,8 @@ class Engine(COMWrapper):
         from py_teststand.sequence.expression import EvaluationTypes
 
         return EvaluationTypes(
-            self._engine.NewEvaluationTypes(int(initial_property_value_type_flags)), self
+            self._engine.NewEvaluationTypes(int(initial_property_value_type_flags)),
+            self,
         )
 
     @ts_interface
@@ -2866,6 +2217,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def new_expression(self) -> Expression:
+        from py_teststand.sequence.expression import Expression
+
         return Expression(self._engine.NewExpression(), self)
 
     @ts_interface
@@ -2947,7 +2300,10 @@ class Engine(COMWrapper):
     ) -> PropertyObject:
         return PropertyObject(
             self._engine.NewPropertyObject(
-                int(value_type), bool(as_array), type_name_param, int(options)
+                int(value_type),
+                bool(as_array),
+                type_name_param,
+                int(options),
             ),
             self,
         )
@@ -2957,6 +2313,8 @@ class Engine(COMWrapper):
         self,
         file_type: PropertyObjectFileType | int,
     ) -> PropertyObjectFile:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         return PropertyObjectFile(self._engine.NewPropertyObjectFile(int(file_type)), self)
 
     @ts_interface
@@ -2972,7 +2330,10 @@ class Engine(COMWrapper):
 
         return PropertyObjectType(
             self._engine.NewPropertyObjectType(
-                int(value_type), type_name, elem_com, bool(is_object)
+                int(value_type),
+                type_name,
+                elem_com,
+                bool(is_object),
             ),
             self,
         )
@@ -3009,7 +2370,9 @@ class Engine(COMWrapper):
         options: int = 0,
     ) -> typing.Any:
         return self._engine.DiffSequenceFiles(
-            sequence_file_1._com_obj, sequence_file_2._com_obj, int(options)
+            sequence_file_1._com_obj,
+            sequence_file_2._com_obj,
+            int(options),
         )
 
     @ts_interface
@@ -3018,6 +2381,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def new_step_type(self) -> StepType:
+        from py_teststand.sequence.step_type import StepType
+
         return StepType(self._engine.NewStepType(), self)
 
     @ts_interface
@@ -3033,15 +2398,21 @@ class Engine(COMWrapper):
         edited_file_param: PropertyObjectFile,
         edit_description: str = "",
     ) -> UndoItemCreator:
+        from py_teststand.undo.undo_item_creator import UndoItemCreator
+
         return UndoItemCreator(
             self._engine.NewUndoItemCreator(
-                int(kind_param), edited_file_param._com_obj, edit_description
+                int(kind_param),
+                edited_file_param._com_obj,
+                edit_description,
             ),
             self,
         )
 
     @ts_interface
     def new_undo_stack(self) -> UndoStack:
+        from py_teststand.undo.undo_stack import UndoStack
+
         return UndoStack(self._engine.NewUndoStack(), self)
 
     @ts_interface
@@ -3178,12 +2549,12 @@ class Engine(COMWrapper):
     @property
     @ts_interface
     def profiler_options(self) -> ProfilerOption | int:
-        return ProfilerOption(self._engine.ProfilerOption)
+        return ProfilerOption(self._engine.ProfilerOptions)
 
     @profiler_options.setter
     @ts_interface
     def profiler_options(self, value: ProfilerOption | int) -> None:
-        self._engine.ProfilerOption = int(value)
+        self._engine.ProfilerOptions = int(value)
 
     @property
     @ts_interface
@@ -3212,8 +2583,12 @@ class Engine(COMWrapper):
         handler_type: ConflictHandler | int = ConflictHandler.Error,
         options: ReadPropertyObjectFileOption | int = 0,
     ) -> tuple[PropertyObjectFile, bool]:
+        from py_teststand.property.property_object_file import PropertyObjectFile
+
         obj_com, cancelled = self._engine.ReadPropertyObjectFile(
-            path, int(handler_type), int(options)
+            path,
+            int(handler_type),
+            int(options),
         )
         return PropertyObjectFile(obj_com, self), bool(cancelled)
 
@@ -3236,8 +2611,11 @@ class Engine(COMWrapper):
     ) -> int:
         return int(
             self._engine.RegisterSequenceToExecuteOnCrash(
-                seq_file_path, seq_name, int(options), reserved
-            )
+                seq_file_path,
+                seq_name,
+                int(options),
+                reserved,
+            ),
         )
 
     @ts_interface
@@ -3258,7 +2636,11 @@ class Engine(COMWrapper):
 
     @ts_interface
     def release_sequence_file(self, sequence_file: SequenceFile) -> typing.Any:
-        self._engine.ReleaseSequenceFile(sequence_file._com_obj)
+        com_obj = sequence_file._com_obj
+        if com_obj is not None:
+            self._engine.ReleaseSequenceFile(com_obj)
+        # Drop the wrapper's reference so no released proxy is left dangling.
+        sequence_file.release()
 
     @ts_interface
     def release_sequence_file_ex(
@@ -3266,7 +2648,16 @@ class Engine(COMWrapper):
         sequence_file: SequenceFile,
         options: ReleaseSeqFileOption | int = 0,
     ) -> bool:
-        return bool(self._engine.ReleaseSequenceFileEx(sequence_file._com_obj, int(options)))
+        com_obj = sequence_file._com_obj
+        if com_obj is None:
+            return False
+        result = bool(self._engine.ReleaseSequenceFileEx(com_obj, int(options)))
+        # Per NI docs, only release the COM reference when the file was actually
+        # removed from the cache (result is True); a False return means the file
+        # still has other load references and remains valid.
+        if result:
+            sequence_file.release()
+        return result
 
     @property
     @ts_interface
@@ -3355,6 +2746,8 @@ class Engine(COMWrapper):
         open_files_to_search: list[PropertyObjectFile] | None = None,
         directories_and_file_paths: list[str] | None = None,
     ) -> SearchResults:
+        from py_teststand.core.search import SearchResults
+
         adapters_com = limit_to_adapters if limit_to_adapters is not None else []
         props_com = limit_to_named_props if limit_to_named_props is not None else []
         types_com = (
@@ -3420,7 +2813,9 @@ class Engine(COMWrapper):
 
     @ts_interface
     def set_internal_option(
-        self, option: InternalOption | int, new_value: typing.Any
+        self,
+        option: InternalOption | int,
+        new_value: typing.Any,
     ) -> typing.Any:
         self._engine.SetInternalOption(int(option), new_value)
 
@@ -3454,7 +2849,8 @@ class Engine(COMWrapper):
 
     @ts_interface
     def set_type_palette_file_list(
-        self, type_palette_files: list[PropertyObjectFile]
+        self,
+        type_palette_files: list[PropertyObjectFile],
     ) -> typing.Any:
         files_com = [f._com_obj for f in type_palette_files]
         self._engine.SetTypePaletteFileList(files_com)
@@ -3632,11 +3028,15 @@ class Engine(COMWrapper):
 
         types_used_com = None
         ret_com = self._engine.UnserializeObjectsAndTypes(
-            stream, types_used_com, int(reserved_param), int(handler_type)
+            stream,
+            types_used_com,
+            int(reserved_param),
+            int(handler_type),
         )
 
         return [PropertyObject(obj_com, self) for obj_com in ret_com], TypeUsageList(
-            typing.cast(typing.Any, types_used_com), self
+            typing.cast("typing.Any", types_used_com),
+            self,
         )
 
     @property
@@ -3717,6 +3117,26 @@ class Engine(COMWrapper):
                 atexit.unregister(cb)
         except Exception:
             pass
+        # The TestStand engine is one process-wide instance shared by every
+        # Engine wrapper. While other wrappers are still using it, this wrapper
+        # only detaches; the real ShutDown runs when the last wrapper leaves.
+        Engine._instances.discard(self)
+        others_active = any(
+            other._engine is not None and not other.is_mock
+            for other in Engine._instances
+            if other is not self
+        )
+        if others_active:
+            if self._ui_handler:
+                try:
+                    self._ui_handler.stop()
+                except Exception:
+                    pass
+                finally:
+                    self._ui_handler = None
+            self._station_options = None
+            self._engine = cast("typing.Any", None)
+            return
         if Engine._is_shutting_down:
             return
         Engine._is_shutting_down = True
@@ -3767,21 +3187,87 @@ class Engine(COMWrapper):
                 pass
 
             Engine._loaded_files.clear()
-            import sys
 
-            if "pytest" not in sys.modules:
-                try:
-                    self._engine.ShutDown(True)
-                except Exception:
-                    pass
-            self._engine = cast(typing.Any, None)
-            if "pytest" not in sys.modules:
-                gc.collect()
-                pythoncom.PumpWaitingMessages()
-                time.sleep(0.05)
-                gc.collect()
+            # Engine.ShutDown is asynchronous: it terminates executions and closes
+            # files, then posts UIMsg_ShutDownComplete. Pump the message queue until
+            # that arrives so executions finish tearing down before the engine COM
+            # object is released; releasing it with executions still alive aborts
+            # the process. The wait is bounded so a stuck execution cannot hang
+            # teardown forever.
+            self._wait_for_engine_shutdown(getattr(self, "_shutdown_timeout", 5.0))
+            # Collect dependent wrappers while the engine is still alive so their
+            # interfaces release into a living engine; only then drop the engine
+            # itself, and flush whatever its release schedules.
+            self._force_com_object_destruction()
+            self._engine = cast("typing.Any", None)
+            self._force_com_object_destruction()
         except Exception as exc:
             warnings.warn(f"Shutdown error: {exc}", stacklevel=2)
-            self._engine = cast(typing.Any, None)
+            self._engine = cast("typing.Any", None)
         finally:
             Engine._is_shutting_down = False
+
+    @staticmethod
+    def _force_com_object_destruction() -> None:
+        """Deterministically release COM objects whose Python wrappers are no
+        longer referenced.
+
+        A wrapper releases its underlying COM interface when its last Python
+        reference is dropped; a collection cycle forces that for any wrappers held
+        only by reference cycles. The message queue is drained between passes so a
+        release that schedules further COM work completes before the apartment is
+        torn down. Several passes handle objects freed only after an earlier pass.
+        """
+        for _ in range(3):
+            gc.collect()
+            try:
+                pythoncom.PumpWaitingMessages()
+            except Exception:
+                pass
+
+    _UIMSG_SHUTDOWN_COMPLETE = 9
+
+    def _poll_shutdown_complete(self) -> bool:
+        """Best-effort check for the UIMsg_ShutDownComplete (=9) message."""
+        try:
+            raw_message = self._engine.GetUIMessage()
+        except Exception:
+            return False
+        if raw_message is None:
+            return False
+        try:
+            return int(raw_message.Event) == self._UIMSG_SHUTDOWN_COMPLETE
+        except Exception:
+            return False
+
+    def _wait_for_engine_shutdown(self, timeout_seconds: float) -> None:
+        """Initiate engine shutdown and pump messages until done or timed out."""
+        # Enable UI-message polling so GetUIMessage can return ShutDownComplete;
+        # otherwise completion cannot be detected and the wait runs to the timeout.
+        try:
+            self._engine.UIMessagePollingEnabled = True
+        except Exception:
+            pass
+        try:
+            self._engine.ShutDown(True)
+        except Exception:
+            return
+        deadline = time.monotonic() + max(0.0, float(timeout_seconds))
+        while time.monotonic() < deadline:
+            try:
+                pythoncom.PumpWaitingMessages()
+            except Exception:
+                pass
+            if self._poll_shutdown_complete():
+                break
+            time.sleep(0.02)
+        # Drain remaining messages so engine worker threads from any execution can
+        # finish exiting before the engine COM object is released; releasing it
+        # while those threads are alive aborts the process. Bounded, never infinite.
+        settle_deadline = time.monotonic() + min(1.0, max(0.0, float(timeout_seconds)))
+        while time.monotonic() < settle_deadline:
+            try:
+                pythoncom.PumpWaitingMessages()
+            except Exception:
+                pass
+            time.sleep(0.02)

@@ -75,7 +75,11 @@ class ApplicationMgrEventsSink(UIEventSink):
     def on_can_edit(self, edited_file, edit_kind, can_edit_value, edit_denial_reasons):
         try:
             res = self._trigger(
-                "CanEdit", edited_file, edit_kind, can_edit_value, edit_denial_reasons
+                "CanEdit",
+                edited_file,
+                edit_kind,
+                can_edit_value,
+                edit_denial_reasons,
             )
             if isinstance(res, tuple) and len(res) >= 2:
                 return res
@@ -89,7 +93,12 @@ class ApplicationMgrEventsSink(UIEventSink):
     def on_begin_edit(self, edited_file, edit_kind, objects_to_edit, cancel, edit_denial_reasons):
         try:
             res = self._trigger(
-                "BeginEdit", edited_file, edit_kind, objects_to_edit, cancel, edit_denial_reasons
+                "BeginEdit",
+                edited_file,
+                edit_kind,
+                objects_to_edit,
+                cancel,
+                edit_denial_reasons,
             )
             if isinstance(res, tuple) and len(res) >= 2:
                 return res
@@ -133,7 +142,12 @@ class ApplicationMgrEventsSink(UIEventSink):
             return reload_option
 
     def on_process_user_command_line_arguments(
-        self, process_command, arguments, current_argument, error_processing, error_message
+        self,
+        process_command,
+        arguments,
+        current_argument,
+        error_processing,
+        error_message,
     ):
         try:
             res = self._trigger(
@@ -282,11 +296,19 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_end_edit: {e}")
 
     def on_break_on_run_time_error(
-        self, execution, initiating_thread, show_dialog, break_execution
+        self,
+        execution,
+        initiating_thread,
+        show_dialog,
+        break_execution,
     ):
         try:
             res = self._trigger(
-                "BreakOnRunTimeError", execution, initiating_thread, show_dialog, break_execution
+                "BreakOnRunTimeError",
+                execution,
+                initiating_thread,
+                show_dialog,
+                break_execution,
             )
             if isinstance(res, tuple) and len(res) >= 2:
                 return res

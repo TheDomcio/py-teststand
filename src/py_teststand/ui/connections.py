@@ -377,11 +377,16 @@ class CommandConnections(COMWrapper):
 
     @ts_interface
     def add(
-        self, command_kind: int, ui_obj: typing.Any, index: int = 0, options: int = 0
+        self,
+        command_kind: int,
+        ui_obj: typing.Any,
+        index: int = 0,
+        options: int = 0,
     ) -> CommandConnection:
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return CommandConnection(
-            self._com_obj.Add(command_kind, raw_ui, index, options), self._engine_ref
+            self._com_obj.Add(command_kind, raw_ui, index, options),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -773,12 +778,12 @@ class SelectedSteps(COMWrapper):
     @property
     @ts_interface
     def selection_flags(self) -> SelectionFlag:
-        return SelectionFlag(self._com_obj.SelectionFlag)
+        return SelectionFlag(self._com_obj.SelectionFlags)
 
     @selection_flags.setter
     @ts_interface
     def selection_flags(self, value: int | SelectionFlag) -> None:
-        self._com_obj.SelectionFlag = int(value)
+        self._com_obj.SelectionFlags = int(value)
 
 
 class SelectedPropertyObjects(COMWrapper):
@@ -988,12 +993,12 @@ class ExpressionEditButton(COMWrapper):
     @property
     @ts_interface
     def tooltip_text(self) -> str:
-        return str(self._com_obj.TooltipText)
+        return str(self._com_obj.ToolTipText)
 
     @tooltip_text.setter
     @ts_interface
     def tooltip_text(self, value: str) -> None:
-        self._com_obj.TooltipText = value
+        self._com_obj.ToolTipText = value
 
     @property
     @ts_interface
@@ -1127,10 +1132,15 @@ class ExpressionEditComboBoxItems(COMWrapper):
 
     @ts_interface
     def insert(
-        self, index: int, val: str, display_name: str = "", icon: typing.Any = None
+        self,
+        index: int,
+        val: str,
+        display_name: str = "",
+        icon: typing.Any = None,
     ) -> ExpressionEditComboBoxItem:
         return ExpressionEditComboBoxItem(
-            self._com_obj.Insert(index, val, display_name, icon), self._engine_ref
+            self._com_obj.Insert(index, val, display_name, icon),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -1162,12 +1172,12 @@ class InsertionPalettePage(COMWrapper):
     @property
     @ts_interface
     def show_subpages(self) -> bool:
-        return bool(self._com_obj.ShowSubpages)
+        return bool(self._com_obj.ShowSubPages)
 
     @show_subpages.setter
     @ts_interface
     def show_subpages(self, value: bool) -> None:
-        self._com_obj.ShowSubpages = value
+        self._com_obj.ShowSubPages = value
 
     @property
     @ts_interface
@@ -1290,12 +1300,12 @@ class ListBarPageItem(COMWrapper):
     @property
     @ts_interface
     def tooltip_text(self) -> str:
-        return str(self._com_obj.TooltipText)
+        return str(self._com_obj.ToolTipText)
 
     @tooltip_text.setter
     @ts_interface
     def tooltip_text(self, value: str) -> None:
-        self._com_obj.TooltipText = value
+        self._com_obj.ToolTipText = value
 
 
 class ListBarPageItems(COMWrapper):
@@ -1328,7 +1338,8 @@ class ListBarPageItems(COMWrapper):
     @ts_interface
     def insert(self, item_caption: str, icon_name: str, insert_before: int = -1) -> ListBarPageItem:
         return ListBarPageItem(
-            self._com_obj.Insert(item_caption, icon_name, insert_before), self._engine_ref
+            self._com_obj.Insert(item_caption, icon_name, insert_before),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -1978,7 +1989,8 @@ class SeqViewColumns(COMWrapper):
     @ts_interface
     def insert(self, column_name: str, column_type: int, insert_before: int = -1) -> SeqViewColumn:
         return SeqViewColumn(
-            self._com_obj.Insert(column_name, column_type, insert_before), self._engine_ref
+            self._com_obj.Insert(column_name, column_type, insert_before),
+            self._engine_ref,
         )
 
     @ts_interface
@@ -2231,12 +2243,12 @@ class StatusBarPane(COMWrapper):
     @property
     @ts_interface
     def tooltip_text(self) -> str:
-        return str(self._com_obj.TooltipText)
+        return str(self._com_obj.ToolTipText)
 
     @tooltip_text.setter
     @ts_interface
     def tooltip_text(self, value: str) -> None:
-        self._com_obj.TooltipText = value
+        self._com_obj.ToolTipText = value
 
     @property
     @ts_interface

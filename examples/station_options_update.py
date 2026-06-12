@@ -7,19 +7,20 @@ locale, file write format, time limits, remote-call policy, etc.), and
 commit the configuration to disk so it persists across engine sessions.
 
 This is the kind of script intended to be driven from a deployment tool
-(Ansible, Chef, custom bootstrap) to replace manual point-and-click
+(Terraform, Ansible, custom bootstrap etc,) to replace manual checkboxed
 station setup with a version-controlled configuration source.
 """
 
 from __future__ import annotations
 
-from py_teststand import Engine, RTEOption
-from py_teststand.core.engine import AllowAutomaticTypeConflictResolution
-from py_teststand.property.property_object_file import FileWritingFormat
-from py_teststand.sequence.location import AutoCreateVariableLocation
-from py_teststand.station.station_options import (
+from py_teststand import (
+    AllowAutomaticTypeConflictResolution,
+    AutoCreateVariableLocation,
     DebugOption,
+    Engine,
+    FileWritingFormat,
     InteractiveBranchMode,
+    RTEOption,
     TimeLimitAction,
 )
 
@@ -30,7 +31,6 @@ def main() -> None:
             station_options.tracing_enabled = True
             station_options.disable_results = False
             station_options.breakpoints_enabled = True
-            station_options.require_user_login = False
             station_options.check_out_files_when_edited = False
             station_options.language = "English"
             station_options.rte_option = RTEOption.Continue
@@ -40,13 +40,16 @@ def main() -> None:
             station_options.auto_create_variable_location = AutoCreateVariableLocation.Locals
             station_options.default_file_writing_format = FileWritingFormat.Binary
             station_options.interactive_branch_mode = InteractiveBranchMode.AllowAll
-            station_options.debug_options = (
-                DebugOption.ReportKnownOSandComponentProblems | DebugOption.BufferChecking
-            )
+            station_options.debug_options = DebugOption.BufferChecking
             station_options.always_goto_cleanup_on_failure = True
             station_options.show_hidden_properties = True
             station_options.prompt_to_find_files = False
-            station_options.login_on_start = False
+            # Auto-login keeps a headless station usable: the LoginLogout callback
+            # logs the OS user into TestStand automatically (the login must exist
+            # in TestStand's user list). Never disable login outright on a station
+            # that requires a user; every later headless engine start would block
+            # waiting for an interactive login.
+            station_options.auto_login_system_user = True
             station_options.ui_message_delay = 100
             station_options.ui_message_min_delay = 10
             station_options.station_id = "STATION_01"

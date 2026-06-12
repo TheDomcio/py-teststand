@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ctypes
 import functools
 import logging
 import typing
@@ -28,6 +29,10 @@ else:
     COM = object
 
 logger = logging.getLogger("py_teststand.com_trace")
+
+# Raw COM pointers whose owning engine died before their wrapper was released.
+# Kept alive on purpose: releasing them would call into unloaded engine memory.
+_orphaned_com_objects: list[typing.Any] = []
 
 
 T = TypeVar("T", bound=Callable[..., typing.Any])
@@ -58,8 +63,8 @@ def ts_interface(func: T) -> T:
         except Exception as e:
             from py_teststand.core.exceptions import (
                 ERROR_MAP,
-                TestStandCOMError,
-                TestStandError,
+                COMError,
+                Error,
             )
 
             hresult = getattr(e, "hresult", None)
@@ -104,15 +109,15 @@ def ts_interface(func: T) -> T:
                     except Exception:
                         pass
 
-                exc_cls = ERROR_MAP.get(hresult, TestStandCOMError)
-                if not issubclass(exc_cls, TestStandError):
-                    exc_cls = TestStandCOMError
+                exc_cls = ERROR_MAP.get(hresult, COMError)
+                if not issubclass(exc_cls, Error):
+                    exc_cls = COMError
                 raise exc_cls(msg, hresult, source=source, description=description) from e
             finally:
                 if instance is not None:
                     instance._handling_error = False
 
-    return cast(T, wrapper)
+    return cast("T", wrapper)
 
 
 class COMWrapper:
@@ -142,10 +147,10 @@ class COMWrapper:
         return cast("Engine | None", self._engine_ref())
 
     def _com(self) -> COM:
-        from py_teststand.core.exceptions import TestStandError
+        from py_teststand.core.exceptions import Error
 
         if not hasattr(self, "_com_obj") or self._com_obj is None:
-            raise TestStandError("Cannot access COM object on a released wrapper.")
+            raise Error("Cannot access COM object on a released wrapper.")
         return self._com_obj
 
     def get_com_obj(self) -> typing.Any:
@@ -195,8 +200,24 @@ class COMWrapper:
     def release(self) -> None:
 
         try:
-            if hasattr(self, "_com_obj") and self._com_obj is not None:
-                object.__setattr__(self, "_com_obj", None)
+            com_obj = getattr(self, "_com_obj", None)
+            if com_obj is None:
+                return
+            engine = self._engine_ref() if hasattr(self, "_engine_ref") else None
+            engine_alive = engine is not None and getattr(engine, "_engine", None) is not None
+            if not engine_alive:
+                # The owning engine is gone (or was never recorded), so dropping
+                # the last reference now would invoke Release against memory the
+                # engine may have already unloaded and crash the process with an
+                # access violation. Park the pointer immortally instead (the
+                # extra incref also keeps interpreter shutdown from deallocating
+                # it); the OS reclaims the memory at process exit.
+                try:
+                    ctypes.pythonapi.Py_IncRef(ctypes.py_object(com_obj))
+                except Exception:
+                    pass
+                _orphaned_com_objects.append(com_obj)
+            object.__setattr__(self, "_com_obj", None)
         except Exception:
             pass
 

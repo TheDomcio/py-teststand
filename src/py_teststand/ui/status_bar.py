@@ -75,12 +75,12 @@ class StatusBarPane(COMWrapper):
     @property
     @ts_interface
     def tooltip_text(self) -> str:
-        return str(self._com_obj.TooltipText)
+        return str(self._com_obj.ToolTipText)
 
     @tooltip_text.setter
     @ts_interface
     def tooltip_text(self, value: str) -> None:
-        self._com_obj.TooltipText = value
+        self._com_obj.ToolTipText = value
 
     @property
     @ts_interface
