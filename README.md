@@ -3,7 +3,6 @@
 [![PyPI version](https://img.shields.io/pypi/v/py-teststand.svg)](https://pypi.org/project/py-teststand/)
 [![Python versions](https://img.shields.io/pypi/pyversions/py-teststand.svg)](https://pypi.org/project/py-teststand/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/TheDomcio/py-teststand/actions/workflows/tests.yml/badge.svg)](https://github.com/TheDomcio/py-teststand/actions)
 [![Downloads](https://static.pepy.tech/badge/py-teststand)](https://pepy.tech/projects/py-teststand)
 
 Community object-oriented Python 3 bindings (twin API) for the [National Instruments TestStand™ COM API](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html).
