@@ -95,7 +95,7 @@ class SequenceCollection:
             )
         return self._sequence_file.get_sequence(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]

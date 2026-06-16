@@ -35,18 +35,20 @@ import tempfile
 from pathlib import Path
 
 from py_teststand import Engine, PropertyOption, PropValType
+from py_teststand.property.property_object import PropertyObject
+from py_teststand.sequence.sequence import Sequence
 
 INSERT_IF_MISSING = int(PropertyOption.InsertIfMissing)
 
 
-def _ensure_string_var(container, name: str, value: str) -> None:
+def _ensure_string_var(container: PropertyObject, name: str, value: str) -> None:
     """Create a scalar string sub-property and assign it if it does not exist."""
     if not container.exists(name, 0):
         container.new_sub_property(name, PropValType.String, False, "")
     container[name] = value
 
 
-def _demonstrate_temp_variable(container) -> None:
+def _demonstrate_temp_variable(container: PropertyObject) -> None:
     """Create a throwaway variable, retype it, clone it numeric, then remove both."""
     name = "TempScratch"
     clone_name = "TempScratchCopy"
@@ -81,8 +83,8 @@ def _demonstrate_temp_variable(container) -> None:
     )
 
 
-ROOT_TEMP_DIR = Path(tempfile.gettempdir()) / "py-teststand"
-LATEST_POINTER = ROOT_TEMP_DIR / "latest_sequence.txt"
+ROOT_TEMP_DIR: Path = Path(tempfile.gettempdir()) / "py-teststand"
+LATEST_POINTER: Path = ROOT_TEMP_DIR / "latest_sequence.txt"
 
 
 def main() -> None:
@@ -99,7 +101,7 @@ def main() -> None:
 
     with Engine() as engine:
         with engine.get_sequence_file(str(sequence_path)) as seq_file:
-            main_sequence = seq_file.get_sequence_by_name("MainSequence")
+            main_sequence: Sequence = seq_file.get_sequence_by_name("MainSequence")
 
             with main_sequence.locals as main_locals:
                 _ensure_string_var(main_locals, "OperatorName", "Alice")

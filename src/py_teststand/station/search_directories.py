@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import typing
+
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 
 
@@ -88,7 +90,7 @@ class SearchDirectories(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(self.count):
             yield self.item(i)

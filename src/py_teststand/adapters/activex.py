@@ -249,7 +249,7 @@ class ActiveXServers(COMWrapper):
     def __getitem__(self, index: typing.Any) -> ActiveXServer:
         return ActiveXServer(self._com_obj.Item(index), self._engine_ref)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]
@@ -280,7 +280,7 @@ class ActiveXMembers(COMWrapper):
     def __getitem__(self, index: typing.Any) -> ActiveXMember:
         return ActiveXMember(self._com_obj.Item(index), self._engine_ref)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]
@@ -295,7 +295,7 @@ class ActiveXParameters(COMWrapper):
     def __getitem__(self, index: typing.Any) -> ActiveXParameter:
         return ActiveXParameter(self._com_obj.Item(index), self._engine_ref)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]
@@ -416,7 +416,7 @@ class ActiveXCoClasses(COMWrapper):
     def __getitem__(self, index: typing.Any) -> ActiveXCoClass:
         return ActiveXCoClass(self._com_obj.Item(index), self._engine_ref)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]
@@ -431,7 +431,7 @@ class ActiveXInterfaces(COMWrapper):
     def __getitem__(self, index: typing.Any) -> ActiveXInterface:
         return ActiveXInterface(self._com_obj.Item(index), self._engine_ref)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]

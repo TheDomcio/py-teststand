@@ -474,7 +474,7 @@ class PropertyObject(COMWrapper):
     def clone(
         self,
         lookup_string: str = "",
-        options: PropertyOption = PropertyOption.NoneValue,
+        options: PropertyOption | int = PropertyOption.NoneValue,
     ) -> PropertyObject:
         return PropertyObject(
             self._property_object.Clone(lookup_string, int(options)),

@@ -75,7 +75,7 @@ class EntryPoints(COMWrapper):
 
         return self.item(key)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(self.count):
             yield self.item(i)

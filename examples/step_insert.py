@@ -25,7 +25,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from py_teststand import AdapterKeyName, Engine, Error, RunMode, StepGroup
+from py_teststand import AdapterKeyName, Engine, Error, RunMode, Step, StepGroup
 
 
 def _new_vi_call_step(
@@ -35,7 +35,7 @@ def _new_vi_call_step(
     project_path: str = "",
     icon: str = "",
     run_mode: RunMode = RunMode.Normal,
-):
+) -> Step:
     """Build a configured LabVIEW VI-call step ready for insertion."""
     step = engine.new_step(
         adapter_key_name=AdapterKeyName.LVAdapterKeyName,

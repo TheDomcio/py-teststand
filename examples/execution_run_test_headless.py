@@ -22,15 +22,18 @@ records Passed or Failed, which we read from each entry in the ResultList.
 from __future__ import annotations
 
 from py_teststand import AdapterKeyName, Engine, StepGroup
+from py_teststand.sequence.sequence import Sequence
 
 # (name, measurement expression, low limit, high limit)
-TESTS = [
+TESTS: list[tuple[str, str, float, float]] = [
     ("Supply Voltage", "5.0", 4.75, 5.25),
     ("Bias Current", "9.0", 1.0, 8.0),
 ]
 
 
-def _add_numeric_limit_test(engine, sequence, name, data_source, low, high):
+def _add_numeric_limit_test(
+    engine: Engine, sequence: Sequence, name: str, data_source: str, low: float, high: float
+) -> None:
     """Append a runnable NumericLimitTest to a sequence's Main step group."""
     step = engine.new_step(AdapterKeyName.NoneAdapterKeyName, "NumericLimitTest")
     step.name = name

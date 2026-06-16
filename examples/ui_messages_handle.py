@@ -23,7 +23,8 @@ plus the execution id that identifies who posted.
 
 from __future__ import annotations
 
-from py_teststand import AdapterKeyName, Engine, StepGroup, UIMessageCode
+from py_teststand import AdapterKeyName, Engine, StepGroup, UIMessage, UIMessageCode
+from py_teststand.sequence.sequence import Sequence
 
 STAGE_MESSAGE = int(UIMessageCode.UserMessageBase) + 1
 PROGRESS_MESSAGE = int(UIMessageCode.UserMessageBase) + 2
@@ -37,7 +38,7 @@ POST_FOR_THREAD = (
 )
 
 
-def _add_statement_step(engine, sequence, name, expression):
+def _add_statement_step(engine: Engine, sequence: Sequence, name: str, expression: str) -> None:
     """Append a Statement step whose expression runs when the step executes."""
     step = engine.new_step(AdapterKeyName.NoneAdapterKeyName, "Statement")
     step.name = name
@@ -48,7 +49,7 @@ def _add_statement_step(engine, sequence, name, expression):
 def main() -> None:
     received = []
 
-    def on_stage(message) -> None:
+    def on_stage(message: UIMessage) -> None:
         execution = message.execution
         received.append(
             f"stage message    (execution {execution.id if execution else '?'}): "
@@ -56,7 +57,7 @@ def main() -> None:
             f"synchronous={message.is_synchronous}"
         )
 
-    def on_progress(message) -> None:
+    def on_progress(message: UIMessage) -> None:
         received.append(
             f"progress message (thread-posted): "
             f"numeric={message.numeric_data} string={message.string_data!r} "

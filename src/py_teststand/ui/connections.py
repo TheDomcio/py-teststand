@@ -158,7 +158,7 @@ class AdapterListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -209,7 +209,7 @@ class Strings(COMWrapper):
 
         self.set_item(index, value)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self.item(i)
@@ -285,7 +285,7 @@ class CaptionConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -370,7 +370,7 @@ class CommandConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -426,7 +426,7 @@ class CallStackConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -491,7 +491,7 @@ class ExecutionListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -536,7 +536,7 @@ class Executions(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -624,7 +624,7 @@ class ExecutionViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -679,7 +679,7 @@ class ImageConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -724,7 +724,7 @@ class SelectedSteps(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -806,7 +806,7 @@ class SelectedPropertyObjects(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -854,7 +854,7 @@ class SelectedSequences(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1029,7 +1029,7 @@ class ExpressionEditButtons(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1117,7 +1117,7 @@ class ExpressionEditComboBoxItems(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1218,7 +1218,7 @@ class InsertionPalettePages(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1326,7 +1326,7 @@ class ListBarPageItems(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1365,7 +1365,7 @@ class ListBarPages(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1439,7 +1439,7 @@ class ListBoxColumns(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1463,7 +1463,7 @@ class MRUFiles(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self.item(i)
@@ -1530,7 +1530,7 @@ class NumericConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1577,7 +1577,7 @@ class ReportViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1637,7 +1637,7 @@ class InsertionPaletteConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1773,7 +1773,7 @@ class ThreadListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1834,7 +1834,7 @@ class SequenceViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -1977,7 +1977,7 @@ class SeqViewColumns(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2053,7 +2053,7 @@ class SequenceListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2119,7 +2119,7 @@ class SequenceFileListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2165,7 +2165,7 @@ class SequenceFiles(COMWrapper):
 
         return self.item(index_or_path)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2299,7 +2299,7 @@ class StatusBarPanes(COMWrapper):
 
         return self.item(index_or_name)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2342,7 +2342,7 @@ class StepGroupListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]
@@ -2393,7 +2393,7 @@ class VariablesConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Any:
 
         for i in range(len(self)):
             yield self[i]

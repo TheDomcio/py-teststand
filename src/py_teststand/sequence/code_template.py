@@ -52,7 +52,7 @@ class CodeTemplates(PropertyObject):
             raise IndexError("Index out of range")
         return self[index]
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]

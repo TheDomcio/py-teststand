@@ -17,6 +17,9 @@ from typing import Any, cast
 
 from py_teststand import Engine, StepGroup
 from py_teststand.analyzer import AnalysisContext, AnalysisTransition, RuleSeverity, rule
+from py_teststand.sequence.sequence import Sequence
+from py_teststand.sequence.sequence_file import SequenceFile
+from py_teststand.sequence.step import Step
 
 RULE_ID = "PyTS_CheckStepNameLength"
 MAXIMUM_STEP_NAME_LENGTH = 15
@@ -30,8 +33,8 @@ MAXIMUM_STEP_NAME_LENGTH = 15
 )
 def check_step_name_length(context: Any) -> None:
     """Report any step whose name is longer than MAXIMUM_STEP_NAME_LENGTH."""
-    step = context.object
-    name = step.name
+    step: Any = context.object
+    name: Any = step.name
     if len(name) > MAXIMUM_STEP_NAME_LENGTH:
         context.report(
             RULE_ID,
@@ -43,9 +46,9 @@ def check_step_name_length(context: Any) -> None:
 
 class _Violation:
     def __init__(self, rule_id: str, text: str, location: Any) -> None:
-        self.rule_id = rule_id
-        self.text = text
-        self.location = location
+        self.rule_id: str = rule_id
+        self.text: str = text
+        self.location: Any = location
 
 
 class _OfflineStepContext:
@@ -57,7 +60,7 @@ class _OfflineStepContext:
     """
 
     def __init__(self, analyzed_object: Any) -> None:
-        self.object = analyzed_object
+        self.object: Any = analyzed_object
         self.transition = AnalysisTransition.BeforeStep
         self.findings: list[_Violation] = []
 
@@ -65,13 +68,13 @@ class _OfflineStepContext:
         self.findings.append(_Violation(rule_id, text, location_object))
 
 
-def _build_sequence(engine: Engine):
-    sequence_file = engine.new_sequence_file()
-    main_sequence = sequence_file.get_sequence_by_name("MainSequence")
+def _build_sequence(engine: Engine) -> Sequence:
+    sequence_file: SequenceFile = engine.new_sequence_file()
+    main_sequence: Sequence = sequence_file.get_sequence_by_name("MainSequence")
     for name in ("Init", "Temperature Check", "Measure Output Voltage Rail", "Cleanup"):
-        step = engine.new_step(adapter_key_name="", step_type_name="Action")
+        step: Step = engine.new_step(adapter_key_name="", step_type_name="Action")
         step.name = name
-        main_sequence.insert_step(step, main_sequence.get_num_steps(), StepGroup.Main)
+        main_sequence.insert_step(step, index=main_sequence.get_num_steps(), group=StepGroup.Main)
     return main_sequence
 
 
@@ -83,10 +86,10 @@ def main() -> None:
         violations = 0
         for i in range(main_sequence.get_num_steps()):
             step = main_sequence.get_step(i)
-            context = _OfflineStepContext(step)
+            context = _OfflineStepContext(analyzed_object=step)
             # The analyzer would pass a real AnalysisContext; the offline stand-in
             # provides the same surface the rule uses.
-            check_step_name_length.invoke(cast("AnalysisContext", context))
+            check_step_name_length.invoke(context=cast(typ="AnalysisContext", val=context))
             status = "VIOLATION" if context.findings else "ok"
             print(f"  [{status:9}] {step.name!r} (length {len(step.name)})")
             for finding in context.findings:

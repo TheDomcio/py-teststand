@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class UIEventSinkMeta(type):
-    def __new__(cls, name, bases, attrs):
+    def __new__(cls, name: typing.Any, bases: typing.Any, attrs: typing.Any) -> typing.Any:
         new_attrs = dict(attrs)
         for attr_name, value in attrs.items():
             if attr_name.startswith("on_") and callable(value):
@@ -24,18 +24,18 @@ class UIEventSinkMeta(type):
 
 
 class UIEventSink(metaclass=UIEventSinkMeta):
-    def __init__(self):
+    def __init__(self) -> typing.Any:
 
         self._handlers: dict[str, list[Callable]] = {}
         self._log_events = True
 
-    def _log(self, event_name: str, *args):
+    def _log(self, event_name: str, *args: typing.Any) -> typing.Any:
 
         if self._log_events:
             args_str = ", ".join(str(a)[:50] for a in args)
             logger.debug(f"EVENT FIRED: {event_name}({args_str})")
 
-    def on(self, event_name: str, handler: Callable):
+    def on(self, event_name: str, handler: Callable) -> typing.Any:
         if event_name not in self._handlers:
             self._handlers[event_name] = []
         self._handlers[event_name].append(handler)
@@ -43,7 +43,7 @@ class UIEventSink(metaclass=UIEventSinkMeta):
         handler_name = handler.__name__ if hasattr(handler, "__name__") else str(handler)
         logger.debug(f"EVENT REGISTERED: {event_name} -> {handler_name}")
 
-    def _trigger(self, event_name: str, *args) -> typing.Any:
+    def _trigger(self, event_name: str, *args: typing.Any) -> typing.Any:
 
         self._log(event_name, *args)
         last_result = None
@@ -66,13 +66,19 @@ class UIEventSink(metaclass=UIEventSinkMeta):
 
 
 class ApplicationMgrEventsSink(UIEventSink):
-    def on_exit_application(self):
+    def on_exit_application(self) -> typing.Any:
         try:
             self._trigger("ExitApplication")
         except Exception as e:
             logger.error(f"Error in on_exit_application: {e}")
 
-    def on_can_edit(self, edited_file, edit_kind, can_edit_value, edit_denial_reasons):
+    def on_can_edit(
+        self,
+        edited_file: typing.Any,
+        edit_kind: typing.Any,
+        can_edit_value: typing.Any,
+        edit_denial_reasons: typing.Any,
+    ) -> typing.Any:
         try:
             res = self._trigger(
                 "CanEdit",
@@ -90,7 +96,14 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_can_edit: {e}")
             return (can_edit_value, edit_denial_reasons)
 
-    def on_begin_edit(self, edited_file, edit_kind, objects_to_edit, cancel, edit_denial_reasons):
+    def on_begin_edit(
+        self,
+        edited_file: typing.Any,
+        edit_kind: typing.Any,
+        objects_to_edit: typing.Any,
+        cancel: typing.Any,
+        edit_denial_reasons: typing.Any,
+    ) -> typing.Any:
         try:
             res = self._trigger(
                 "BeginEdit",
@@ -109,31 +122,33 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_begin_edit: {e}")
             return (cancel, edit_denial_reasons)
 
-    def on_edit_mode_changed(self):
+    def on_edit_mode_changed(self) -> typing.Any:
         try:
             self._trigger("EditModeChanged")
         except Exception as e:
             logger.error(f"Error in on_edit_mode_changed: {e}")
 
-    def on_report_error(self, message, error_code):
+    def on_report_error(self, message: typing.Any, error_code: typing.Any) -> typing.Any:
         try:
             self._trigger("ReportError", message, error_code)
         except Exception as e:
             logger.error(f"Error in on_report_error: {e}")
 
-    def on_sequence_file_opened(self, file):
+    def on_sequence_file_opened(self, file: typing.Any) -> typing.Any:
         try:
             self._trigger("SequenceFileOpened", file)
         except Exception as e:
             logger.error(f"Error in on_sequence_file_opened: {e}")
 
-    def on_sequence_file_closing(self, file):
+    def on_sequence_file_closing(self, file: typing.Any) -> typing.Any:
         try:
             self._trigger("SequenceFileClosing", file)
         except Exception as e:
             logger.error(f"Error in on_sequence_file_closing: {e}")
 
-    def on_query_reload_sequence_file(self, file, reload_option):
+    def on_query_reload_sequence_file(
+        self, file: typing.Any, reload_option: typing.Any
+    ) -> typing.Any:
         try:
             res = self._trigger("QueryReloadSequenceFile", file, reload_option)
             return int(res) if res is not None else reload_option
@@ -143,12 +158,12 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_process_user_command_line_arguments(
         self,
-        process_command,
-        arguments,
-        current_argument,
-        error_processing,
-        error_message,
-    ):
+        process_command: typing.Any,
+        arguments: typing.Any,
+        current_argument: typing.Any,
+        error_processing: typing.Any,
+        error_message: typing.Any,
+    ) -> typing.Any:
         try:
             res = self._trigger(
                 "ProcessUserCommandLineArguments",
@@ -165,31 +180,31 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_process_user_command_line_arguments: {e}")
             return (current_argument, error_processing, error_message)
 
-    def on_drop_file(self, file_path):
+    def on_drop_file(self, file_path: typing.Any) -> typing.Any:
         try:
             self._trigger("DropFile", file_path)
         except Exception as e:
             logger.error(f"Error in on_drop_file: {e}")
 
-    def on_sequence_file_closed(self, file):
+    def on_sequence_file_closed(self, file: typing.Any) -> typing.Any:
         try:
             self._trigger("SequenceFileClosed", file)
         except Exception as e:
             logger.error(f"Error in on_sequence_file_closed: {e}")
 
-    def on_user_changed(self):
+    def on_user_changed(self) -> typing.Any:
         try:
             self._trigger("UserChanged")
         except Exception as e:
             logger.error(f"Error in on_user_changed: {e}")
 
-    def on_wait(self, is_waiting):
+    def on_wait(self, is_waiting: typing.Any) -> typing.Any:
         try:
             self._trigger("Wait", is_waiting)
         except Exception as e:
             logger.error(f"Error in on_wait: {e}")
 
-    def on_pre_command_execute(self, command, cancel):
+    def on_pre_command_execute(self, command: typing.Any, cancel: typing.Any) -> typing.Any:
         try:
             res = self._trigger("PreCommandExecute", command, cancel)
             return bool(res) if res is not None else cancel
@@ -197,13 +212,15 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_pre_command_execute: {e}")
             return cancel
 
-    def on_post_command_execute(self, command):
+    def on_post_command_execute(self, command: typing.Any) -> typing.Any:
         try:
             self._trigger("PostCommandExecute", command)
         except Exception as e:
             logger.error(f"Error in on_post_command_execute: {e}")
 
-    def on_query_close_execution(self, execution, run_state, option):
+    def on_query_close_execution(
+        self, execution: typing.Any, run_state: typing.Any, option: typing.Any
+    ) -> typing.Any:
         try:
             res = self._trigger("QueryCloseExecution", execution, run_state, option)
             return int(res) if res is not None else option
@@ -211,13 +228,13 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_query_close_execution: {e}")
             return option
 
-    def on_execution_closed(self, execution):
+    def on_execution_closed(self, execution: typing.Any) -> typing.Any:
         try:
             self._trigger("ExecutionClosed", execution)
         except Exception as e:
             logger.error(f"Error in on_execution_closed: {e}")
 
-    def on_query_close_sequence_file(self, file, cancel):
+    def on_query_close_sequence_file(self, file: typing.Any, cancel: typing.Any) -> typing.Any:
         try:
             res = self._trigger("QueryCloseSequenceFile", file, cancel)
             return bool(res) if res is not None else cancel
@@ -225,7 +242,7 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_query_close_sequence_file: {e}")
             return cancel
 
-    def on_query_shutdown(self, cancel):
+    def on_query_shutdown(self, cancel: typing.Any) -> typing.Any:
         try:
             res = self._trigger("QueryShutdown", cancel)
             return bool(res) if res is not None else cancel
@@ -233,25 +250,25 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_query_shutdown: {e}")
             return cancel
 
-    def on_display_sequence_file(self, file, reason):
+    def on_display_sequence_file(self, file: typing.Any, reason: typing.Any) -> typing.Any:
         try:
             self._trigger("DisplaySequenceFile", file, reason)
         except Exception as e:
             logger.error(f"Error in on_display_sequence_file: {e}")
 
-    def on_display_execution(self, execution, reason):
+    def on_display_execution(self, execution: typing.Any, reason: typing.Any) -> typing.Any:
         try:
             self._trigger("DisplayExecution", execution, reason)
         except Exception as e:
             logger.error(f"Error in on_display_execution: {e}")
 
-    def on_display_report(self, report):
+    def on_display_report(self, report: typing.Any) -> typing.Any:
         try:
             self._trigger("DisplayReport", report)
         except Exception as e:
             logger.error(f"Error in on_display_report: {e}")
 
-    def on_ui_message_event(self, ui_msg, cancel):
+    def on_ui_message_event(self, ui_msg: typing.Any, cancel: typing.Any) -> typing.Any:
         try:
             res = self._trigger("UIMessageEvent", ui_msg, cancel)
             return bool(res) if res is not None else cancel
@@ -259,37 +276,43 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_ui_message_event: {e}")
             return cancel
 
-    def on_after_ui_message_event(self, ui_msg):
+    def on_after_ui_message_event(self, ui_msg: typing.Any) -> typing.Any:
         try:
             self._trigger("AfterUIMessageEvent", ui_msg)
         except Exception as e:
             logger.error(f"Error in on_after_ui_message_event: {e}")
 
-    def on_shut_down_completed(self):
+    def on_shut_down_completed(self) -> typing.Any:
         try:
             self._trigger("ShutDownCompleted")
         except Exception as e:
             logger.error(f"Error in on_shut_down_completed: {e}")
 
-    def on_shut_down_cancelled(self):
+    def on_shut_down_cancelled(self) -> typing.Any:
         try:
             self._trigger("ShutDownCancelled")
         except Exception as e:
             logger.error(f"Error in on_shut_down_cancelled: {e}")
 
-    def on_start_execution(self, execution):
+    def on_start_execution(self, execution: typing.Any) -> typing.Any:
         try:
             self._trigger("StartExecution", execution)
         except Exception as e:
             logger.error(f"Error in on_start_execution: {e}")
 
-    def on_end_execution(self, execution):
+    def on_end_execution(self, execution: typing.Any) -> typing.Any:
         try:
             self._trigger("EndExecution", execution)
         except Exception as e:
             logger.error(f"Error in on_end_execution: {e}")
 
-    def on_end_edit(self, edited_file, edit_kind, edited_objects, cancelled):
+    def on_end_edit(
+        self,
+        edited_file: typing.Any,
+        edit_kind: typing.Any,
+        edited_objects: typing.Any,
+        cancelled: typing.Any,
+    ) -> typing.Any:
         try:
             self._trigger("EndEdit", edited_file, edit_kind, edited_objects, cancelled)
         except Exception as e:
@@ -297,11 +320,11 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_break_on_run_time_error(
         self,
-        execution,
-        initiating_thread,
-        show_dialog,
-        break_execution,
-    ):
+        execution: typing.Any,
+        initiating_thread: typing.Any,
+        show_dialog: typing.Any,
+        break_execution: typing.Any,
+    ) -> typing.Any:
         try:
             res = self._trigger(
                 "BreakOnRunTimeError",
@@ -317,19 +340,21 @@ class ApplicationMgrEventsSink(UIEventSink):
             logger.error(f"Error in on_break_on_run_time_error: {e}")
             return (show_dialog, break_execution)
 
-    def on_user_message(self, ui_msg):
+    def on_user_message(self, ui_msg: typing.Any) -> typing.Any:
         try:
             self._trigger("UserMessage", ui_msg)
         except Exception as e:
             logger.error(f"Error in on_user_message: {e}")
 
-    def on_refresh_windows(self):
+    def on_refresh_windows(self) -> typing.Any:
         try:
             self._trigger("RefreshWindows")
         except Exception as e:
             logger.error(f"Error in on_refresh_windows: {e}")
 
-    def on_break(self, execution, thread, sequence_context):
+    def on_break(
+        self, execution: typing.Any, thread: typing.Any, sequence_context: typing.Any
+    ) -> typing.Any:
         try:
             self._trigger("Break", execution, thread, sequence_context)
         except Exception as e:
@@ -337,13 +362,13 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_display_custom_run_time_error_dialog(
         self,
-        ctxt,
-        break_exec,
-        do_not_show_again_for_execution,
-        do_not_show_again_for_batch,
-        rte_option,
-        show_default_dialog,
-    ):
+        ctxt: typing.Any,
+        break_exec: typing.Any,
+        do_not_show_again_for_execution: typing.Any,
+        do_not_show_again_for_batch: typing.Any,
+        rte_option: typing.Any,
+        show_default_dialog: typing.Any,
+    ) -> typing.Any:
         try:
             res = self._trigger(
                 "DisplayCustomRunTimeErrorDialog",
@@ -375,43 +400,43 @@ class ApplicationMgrEventsSink(UIEventSink):
 
 
 class SequenceFileViewMgrEventsSink(UIEventSink):
-    def on_sequence_file_changed(self, file):
+    def on_sequence_file_changed(self, file: typing.Any) -> typing.Any:
         try:
             self._trigger("SequenceFileChanged", file)
         except Exception as e:
             logger.error(f"Error in on_sequence_file_changed: {e}")
 
-    def on_selection_changed(self):
+    def on_selection_changed(self) -> typing.Any:
         try:
             self._trigger("SelectionChanged")
         except Exception as e:
             logger.error(f"Error in on_selection_changed: {e}")
 
-    def on_sequence_changed(self, sequence):
+    def on_sequence_changed(self, sequence: typing.Any) -> typing.Any:
         try:
             self._trigger("SequenceChanged", sequence)
         except Exception as e:
             logger.error(f"Error in on_sequence_changed: {e}")
 
-    def on_step_group_changed(self, step_group):
+    def on_step_group_changed(self, step_group: typing.Any) -> typing.Any:
         try:
             self._trigger("StepGroupChanged", step_group)
         except Exception as e:
             logger.error(f"Error in on_step_group_changed: {e}")
 
-    def on_refresh_window(self):
+    def on_refresh_window(self) -> typing.Any:
         try:
             self._trigger("RefreshWindow")
         except Exception as e:
             logger.error(f"Error in on_refresh_window: {e}")
 
-    def on_sequence_selection_changed(self):
+    def on_sequence_selection_changed(self) -> typing.Any:
         try:
             self._trigger("SequenceSelectionChanged")
         except Exception as e:
             logger.error(f"Error in on_sequence_selection_changed: {e}")
 
-    def on_property_object_selection_changed(self):
+    def on_property_object_selection_changed(self) -> typing.Any:
         try:
             self._trigger("PropertyObjectSelectionChanged")
         except Exception as e:
@@ -419,79 +444,83 @@ class SequenceFileViewMgrEventsSink(UIEventSink):
 
 
 class ExecutionViewMgrEventsSink(UIEventSink):
-    def on_execution_changed(self, execution):
+    def on_execution_changed(self, execution: typing.Any) -> typing.Any:
         try:
             self._trigger("ExecutionChanged", execution)
         except Exception as e:
             logger.error(f"Error in on_execution_changed: {e}")
 
-    def on_run_state_changed(self, new_run_state):
+    def on_run_state_changed(self, new_run_state: typing.Any) -> typing.Any:
         try:
             self._trigger("RunStateChanged", new_run_state)
         except Exception as e:
             logger.error(f"Error in on_run_state_changed: {e}")
 
-    def on_end_execution(self, execution):
+    def on_end_execution(self, execution: typing.Any) -> typing.Any:
         try:
             self._trigger("EndExecution", execution)
         except Exception as e:
             logger.error(f"Error in on_end_execution: {e}")
 
-    def on_termination_state_changed(self, new_term_state):
+    def on_termination_state_changed(self, new_term_state: typing.Any) -> typing.Any:
         try:
             self._trigger("TerminationStateChanged", new_term_state)
         except Exception as e:
             logger.error(f"Error in on_termination_state_changed: {e}")
 
-    def on_selection_changed(self):
+    def on_selection_changed(self) -> typing.Any:
         try:
             self._trigger("SelectionChanged")
         except Exception as e:
             logger.error(f"Error in on_selection_changed: {e}")
 
-    def on_user_message(self, ui_msg):
+    def on_user_message(self, ui_msg: typing.Any) -> typing.Any:
         try:
             self._trigger("UserMessage", ui_msg)
         except Exception as e:
             logger.error(f"Error in on_user_message: {e}")
 
-    def on_refresh_window(self):
+    def on_refresh_window(self) -> typing.Any:
         try:
             self._trigger("RefreshWindow")
         except Exception as e:
             logger.error(f"Error in on_refresh_window: {e}")
 
-    def on_break(self, execution, thread, sequence_context):
+    def on_break(
+        self, execution: typing.Any, thread: typing.Any, sequence_context: typing.Any
+    ) -> typing.Any:
         try:
             self._trigger("Break", execution, thread, sequence_context)
         except Exception as e:
             logger.error(f"Error in on_break: {e}")
 
-    def on_trace(self, execution, thread, sequence_context):
+    def on_trace(
+        self, execution: typing.Any, thread: typing.Any, sequence_context: typing.Any
+    ) -> typing.Any:
         try:
             self._trigger("Trace", execution, thread, sequence_context)
         except Exception as e:
             logger.error(f"Error in on_trace: {e}")
 
-    def on_display_report(self, report):
+    def on_display_report(self, report: typing.Any) -> typing.Any:
         try:
             self._trigger("DisplayReport", report)
         except Exception as e:
             logger.error(f"Error in on_display_report: {e}")
 
-    def on_context_changed(self, sequence_context):
+    def on_context_changed(self, sequence_context: typing.Any) -> typing.Any:
         try:
             self._trigger("ContextChanged", sequence_context)
         except Exception as e:
             logger.error(f"Error in on_context_changed: {e}")
 
-    def on_thread_changed(self, thread):
+    def on_thread_changed(self, thread: typing.Any) -> typing.Any:
         try:
             self._trigger("ThreadChanged", thread)
         except Exception as e:
             logger.error(f"Error in on_thread_changed: {e}")
 
-    def on_property_object_selection_changed(self):
+    def on_property_object_selection_changed(self) -> typing.Any:
         try:
             self._trigger("PropertyObjectSelectionChanged")
         except Exception as e:

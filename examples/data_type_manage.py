@@ -27,31 +27,36 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from py_teststand import Engine, PropertyOption, PropValType, TypeCategory
+from py_teststand import Engine, PropertyOption, PropValType, TypeCategory, TypeUsageList
+from py_teststand.property.property_object import PropertyObject
 
-ROOT_TEMP_DIR = Path(tempfile.gettempdir()) / "py-teststand"
+ROOT_TEMP_DIR: Path = Path(tempfile.gettempdir()) / "py-teststand"
 INSERT_IF_MISSING = int(PropertyOption.InsertIfMissing)
 COERCE_TO_NUMBER = int(PropertyOption.CoerceToNumber)
 
 
-def _build_digital_multimeter_type(engine: Engine):
+def _build_digital_multimeter_type(engine: Engine) -> PropertyObject:
     """Build the DigitalMultimeter container type; field defaults define field types."""
-    data_type = engine.new_property_object(PropValType.Container, False, "", 0)
-    data_type.set_val_number("Resolution", INSERT_IF_MISSING, 6.5)
-    data_type.set_val_boolean("AutoZero", INSERT_IF_MISSING, False)
-    data_type.set_val_string("Mode", INSERT_IF_MISSING, "Voltage")
-    data_type.set_val_number("Range", INSERT_IF_MISSING, 100.0)
+    data_type: PropertyObject = engine.new_property_object(
+        value_type=PropValType.Container, as_array=False, type_name_param="", options=0
+    )
+    data_type.set_val_number(lookup_string="Resolution", options=INSERT_IF_MISSING, value=6.5)
+    data_type.set_val_boolean(lookup_string="AutoZero", options=INSERT_IF_MISSING, value=False)
+    data_type.set_val_string(lookup_string="Mode", options=INSERT_IF_MISSING, value="Voltage")
+    data_type.set_val_number(lookup_string="Range", options=INSERT_IF_MISSING, value=100.0)
     data_type.name = "DigitalMultimeter"
     return data_type
 
 
-def _enumerator_array(engine: Engine, named_values, *, strict: bool):
+def _enumerator_array(
+    engine: Engine, named_values: list[tuple[str, float]], *, strict: bool
+) -> PropertyObject:
     """Build the array UpdateEnumerators expects: one container per enumerator.
 
     Each element carries EnumeratorName and EnumeratorValue. IsStrict rides along
     as a boolean attribute on the array, not as a sub-property.
     """
-    array = engine.new_property_object(PropValType.Container, True, "", 0)
+    array: PropertyObject = engine.new_property_object(PropValType.Container, True, "", 0)
     array.set_num_elements(len(named_values), 0)
     for index, (name, value) in enumerate(named_values):
         element = array.get_property_object_by_offset(index, 0)
@@ -62,7 +67,14 @@ def _enumerator_array(engine: Engine, named_values, *, strict: bool):
     return array
 
 
-def _register_enum(engine: Engine, type_usage_list, name: str, named_values, *, strict: bool):
+def _register_enum(
+    engine: Engine,
+    type_usage_list: TypeUsageList,
+    name: str,
+    named_values: list[tuple[str, float]],
+    *,
+    strict: bool,
+) -> PropertyObject:
     """Register an empty enumeration type, then set its enumerators on the root definition."""
     enum_type = engine.new_property_object(PropValType.Enum, False, "", 0)
     enum_type.name = name
@@ -73,12 +85,14 @@ def _register_enum(engine: Engine, type_usage_list, name: str, named_values, *, 
     return definition
 
 
-def _print_enumerators(definition) -> None:
+def _print_enumerators(definition: PropertyObject) -> None:
     enumerators = definition.enumerators
+    assert enumerators is not None
     strict = enumerators.attributes.get_val_boolean("TestStand.Enum.IsStrict", 0)
     print(f"  {definition.name} v{definition.type_version} (strict={strict}):")
     for index in range(enumerators.get_num_elements()):
         element = enumerators.get_property_object_by_offset(index, 0)
+        assert element is not None
         value = int(element.get_val_number("", COERCE_TO_NUMBER))
         print(f"    {element.get_value_display_name('', 0)} -> {value}")
 
@@ -123,10 +137,10 @@ def main() -> None:
         print(f"Coupling version after  update: {coupling.type_version}")
 
         property_object_file.inc_change_count()
-        sequence_file.save(str(sequence_path))
+        sequence_file.save(path=str(object=sequence_path))
 
         print("\nCoupling now defines (the InputCoupling variable reflects this):")
-        _print_enumerators(coupling)
+        _print_enumerators(definition=coupling)
         print(f"\nSaved sequence file with the evolved types to {sequence_path}")
 
 

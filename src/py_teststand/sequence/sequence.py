@@ -79,7 +79,7 @@ class StepCollection:
             return typing.cast("list[Step]", [self[i] for i in range(*index.indices(len(self)))])
         return self._sequence.get_step(index, self._group)
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[typing.Any]:
 
         for i in range(len(self)):
             yield self[i]

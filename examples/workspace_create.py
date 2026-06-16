@@ -21,8 +21,14 @@ import uuid
 from pathlib import Path
 
 from py_teststand import Engine, PropertyObjectFileType, StepGroup
+from py_teststand.property.property_object_file import PropertyObjectFile
+from py_teststand.sequence.sequence import Sequence
+from py_teststand.sequence.sequence_file import SequenceFile
+from py_teststand.sequence.step import Step
+from py_teststand.workspace.workspace_file import WorkspaceFile
+from py_teststand.workspace.workspace_object import WorkspaceObject
 
-ROOT_TEMP_DIR = Path(tempfile.gettempdir()) / "py-teststand"
+ROOT_TEMP_DIR: Path = Path(tempfile.gettempdir()) / "py-teststand"
 
 # WriteFile takes a file-format version, not a writing-format enum; 1 is current.
 CURRENT_FILE_FORMAT_VERSION = 1
@@ -30,54 +36,56 @@ CURRENT_FILE_FORMAT_VERSION = 1
 
 def _build_sequence_file(engine: Engine, output_path: Path) -> None:
     """Build a MainSequence with two Action steps and save it to output_path."""
-    sequence_file = engine.new_sequence_file()
-    main_sequence = sequence_file.get_sequence_by_name("MainSequence")
+    sequence_file: SequenceFile = engine.new_sequence_file()
+    main_sequence: Sequence = sequence_file.get_sequence_by_name(name="MainSequence")
     for name in ("Initialize Hardware", "Measure"):
-        step = engine.new_step(adapter_key_name="", step_type_name="Action")
+        step: Step = engine.new_step(adapter_key_name="", step_type_name="Action")
         step.name = name
-        main_sequence.insert_step(step, main_sequence.get_num_steps(), StepGroup.Main)
-    sequence_file.save(str(output_path))
+        main_sequence.insert_step(step, index=main_sequence.get_num_steps(), group=StepGroup.Main)
+    sequence_file.save(path=str(object=output_path))
 
 
 def main() -> None:
-    run_dir = ROOT_TEMP_DIR / uuid.uuid4().hex
+    run_dir: Path = ROOT_TEMP_DIR / uuid.uuid4().hex
     run_dir.mkdir(parents=True, exist_ok=True)
-    sequence_path = run_dir / "test_sequence.seq"
-    project_path = run_dir / "MyProject.tpj"
-    workspace_path = run_dir / "MyWorkspace.tsw"
+    sequence_path: Path = run_dir / "test_sequence.seq"
+    project_path: Path = run_dir / "MyProject.tpj"
+    workspace_path: Path = run_dir / "MyWorkspace.tsw"
 
     with Engine() as engine:
-        _build_sequence_file(engine, sequence_path)
+        _build_sequence_file(engine, output_path=sequence_path)
 
         # A project must exist on disk before it can be added to a workspace.
-        project_file = engine.new_property_object_file(PropertyObjectFileType.ProjectFile)
-        project_file.path = str(project_path)
-        project_file.write_file(CURRENT_FILE_FORMAT_VERSION)
+        project_file: PropertyObjectFile = engine.new_property_object_file(
+            file_type=PropertyObjectFileType.ProjectFile
+        )
+        project_file.path = str(object=project_path)
+        project_file.write_file(write_format=CURRENT_FILE_FORMAT_VERSION)
 
-        workspace = engine.new_workspace_file()
+        workspace: WorkspaceFile = engine.new_workspace_file()
         workspace.as_property_object_file().path = str(workspace_path)
-        root = workspace.root_workspace_object
+        root: WorkspaceObject = workspace.root_workspace_object
 
         # new_file() creates the workspace object; insert_object() attaches it to
         # its parent. Nest the project under the workspace, the sequence under it.
-        project = root.new_file(str(project_path))
-        root.insert_object(project, root.num_contained_objects)
-        sequence_item = project.new_file(str(sequence_path))
-        project.insert_object(sequence_item, project.num_contained_objects)
+        project: WorkspaceObject = root.new_file(str(project_path))
+        root.insert_object(object_to_insert=project, index=root.num_contained_objects)
+        sequence_item: WorkspaceObject = project.new_file(path_string=str(sequence_path))
+        project.insert_object(object_to_insert=sequence_item, index=project.num_contained_objects)
 
         # Persist the project file (now holding the sequence), then the workspace.
-        project_data_file = project.project_file
+        project_data_file: PropertyObjectFile | None = project.project_file
         if project_data_file is not None:
-            project_data_file.write_file(CURRENT_FILE_FORMAT_VERSION)
-        workspace.as_property_object_file().write_file(CURRENT_FILE_FORMAT_VERSION)
+            project_data_file.write_file(write_format=CURRENT_FILE_FORMAT_VERSION)
+        workspace.as_property_object_file().write_file(write_format=CURRENT_FILE_FORMAT_VERSION)
         workspace.save_workspace_and_project_files()
 
         print(f"Workspace: {workspace_path}")
         for i in range(root.num_contained_objects):
-            contained_project = root.get_contained_object(i)
+            contained_project: WorkspaceObject = root.get_contained_object(index=i)
             print(f"  {contained_project.object_type.name}: {contained_project.display_name}")
             for j in range(contained_project.num_contained_objects):
-                item = contained_project.get_contained_object(j)
+                item: WorkspaceObject = contained_project.get_contained_object(index=j)
                 print(f"    {item.object_type.name}: {item.display_name}")
 
         print("\nFiles written:")

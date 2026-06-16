@@ -252,7 +252,7 @@ TESTSTAND_KNOWN_ERROR_CODES: frozenset = frozenset(
 )
 
 
-def _generate_error_map():
+def _generate_error_map() -> dict[int, type[Error]]:
     emap: dict[int, type[Error]] = {}
 
     for code in TESTSTAND_KNOWN_ERROR_CODES:
@@ -290,4 +290,3 @@ def _generate_error_map():
 
 
 ERROR_MAP = _generate_error_map()
-
