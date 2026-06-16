@@ -10,7 +10,7 @@ EXAMPLES_DIR: Path = Path(__file__).resolve().parent
 EXAMPLES: list[tuple[str, str]] = [
     ("station_options_update", "Set station and debug options. Start here."),
     ("variables_create", "Add Locals and Parameters to a sequence."),
-    ("data_type_create_custom", "Define a DigitalMultimeter custom data type."),
+    ("data_type_manage", "Define a DigitalMultimeter custom data type."),
     ("property_object_serialize", "Dump variables and typedefs to JSON and back."),
     ("sequence_build", "Build a sequence file with steps and save it."),
     ("step_insert", "Insert a step into the sequence sequence_build made."),

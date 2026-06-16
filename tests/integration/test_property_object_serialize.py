@@ -4,7 +4,7 @@ The serializer in examples/property_object_serialize.py has to walk typedef'd
 subcontainers and arrays of them. A typedef instance arrives over COM as an
 IDispatch (VT_DISPATCH), so it must be recursed into structurally, not read as a
 value. These tests build a real registered DigitalMultimeter type (the same way
-data_type_create_custom.py does), put a single instance and an array of instances
+data_type_manage.py does), put a single instance and an array of instances
 into a sequence's Locals, and check that both serialize and round-trip.
 
 Gated behind --run-teststand-engine.
@@ -41,7 +41,7 @@ def test_serializes_nested_typedef_and_array_of_typedefs():
     from py_teststand import Engine, PropertyOption, PropValType, TypeCategory
 
     serialize = _load_example("property_object_serialize")
-    custom_type = _load_example("data_type_create_custom")
+    custom_type = _load_example("data_type_manage")
     insert = int(PropertyOption.InsertIfMissing)
 
     with Engine() as engine:

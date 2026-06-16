@@ -31,7 +31,7 @@ def _load_example(name: str):
 # Examples whose main() is self-contained and side-effect-free beyond temp files.
 _SELF_CONTAINED = [
     "sequence_build",
-    "data_type_create_custom",
+    "data_type_manage",
     "step_insert_from_template",
     "workspace_create",
     "users_manage",

@@ -46,6 +46,7 @@ from .core.engine import (
     ReleaseSeqFileOption,
     RTEOption,
     TestStandPath,
+    TypeVersionAutoIncrement,
 )
 from .core.exceptions import (
     AccessDeniedError,
@@ -299,6 +300,7 @@ __all__ = [
     "TypeCategory",
     "TypeMismatchError",
     "TypeUsageList",
+    "TypeVersionAutoIncrement",
     "UIMessage",
     "UIMessageCode",
     "UndoItem",

@@ -3,7 +3,7 @@
 TestStand keeps variables, parameters, and custom data types as PropertyObjects: a
 tree of named sub-properties. A sub-property can be a scalar (number, string,
 boolean), a nested container (including a typedef such as the DigitalMultimeter
-type from data_type_create_custom.py), or an array of any of those.
+type from data_type_manage.py), or an array of any of those.
 
 property_object_to_dict walks that tree into an ordinary dict; dict_to_property_object
 rebuilds an equivalent PropertyObject. The walk asks PropertyObject.get_type what
