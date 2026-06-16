@@ -7,7 +7,7 @@
 
 Community object-oriented Python 3 bindings (twin API) for the [National Instruments TestStand™ COM API](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html).
 
-> ⚠️ **Early Implementation Stage**: Treat it as experimental. Interfaces may change between releases without notice.
+> ⚠️ **Early Implementation Stage**: Treat it as experimental. Wrapper behaviour may change between releases without notice (like error catching).
 > 🤖 **AI Disclaimer**: This project uses LLMs for codebase and coverage audits and does not replace or integrate with the [NIGEL™ AI Advisor](https://www.ni.com/en/support/software-support/nigel-ai.html).
 
 ## 📖 Overview
