@@ -5,7 +5,7 @@ on the live engine is a strong regression check: a renamed or hallucinated COM
 member, a wrong argument order, or a broken signature raises here instead of
 slipping past the docs. These are gated behind ``--run-teststand-engine``.
 
-Two examples (variables_create, station_options_update) persist to the station
+Two examples (variables_manage, station_options_update) persist to the station
 with ``commit_globals_to_disk``; that call is neutralised so the tests exercise
 the example logic without modifying the developer's station configuration.
 """
@@ -148,7 +148,7 @@ def test_ui_messages_handle_example_runs_on_live_engine():
 
 @pytest.mark.teststand_engine
 @pytest.mark.integration
-@pytest.mark.parametrize("name", ["variables_create", "station_options_update"])
+@pytest.mark.parametrize("name", ["variables_manage", "station_options_update"])
 def test_station_example_runs_without_persisting(name, monkeypatch):
     from py_teststand.core.engine.engine import Engine
 

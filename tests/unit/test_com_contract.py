@@ -149,3 +149,28 @@ def test_sequence_file_save_forwards_explicit_path():
     SequenceFile(com).save("C:/tmp/out.seq")
 
     com.Save.assert_called_once_with("C:/tmp/out.seq")
+
+
+def test_set_property_object_forwards_value_even_when_falsy():
+    # PropertyObject.__len__ makes a scalar (0 sub-properties) falsy. A falsy but
+    # non-None value must still be forwarded to SetPropertyObject, not dropped to
+    # a NULL pointer (which it was while the guard tested truthiness).
+    class _FalsyWrapper:
+        def __init__(self, com):
+            self._com_obj = com
+
+        def __bool__(self):
+            return False
+
+    container_com = MagicMock()
+    value_com = MagicMock()
+    value = _FalsyWrapper(value_com)
+    assert not value  # falsy, like a scalar PropertyObject
+
+    PropertyObject(container_com).set_property_object(
+        "Copy", int(PropertyOption.InsertIfMissing), value
+    )
+
+    args = container_com.SetPropertyObject.call_args.args
+    assert args[0] == "Copy"
+    assert args[2] is value_com  # the real dispatch, never None
