@@ -21,4 +21,4 @@ dist/
 docs/
 env/
 htmlcov/
-uv.lock
+monkeytype.sqlite3
