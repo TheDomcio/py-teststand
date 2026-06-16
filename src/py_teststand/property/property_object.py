@@ -907,7 +907,7 @@ class PropertyObject(COMWrapper):
         options: int = 0,
         value: typing.Any = None,
     ) -> None:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValInterface(lookup_string, options, val_com)
 
     @ts_interface
@@ -925,7 +925,7 @@ class PropertyObject(COMWrapper):
         options: int,
         value: typing.Any,
     ) -> typing.Any:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetPropertyObject(lookup_string, options, val_com)
 
     @ts_interface
@@ -935,7 +935,7 @@ class PropertyObject(COMWrapper):
         options: int,
         value: typing.Any,
     ) -> typing.Any:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetPropertyObjectByOffset(array_offset, options, val_com)
 
     @ts_interface
@@ -1029,7 +1029,7 @@ class PropertyObject(COMWrapper):
 
     @ts_interface
     def get_location(self, top_object: typing.Any = None) -> typing.Any:
-        top_com = getattr(top_object, "_com_obj", top_object) if top_object else None
+        top_com = getattr(top_object, "_com_obj", top_object) if top_object is not None else None
         return str(self._property_object.GetLocation(top_com))
 
     @ts_interface
@@ -1144,7 +1144,7 @@ class PropertyObject(COMWrapper):
         options: int = 0,
         value: typing.Any = None,
     ) -> None:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValIDispatch(lookup_string, options, val_com)
 
     @ts_interface
@@ -1154,7 +1154,7 @@ class PropertyObject(COMWrapper):
         options: int = 0,
         value: typing.Any = None,
     ) -> None:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValIDispatchByOffset(array_offset, options, val_com)
 
     @ts_interface
@@ -1173,7 +1173,7 @@ class PropertyObject(COMWrapper):
         options: int = 0,
         value: typing.Any = None,
     ) -> None:
-        val_com = getattr(value, "_com_obj", value) if value else None
+        val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValInterfaceByOffset(array_offset, options, val_com)
 
     @ts_interface

@@ -2376,7 +2376,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def new_step(self, adapter_key_name: str, step_type_name: str) -> typing.Any:
+    def new_step(self, adapter_key_name: str, step_type_name: str) -> Step:
         return Step(self._engine.NewStep(adapter_key_name, step_type_name), self)
 
     @ts_interface
