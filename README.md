@@ -89,6 +89,18 @@ maintainer to ensure it meets the project's quality standards.
 
 ## ⚡ Quick Start
 
+```python
+from py_teststand import Engine
+
+with Engine() as engine:
+    with engine.get_sequence_file("my_test.seq") as sequence_file:
+        with engine.new_execution(sequence_file, "MainSequence") as execution:
+            execution.wait_for_end_ex(-1)
+            print(f"Result: {execution.result_status}")
+```
+
+To see the full capabilities, run the examples suite:
+
 ```powershell
 uv run .\examples\launch_all_examples.py
 ```
@@ -96,6 +108,7 @@ uv run .\examples\launch_all_examples.py
 ```python
 EXAMPLES: list[tuple[str, str]] = [
     ("station_options_update", "Set station and debug options. Start here."),
+    ("search_directory_manage", "Manage TestStand search directories."),
     ("variables_manage", "Create variables across scopes, then retype and remove one."),
     ("data_type_manage", "Create and evolve custom data types (container + strict enum)."),
     ("property_object_serialize", "Dump variables and typedefs to JSON and back."),
@@ -110,7 +123,8 @@ EXAMPLES: list[tuple[str, str]] = [
     (
         "execution_run_subsequence",
         "Run a sequence and read its results. Last; it shuts the engine down.",
-    )
+    ),
+]
 ```
 
 > ℹ️ A live TestStand™ installation is only required at runtime when COM objects are
