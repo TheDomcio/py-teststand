@@ -1,6 +1,6 @@
 [project]
 name = "py-teststand"
-version = "0.2.1"
+version = "0.2.2"
 description = "Community object-oriented Python 3 bindings for the National Instruments TestStand™ COM API"
 readme = "README.md"
 # Last supported by uv 0.11.15 (3cffe97c2 2026-05-18 x86_64-pc-windows-msvc)
@@ -69,9 +69,6 @@ target-version = "py38"
 [tool.ruff.lint]
 # Added "ANN" to enforce type annotations
 select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "ARG", "PTH", "RUF", "FA", "PGH", "FLY", "ANN"]
-# ANN401 (any-type) is a false positive here: COM members return VARIANT/IDispatch,
-# which is genuinely dynamic, so `typing.Any` is the correct annotation, not a missing one.
-ignore = ["ANN401"]
 per-file-ignores = { "tests/**" = ["N801", "ANN"] } # Ignore typing enforcements in test files
 unfixable = []
 fixable = ["ALL"]
