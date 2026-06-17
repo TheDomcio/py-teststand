@@ -98,7 +98,7 @@ python_files = ["test_*.py"]
 markers = [
     "integration: marks tests as integration tests (slow, requires TestStand™ installation)",
     "unit: marks tests as unit tests (fast, no TestStand™ required)",
-    "teststand_engine: marks tests as requiring a live TestStand engine",
+    "teststand_engine: marks tests as requiring a live TestStand™ engine",
 ]
 
 [dependency-groups]
