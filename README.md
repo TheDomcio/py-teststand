@@ -7,7 +7,7 @@
 
 Community object-oriented Python 3 bindings (twin API) for the [National Instruments TestStand™ COM API](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html).
 
-> ⚠️ **Early Implementation Stage**: Treat it as experimental. Wrapper behaviour may change between releases without notice (like error catching).
+> ⚠️ **Early Implementation Stage**: Treat it as experimental. Wrapper behaviour may change between releases without notice (like error catching or high level imports).
 > 🤖 **AI Disclaimer**: This project uses LLMs for codebase and coverage audits and does not replace or integrate with the [NIGEL™ AI Advisor](https://www.ni.com/en/support/software-support/nigel-ai.html).
 
 ## 📖 Overview
@@ -62,10 +62,10 @@ This approach means the bindings target a specific version of the TestStand™ t
 ## 🧰 Technical Stack
 
 | Tool                                             | Purpose                                                     |
-| ------------------------------------------------ | ----------------------------------------------------------- |
+|--------------------------------------------------|-------------------------------------------------------------|
 | **[uv](https://github.com/astral-sh/uv)**        | Python package and project manager                          |
 | **[ty](https://github.com/astral-sh/ty)**        | Static type checker for interface validation                |
-| **[ruff](https://github.com/astral-sh/ruff)**    | Linter and code formatter                                   |
+| **[ruff](https://github.com/astral-sh/ruff)**    | Linter and code formatter (with strict rules)               |
 | **[pytest](https://pytest.org/)**                | Unit and integration test runner                            |
 | **[pywin32](https://pypi.org/project/pywin32/)** | Windows COM dispatch layer and TestStand™ TLB introspection |
 
@@ -74,7 +74,7 @@ This approach means the bindings target a specific version of the TestStand™ t
 ## 🔗 Compatibility
 
 | Component                                                                                                               | Versions      |
-| ----------------------------------------------------------------------------------------------------------------------- | ------------- |
+|-------------------------------------------------------------------------------------------------------------------------|---------------|
 | **[Windows](https://www.microsoft.com/en-us/windows)**                                                                  | 7 to 11       |
 | **[Python](https://www.python.org/downloads/)**                                                                         | 3.8 to 3.14   |
 | **[TestStand™](https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tshelp/teststand-api-reference.html)** | 2016 to 2026+ |
