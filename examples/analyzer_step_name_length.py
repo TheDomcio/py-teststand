@@ -15,11 +15,17 @@ from __future__ import annotations
 
 from typing import Any, cast
 
-from py_teststand import Engine, StepGroup
-from py_teststand.analyzer import AnalysisContext, AnalysisTransition, RuleSeverity, rule
-from py_teststand.sequence.sequence import Sequence
-from py_teststand.sequence.sequence_file import SequenceFile
-from py_teststand.sequence.step import Step
+from py_teststand import (
+    AnalysisContext,
+    AnalysisTransition,
+    Engine,
+    RuleSeverity,
+    Sequence,
+    SequenceFile,
+    Step,
+    StepGroup,
+    rule,
+)
 
 RULE_ID = "PyTS_CheckStepNameLength"
 MAXIMUM_STEP_NAME_LENGTH = 15

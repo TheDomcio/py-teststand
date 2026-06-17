@@ -228,12 +228,12 @@ class ExecutionViewManager(COMWrapper):
 
     @property
     @ts_interface
-    def user_data(self) -> typing.Any:
+    def user_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserData
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: typing.Any) -> None:
+    def user_data(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserData = value
 
     @ts_interface
@@ -262,7 +262,7 @@ class ExecutionViewManager(COMWrapper):
         return InteractiveArgs(res, self._engine_ref), bool(cancel_out)
 
     @ts_interface
-    def connect_call_stack(self, control: typing.Any) -> CallStackConnection:
+    def connect_call_stack(self, control: typing.Any) -> CallStackConnection:  # noqa: ANN401
         from .connections import CallStackConnection
 
         return CallStackConnection(self._com_obj.ConnectCallStack(control), self._engine_ref)
@@ -270,7 +270,7 @@ class ExecutionViewManager(COMWrapper):
     @ts_interface
     def connect_caption(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         source: int | CaptionSource,
     ) -> CaptionConnection:
         from .connections import CaptionConnection
@@ -283,7 +283,7 @@ class ExecutionViewManager(COMWrapper):
     @ts_interface
     def connect_command(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         command_kind: int,
         index: int = 0,
         options: int = 0,
@@ -303,7 +303,7 @@ class ExecutionViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_execution_list(self, control: typing.Any) -> ExecutionListConnection:
+    def connect_execution_list(self, control: typing.Any) -> ExecutionListConnection:  # noqa: ANN401
         from .connections import ExecutionListConnection
 
         return ExecutionListConnection(
@@ -314,7 +314,7 @@ class ExecutionViewManager(COMWrapper):
     @ts_interface
     def connect_execution_view(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         options: ExecutionViewConnectionOption | int = 0,
     ) -> ExecutionViewConnection:
         from .connections import ExecutionViewConnection
@@ -325,7 +325,7 @@ class ExecutionViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_image(self, control: typing.Any, source: int | ImageSource) -> ImageConnection:
+    def connect_image(self, control: typing.Any, source: int | ImageSource) -> ImageConnection:  # noqa: ANN401
         from .connections import ImageConnection
 
         return ImageConnection(self._com_obj.ConnectImage(control, int(source)), self._engine_ref)
@@ -333,7 +333,7 @@ class ExecutionViewManager(COMWrapper):
     @ts_interface
     def connect_numeric(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         source: int | NumericSource,
     ) -> NumericConnection:
         from .connections import NumericConnection
@@ -344,19 +344,19 @@ class ExecutionViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_report_view(self, control: typing.Any) -> ReportViewConnection:
+    def connect_report_view(self, control: typing.Any) -> ReportViewConnection:  # noqa: ANN401
         from .connections import ReportViewConnection
 
         return ReportViewConnection(self._com_obj.ConnectReportView(control), self._engine_ref)
 
     @ts_interface
-    def connect_thread_list(self, control: typing.Any) -> ThreadListConnection:
+    def connect_thread_list(self, control: typing.Any) -> ThreadListConnection:  # noqa: ANN401
         from .connections import ThreadListConnection
 
         return ThreadListConnection(self._com_obj.ConnectThreadList(control), self._engine_ref)
 
     @ts_interface
-    def connect_variables(self, control: typing.Any) -> VariablesConnection:
+    def connect_variables(self, control: typing.Any) -> VariablesConnection:  # noqa: ANN401
         from .connections import VariablesConnection
 
         return VariablesConnection(self._com_obj.ConnectVariables(control), self._engine_ref)

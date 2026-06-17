@@ -246,7 +246,7 @@ class ActiveXServers(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def __getitem__(self, index: typing.Any) -> ActiveXServer:
+    def __getitem__(self, index: typing.Any) -> ActiveXServer:  # noqa: ANN401
         return ActiveXServer(self._com_obj.Item(index), self._engine_ref)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
@@ -277,7 +277,7 @@ class ActiveXMembers(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def __getitem__(self, index: typing.Any) -> ActiveXMember:
+    def __getitem__(self, index: typing.Any) -> ActiveXMember:  # noqa: ANN401
         return ActiveXMember(self._com_obj.Item(index), self._engine_ref)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
@@ -292,7 +292,7 @@ class ActiveXParameters(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def __getitem__(self, index: typing.Any) -> ActiveXParameter:
+    def __getitem__(self, index: typing.Any) -> ActiveXParameter:  # noqa: ANN401
         return ActiveXParameter(self._com_obj.Item(index), self._engine_ref)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
@@ -413,7 +413,7 @@ class ActiveXCoClasses(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def __getitem__(self, index: typing.Any) -> ActiveXCoClass:
+    def __getitem__(self, index: typing.Any) -> ActiveXCoClass:  # noqa: ANN401
         return ActiveXCoClass(self._com_obj.Item(index), self._engine_ref)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
@@ -428,7 +428,7 @@ class ActiveXInterfaces(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def __getitem__(self, index: typing.Any) -> ActiveXInterface:
+    def __getitem__(self, index: typing.Any) -> ActiveXInterface:  # noqa: ANN401
         return ActiveXInterface(self._com_obj.Item(index), self._engine_ref)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:

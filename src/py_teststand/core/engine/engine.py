@@ -140,7 +140,7 @@ class Engine(COMWrapper):
 
     def __init__(
         self,
-        com_obj: typing.Any = None,
+        com_obj: typing.Any = None,  # noqa: ANN401
         *,
         suppress_popups: bool = True,
         shutdown_timeout: float = 5.0,
@@ -275,7 +275,7 @@ class Engine(COMWrapper):
 
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
 
         self.shutdown()
         self.release()
@@ -329,7 +329,7 @@ class Engine(COMWrapper):
         return int(self._engine.AcquireLicense(int(license), int(options)))
 
     @ts_interface
-    def add_image(self, image: typing.Any, image_name: str) -> typing.Any:
+    def add_image(self, image: int, image_name: str) -> typing.Any:  # noqa: ANN401
         return int(self._engine.AddImage(image, image_name))
 
     @property
@@ -354,7 +354,7 @@ class Engine(COMWrapper):
 
     @property
     @ts_interface
-    def application_license(self) -> typing.Any:
+    def application_license(self) -> typing.Any:  # noqa: ANN401
         return LicenseType(self._engine.ApplicationLicense)
 
     @functools.cached_property
@@ -455,7 +455,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def can_create_step(self, adapter_key_name: str, step_type_name: str) -> typing.Any:
+    def can_create_step(self, adapter_key_name: str, step_type_name: str) -> bool:
         return bool(self._engine.CanCreateStep(adapter_key_name, step_type_name))
 
     @ts_interface
@@ -480,7 +480,7 @@ class Engine(COMWrapper):
         return bool(is_valid), str(error_description), int(start_err_pos), int(end_err_pos)
 
     @ts_interface
-    def check_expr_syntax(self, expression_str: str) -> typing.Any:
+    def check_expr_syntax(self, expression_str: str) -> typing.Any:  # noqa: ANN401
         error_description = ""
         start_err_pos = 0
         end_err_pos = 0
@@ -517,7 +517,7 @@ class Engine(COMWrapper):
         self._engine.ClearFilePasswordCache()
 
     @ts_interface
-    def commit_globals_to_disk(self, prompt_on_save_conflicts: bool = True) -> typing.Any:
+    def commit_globals_to_disk(self, prompt_on_save_conflicts: bool = True) -> typing.Any:  # noqa: ANN401
         self._engine.CommitGlobalsToDisk(bool(prompt_on_save_conflicts))
 
     @property
@@ -538,27 +538,27 @@ class Engine(COMWrapper):
         return PropertyObjectFile(self._engine.ConfigFile, self)
 
     @ts_interface
-    def construct_tool_menus(self, edit_args: typing.Any | None = None) -> typing.Any:
+    def construct_tool_menus(self, edit_args: int | None = None) -> typing.Any:  # noqa: ANN401
         return int(self._engine.ConstructToolMenus(edit_args))
 
     @ts_interface
-    def copy_property_object(self, src_obj: PropertyObject) -> typing.Any:
+    def copy_property_object(self, src_obj: PropertyObject) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         return PropertyObject(self._engine.CopyPropertyObject(src_obj._com_obj), self)
 
     @ts_interface
-    def create_new_unique_step_ids(self, steps: list[Step]) -> typing.Any:
+    def create_new_unique_step_ids(self, steps: list[Step]) -> typing.Any:  # noqa: ANN401
         step_coms = [s._com_obj for s in steps]
         self._engine.CreateNewUniqueStepIds(step_coms)
 
     @ts_interface
-    def create_temp_file(self, base_name: str, extension: str, directory: str = "") -> typing.Any:
+    def create_temp_file(self, base_name: str, extension: str, directory: str = "") -> str:
         return str(self._engine.CreateTempFile(base_name, extension, directory))
 
     @property
     @ts_interface
-    def current_user(self) -> typing.Any:
+    def current_user(self) -> typing.Any:  # noqa: ANN401
         user_com = self._engine.CurrentUser
         return User(user_com, self) if user_com else None
 
@@ -569,7 +569,7 @@ class Engine(COMWrapper):
         self._engine.CurrentUser = user_com
 
     @ts_interface
-    def current_user_has_privilege(self, privilege_name: str) -> typing.Any:
+    def current_user_has_privilege(self, privilege_name: str) -> bool:
         return bool(self._engine.CurrentUserHasPrivilege(privilege_name))
 
     @property
@@ -983,7 +983,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def display_help_topic_ex(self, help_context_id: str) -> typing.Any:
+    def display_help_topic_ex(self, help_context_id: str) -> typing.Any:  # noqa: ANN401
         self._engine.DisplayHelpTopicEx(help_context_id)
 
     @ts_interface
@@ -1393,7 +1393,7 @@ class Engine(COMWrapper):
         return bool(self._engine.DisplayWorkspaceBrowserDialog(dlg_title, int(dlg_options)))
 
     @ts_interface
-    def do_dot_net_garbage_collection(self, reserved: int = 0) -> typing.Any:
+    def do_dot_net_garbage_collection(self, reserved: int = 0) -> typing.Any:  # noqa: ANN401
         self._engine.DoDotNetGarbageCollection(int(reserved))
 
     @property
@@ -1402,7 +1402,7 @@ class Engine(COMWrapper):
         return str(self._engine.DotNetCLRVersion)
 
     @property
-    def dot_net_runtime_kind(self) -> typing.Any:
+    def dot_net_runtime_kind(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters.dotnet import (
             DotNetRuntimeKind,
             parse_dotnet_runtime_kind,
@@ -1421,7 +1421,7 @@ class Engine(COMWrapper):
 
     @property
     @ts_interface
-    def dot_net_garbage_collection_interval(self) -> typing.Any:
+    def dot_net_garbage_collection_interval(self) -> int:
         return int(self._engine.DotNetGarbageCollectionInterval)
 
     @dot_net_garbage_collection_interval.setter
@@ -1459,7 +1459,7 @@ class Engine(COMWrapper):
         return str(self._engine.EngineVersionString)
 
     @ts_interface
-    def eval_tool_menu_item_exprs(self, edit_args: typing.Any | None = None) -> typing.Any:
+    def eval_tool_menu_item_exprs(self, edit_args: typing.Any | None = None) -> typing.Any:  # noqa: ANN401
         self._engine.EvalToolMenuItemExprs(edit_args)
 
     @property
@@ -1473,7 +1473,7 @@ class Engine(COMWrapper):
         self._engine.ExecutionMask = int(value)
 
     @ts_interface
-    def expand_path_macros(self, path_string: str) -> typing.Any:
+    def expand_path_macros(self, path_string: str) -> typing.Any:  # noqa: ANN401
         path_io = path_string
         result = self._engine.ExpandPathMacros(path_io)
         return bool(result), str(path_io)
@@ -1526,7 +1526,7 @@ class Engine(COMWrapper):
         search_list_option: FindFileSearchListOption | int = FindFileSearchListOption.Ask,
         is_command: bool = False,
         search_context: SequenceFile | None = None,
-        reserved: typing.Any | None = None,
+        reserved: typing.Any | None = None,  # noqa: ANN401
     ) -> tuple[bool, str, SearchDirectory, int, bool]:
         abs_path_out = ""
         type_out = 0
@@ -1566,15 +1566,15 @@ class Engine(COMWrapper):
         return bool(result), str(abs_path_out), FindPathStatusOption(status_out)
 
     @ts_interface
-    def get_adapter(self, adapter_index: int) -> typing.Any:
+    def get_adapter(self, adapter_index: int) -> typing.Any:  # noqa: ANN401
         return Adapter(self._engine.GetAdapter(int(adapter_index)), self)
 
     @ts_interface
-    def get_adapter_by_key_name(self, adapter_key_name: str | AdapterKeyName) -> typing.Any:
+    def get_adapter_by_key_name(self, adapter_key_name: str | AdapterKeyName) -> typing.Any:  # noqa: ANN401
         return Adapter(self._engine.GetAdapterByKeyName(str(adapter_key_name)), self)
 
     @ts_interface
-    def get_edit_time_tool_menu_items(self, reserved: int = 0) -> typing.Any:
+    def get_edit_time_tool_menu_items(self, reserved: int = 0) -> typing.Any:  # noqa: ANN401
         from py_teststand.ui.menu_item import EditTimeMenuItems
 
         return EditTimeMenuItems(self._engine.GetEditTimeToolMenuItems(int(reserved)), self)
@@ -1592,36 +1592,36 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def get_environment_path(self) -> typing.Any:
+    def get_environment_path(self) -> str:
         return str(self._engine.GetEnvironmentPath())
 
     @ts_interface
-    def get_remote_executor_interface(self, adapter_index: int) -> typing.Any:
+    def get_remote_executor_interface(self, adapter_index: int) -> typing.Any:  # noqa: ANN401
         return self._engine.GetRemoteExecutorInterface(int(adapter_index))
 
     @ts_interface
-    def get_error_string(self, error_code: TSError | int) -> typing.Any:
+    def get_error_string(self, error_code: TSError | int) -> typing.Any:  # noqa: ANN401
         error_string_out = ""
         result = self._engine.GetErrorString(int(error_code), error_string_out)
         return bool(result), str(error_string_out)
 
     @ts_interface
-    def get_execution(self, execution_id: int) -> typing.Any:
+    def get_execution(self, execution_id: int) -> typing.Any:  # noqa: ANN401
         com_obj = self._engine.GetExecution(int(execution_id))
         return Execution(com_obj, self) if com_obj else None
 
     @ts_interface
-    def get_file_information(self, path: str) -> typing.Any:
+    def get_file_information(self, path: str) -> typing.Any:  # noqa: ANN401
         from py_teststand.core.file_information import FileInformation
 
         return FileInformation(self._engine.GetFileInformation(path), self)
 
     @ts_interface
-    def get_image_index(self, image_name: str) -> typing.Any:
+    def get_image_index(self, image_name: str) -> int:
         return int(self._engine.GetImageIndex(image_name))
 
     @ts_interface
-    def get_image_name(self, image_index: int) -> typing.Any:
+    def get_image_name(self, image_index: int) -> str:
         return str(self._engine.GetImageName(int(image_index)))
 
     @ts_interface
@@ -1649,11 +1649,11 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def get_internal_option(self, option: InternalOption | int) -> typing.Any:
+    def get_internal_option(self, option: InternalOption | int) -> typing.Any:  # noqa: ANN401
         return self._engine.GetInternalOption(int(option))
 
     @ts_interface
-    def get_license_description(self, reserved: int = 0) -> typing.Any:
+    def get_license_description(self, reserved: int = 0) -> str:
         return str(self._engine.GetLicenseDescription(int(reserved)))
 
     @ts_interface
@@ -1682,11 +1682,11 @@ class Engine(COMWrapper):
         return str(lookup_out), SearchElement(element_out), int(start_out), int(length_out)
 
     @ts_interface
-    def get_module_profiling(self, adapter_key_name: str | AdapterKeyName) -> typing.Any:
+    def get_module_profiling(self, adapter_key_name: str | AdapterKeyName) -> bool:
         return bool(self._engine.GetModuleProfiling(str(adapter_key_name)))
 
     @ts_interface
-    def get_num_tool_menu_items(self, menu_index: int) -> typing.Any:
+    def get_num_tool_menu_items(self, menu_index: int) -> int:
         return int(self._engine.GetNumToolMenuItems(int(menu_index)))
 
     @ts_interface
@@ -1700,7 +1700,7 @@ class Engine(COMWrapper):
         return OutputMessages(self._engine.GetOutputMessages(), self)
 
     @ts_interface
-    def get_product_registration_info(self) -> typing.Any:
+    def get_product_registration_info(self) -> bool:
         user_out = ""
         company_out = ""
         serial_out = ""
@@ -1736,13 +1736,13 @@ class Engine(COMWrapper):
         return str(result), bool(found_out)
 
     @ts_interface
-    def get_resource_symbols(self, section: str) -> typing.Any:
+    def get_resource_symbols(self, section: str) -> typing.Any:  # noqa: ANN401
         return list(self._engine.GetResourceSymbols(section))
 
     @ts_interface
     def get_run_time_tool_menu_items(
         self,
-        edit_args: typing.Any | None = None,
+        edit_args: typing.Any | None = None,  # noqa: ANN401
         reserved: int = 0,
     ) -> RunTimeMenuItems:
         from py_teststand.ui.menu_item import RunTimeMenuItems
@@ -1780,23 +1780,23 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def get_station_model_sequence_file(self) -> typing.Any:
+    def get_station_model_sequence_file(self) -> typing.Any:  # noqa: ANN401
         model_desc_out = ""
         result_com = self._engine.GetStationModelSequenceFile(model_desc_out)
         return SequenceFile(result_com, self), str(model_desc_out)
 
     @ts_interface
-    def get_sync_manager(self, sync_object_name: str) -> typing.Any:
+    def get_sync_manager(self, sync_object_name: str) -> typing.Any:  # noqa: ANN401
         return self._engine.GetSyncManager(sync_object_name)
 
     @ts_interface
-    def get_templates_file(self, options: GetTemplatesFileOption | int = 0) -> typing.Any:
+    def get_templates_file(self, options: GetTemplatesFileOption | int = 0) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object_file import PropertyObjectFile
 
         return PropertyObjectFile(self._engine.GetTemplatesFile(int(options)), self)
 
     @ts_interface
-    def get_test_stand_path(self, test_stand_path: TestStandPath | int) -> typing.Any:
+    def get_test_stand_path(self, test_stand_path: TestStandPath | int) -> str:
         return str(self._engine.GetTestStandPath(int(test_stand_path)))
 
     @ts_interface
@@ -1845,7 +1845,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def get_tool_menu_item_info_with_id(self, unique_item_id: int) -> typing.Any:
+    def get_tool_menu_item_info_with_id(self, unique_item_id: int) -> str:
         item_text_out = ""
         sub_menu_index_out = 0
         enabled_out = False
@@ -1882,7 +1882,7 @@ class Engine(COMWrapper):
         return PropertyObject(self._engine.GetToolMenuStructure(), self)
 
     @ts_interface
-    def get_type_definition(self, type_name: str) -> typing.Any:
+    def get_type_definition(self, type_name: str) -> typing.Any:  # noqa: ANN401
         com_obj = self._engine.GetTypeDefinition(type_name)
         return PropertyObject(com_obj, self) if com_obj else None
 
@@ -1897,33 +1897,33 @@ class Engine(COMWrapper):
         return [PropertyObjectFile(f, self) for f in self._engine.GetTypePaletteFileList()]
 
     @ts_interface
-    def get_types(self, reserved: int = 0) -> typing.Any:
+    def get_types(self, reserved: int = 0) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object_file import TypeUsageList
 
         return TypeUsageList(self._engine.GetTypes(int(reserved)), self)
 
     @ts_interface
-    def get_type_usage_locations(self, type_name: str) -> typing.Any:
+    def get_type_usage_locations(self, type_name: str) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object_file import PropertyObjectFile
 
         return [PropertyObjectFile(f, self) for f in self._engine.GetTypeUsageLocations(type_name)]
 
     @ts_interface
-    def get_ui_message(self) -> typing.Any:
+    def get_ui_message(self) -> typing.Any:  # noqa: ANN401
         return UIMessage(self._engine.GetUIMessage(), self)
 
     @ts_interface
-    def get_user(self, login_name: str) -> typing.Any:
+    def get_user(self, login_name: str) -> typing.Any:  # noqa: ANN401
         com_obj = self._engine.GetUser(login_name)
         return User(com_obj, self) if com_obj else None
 
     @ts_interface
-    def get_user_group(self, user_group_name: str) -> typing.Any:
+    def get_user_group(self, user_group_name: str) -> typing.Any:  # noqa: ANN401
         com_obj = self._engine.GetUserGroup(user_group_name)
         return User(com_obj, self) if com_obj else None
 
     @ts_interface
-    def get_user_profile(self, user_profile_name: str) -> typing.Any:
+    def get_user_profile(self, user_profile_name: str) -> typing.Any:  # noqa: ANN401
         com_obj = self._engine.GetUserProfile(user_profile_name)
         return User(com_obj, self) if com_obj else None
 
@@ -1961,7 +1961,7 @@ class Engine(COMWrapper):
         return PropertyObjectFile(self._engine.GlobalsFile, self)
 
     @ts_interface
-    def has_addon_license(self, addon_feature_name: str) -> typing.Any:
+    def has_addon_license(self, addon_feature_name: str) -> bool:
         return bool(self._engine.HasAddonLicense(addon_feature_name))
 
     @property
@@ -1972,11 +1972,11 @@ class Engine(COMWrapper):
         return Images(self._engine.Images, self)
 
     @ts_interface
-    def invoke_tool_menu_item(self, menu_index: int, item_index: int) -> typing.Any:
+    def invoke_tool_menu_item(self, menu_index: int, item_index: int) -> typing.Any:  # noqa: ANN401
         self._engine.InvokeToolMenuItem(int(menu_index), int(item_index))
 
     @ts_interface
-    def invoke_tool_menu_item_with_id(self, unique_item_id: int) -> typing.Any:
+    def invoke_tool_menu_item_with_id(self, unique_item_id: int) -> typing.Any:  # noqa: ANN401
         self._engine.InvokeToolMenuItemWithID(int(unique_item_id))
 
     @property
@@ -2000,7 +2000,7 @@ class Engine(COMWrapper):
         self._com_obj.AlwaysGotoCleanupOnFailure = value
 
     @ts_interface
-    def is_current_sequence_file_version(self, file_path: str) -> typing.Any:
+    def is_current_sequence_file_version(self, file_path: str) -> int:
         return int(self._engine.IsCurrentSequenceFileVersion(file_path))
 
     @property
@@ -2020,7 +2020,7 @@ class Engine(COMWrapper):
 
     @property
     @ts_interface
-    def large_image_list_ex(self) -> typing.Any:
+    def large_image_list_ex(self) -> typing.Any:  # noqa: ANN401
         return self._engine.LargeImageListEx
 
     @property
@@ -2029,12 +2029,12 @@ class Engine(COMWrapper):
         return str(self._engine.LastWorkspacePath)
 
     @ts_interface
-    def launch_external_viewer(self, file_path: str) -> typing.Any:
+    def launch_external_viewer(self, file_path: str) -> typing.Any:  # noqa: ANN401
         self._engine.LaunchExternalViewer(file_path)
 
     @property
     @ts_interface
-    def license_type(self) -> typing.Any:
+    def license_type(self) -> typing.Any:  # noqa: ANN401
         return LicenseType(self._engine.LicenseType)
 
     @ts_interface
@@ -2070,7 +2070,7 @@ class Engine(COMWrapper):
         operation: str,
         timeout: float,
         post_message: bool,
-        reserved: typing.Any | None = None,
+        reserved: typing.Any | None = None,  # noqa: ANN401
     ) -> OutputMessage:
         ctx_com = sequence_context._com_obj if sequence_context else None
         from py_teststand.messaging.output_message import OutputMessage
@@ -2113,7 +2113,7 @@ class Engine(COMWrapper):
         return int(self._engine.MinorVersion)
 
     @ts_interface
-    def new_csv_file_input_record_stream(self, absolute_path: str) -> typing.Any:
+    def new_csv_file_input_record_stream(self, absolute_path: str) -> typing.Any:  # noqa: ANN401
         return self._engine.NewCsvFileInputRecordStream(absolute_path)
 
     @ts_interface
@@ -2157,7 +2157,7 @@ class Engine(COMWrapper):
     def new_edit_context(
         self,
         obj: PropertyObject,
-        edit_args_param: EditArgs | typing.Any | None = None,
+        edit_args_param: EditArgs | typing.Any | None = None,  # noqa: ANN401
         location_string: str | None = None,
     ) -> SequenceContext:
         from py_teststand.sequence.sequence_context import SequenceContext
@@ -2368,7 +2368,7 @@ class Engine(COMWrapper):
         sequence_file_1: SequenceFile,
         sequence_file_2: SequenceFile,
         options: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return self._engine.DiffSequenceFiles(
             sequence_file_1._com_obj,
             sequence_file_2._com_obj,
@@ -2386,7 +2386,7 @@ class Engine(COMWrapper):
         return StepType(self._engine.NewStepType(), self)
 
     @ts_interface
-    def new_type_usage_list(self, reserved_param: int = 0) -> typing.Any:
+    def new_type_usage_list(self, reserved_param: int = 0) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object_file import TypeUsageList
 
         return TypeUsageList(self._engine.NewTypeUsageList(int(reserved_param)), self)
@@ -2416,7 +2416,7 @@ class Engine(COMWrapper):
         return UndoStack(self._engine.NewUndoStack(), self)
 
     @ts_interface
-    def new_user(self, user_profile: User | None = None) -> typing.Any:
+    def new_user(self, user_profile: User | None = None) -> typing.Any:  # noqa: ANN401
         profile_com = user_profile._com_obj if user_profile else None
         return User(self._engine.NewUser(profile_com), self)
 
@@ -2425,7 +2425,7 @@ class Engine(COMWrapper):
         return WorkspaceFile(self._engine.NewWorkspaceFile(), self)
 
     @ts_interface
-    def notify_end_of_modal_dialog(self, modal_id: int) -> typing.Any:
+    def notify_end_of_modal_dialog(self, modal_id: int) -> typing.Any:  # noqa: ANN401
         self._engine.NotifyEndOfModalDialog(int(modal_id))
 
     @ts_interface
@@ -2523,7 +2523,7 @@ class Engine(COMWrapper):
         event_code: UIMessageCode | int,
         numeric_data: float,
         string_data: str,
-        active_x_data: typing.Any | None,
+        active_x_data: typing.Any | None,  # noqa: ANN401
         synchronous: bool,
     ) -> None:
         self._engine.PostUIMessage(
@@ -2607,7 +2607,7 @@ class Engine(COMWrapper):
         seq_file_path: str,
         seq_name: str,
         options: CrashCallbackOption | int = 0,
-        reserved: typing.Any = None,
+        reserved: typing.Any = None,  # noqa: ANN401
     ) -> int:
         return int(
             self._engine.RegisterSequenceToExecuteOnCrash(
@@ -2619,23 +2619,23 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def register_ui_message(self, message_name: str) -> typing.Any:
+    def register_ui_message(self, message_name: str) -> int:
         return int(self._engine.RegisterUIMessage(message_name))
 
     @ts_interface
-    def register_ui_message_callback(self, callback_func_addr: int) -> typing.Any:
+    def register_ui_message_callback(self, callback_func_addr: int) -> typing.Any:  # noqa: ANN401
         self._engine.RegisterUIMessageCallback(int(callback_func_addr))
 
     @ts_interface
-    def register_ui_message_callback_ex(self, callback_func_addr: int) -> typing.Any:
+    def register_ui_message_callback_ex(self, callback_func_addr: int) -> typing.Any:  # noqa: ANN401
         self._engine.RegisterUIMessageCallbackEx(int(callback_func_addr))
 
     @ts_interface
-    def release_license(self, license_handle: int, reserved: int = 0) -> typing.Any:
+    def release_license(self, license_handle: int, reserved: int = 0) -> typing.Any:  # noqa: ANN401
         self._engine.ReleaseLicense(int(license_handle), int(reserved))
 
     @ts_interface
-    def release_sequence_file(self, sequence_file: SequenceFile) -> typing.Any:
+    def release_sequence_file(self, sequence_file: SequenceFile) -> typing.Any:  # noqa: ANN401
         com_obj = sequence_file._com_obj
         if com_obj is not None:
             self._engine.ReleaseSequenceFile(com_obj)
@@ -2790,7 +2790,7 @@ class Engine(COMWrapper):
 
     @property
     @ts_interface
-    def seq_file_version_auto_increment_opt(self) -> typing.Any:
+    def seq_file_version_auto_increment_opt(self) -> typing.Any:  # noqa: ANN401
         return FileVersionAutoIncrement(self._engine.SeqFileVersionAutoIncrementOpt)
 
     @seq_file_version_auto_increment_opt.setter
@@ -2808,15 +2808,15 @@ class Engine(COMWrapper):
         return str(self._engine.SerializeObjects(obs_com, int(options)))
 
     @ts_interface
-    def set_config_directory(self, path: str, copy_files_on_shutdown: bool) -> typing.Any:
+    def set_config_directory(self, path: str, copy_files_on_shutdown: bool) -> typing.Any:  # noqa: ANN401
         self._engine.SetConfigDirectory(path, bool(copy_files_on_shutdown))
 
     @ts_interface
     def set_internal_option(
         self,
         option: InternalOption | int,
-        new_value: typing.Any,
-    ) -> typing.Any:
+        new_value: typing.Any,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         self._engine.SetInternalOption(int(option), new_value)
 
     @ts_interface
@@ -2835,7 +2835,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def set_module_profiling(self, adapter_key_name: str, enabled: bool) -> typing.Any:
+    def set_module_profiling(self, adapter_key_name: str, enabled: bool) -> typing.Any:  # noqa: ANN401
         self._engine.SetModuleProfiling(adapter_key_name, bool(enabled))
 
     @ts_interface
@@ -2851,12 +2851,12 @@ class Engine(COMWrapper):
     def set_type_palette_file_list(
         self,
         type_palette_files: list[PropertyObjectFile],
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         files_com = [f._com_obj for f in type_palette_files]
         self._engine.SetTypePaletteFileList(files_com)
 
     @ts_interface
-    def should_auto_launch_external_report_viewer(self, file_path: str) -> typing.Any:
+    def should_auto_launch_external_report_viewer(self, file_path: str) -> bool:
         return bool(self._engine.ShouldAutoLaunchExternalReportViewer(file_path))
 
     @property
@@ -2870,7 +2870,7 @@ class Engine(COMWrapper):
         self._engine.ShowHiddenProperties = bool(value)
 
     @ts_interface
-    def shut_down(self, final: bool) -> typing.Any:
+    def shut_down(self, final: bool) -> typing.Any:  # noqa: ANN401
         self._engine.ShutDown(bool(final))
 
     @property
@@ -2965,7 +2965,7 @@ class Engine(COMWrapper):
 
     @property
     @ts_interface
-    def ui_message_polling_enabled(self) -> typing.Any:
+    def ui_message_polling_enabled(self) -> bool:
         return bool(self._engine.UIMessagePollingEnabled)
 
     @ui_message_polling_enabled.setter
@@ -2997,11 +2997,11 @@ class Engine(COMWrapper):
         self._engine.UnloadTypePaletteFiles()
 
     @ts_interface
-    def unregister_modal_window(self, modal_id: int) -> typing.Any:
+    def unregister_modal_window(self, modal_id: int) -> typing.Any:  # noqa: ANN401
         self._engine.UnregisterModalWindow(int(modal_id))
 
     @ts_interface
-    def unregister_sequence_to_execute_on_crash(self, registration_id: int) -> typing.Any:
+    def unregister_sequence_to_execute_on_crash(self, registration_id: int) -> typing.Any:  # noqa: ANN401
         self._engine.UnregisterSequenceToExecuteOnCrash(int(registration_id))
 
     @ts_interface
@@ -3060,7 +3060,7 @@ class Engine(COMWrapper):
         self._engine.UseLocalizedDecimalPoint = bool(value)
 
     @ts_interface
-    def user_name_exists(self, login_name: str) -> typing.Any:
+    def user_name_exists(self, login_name: str) -> bool:
         return bool(self._engine.UserNameExists(login_name))
 
     @property
@@ -3100,7 +3100,7 @@ class Engine(COMWrapper):
         self._engine.WatchExpressionsEnabled = bool(value)
 
     @ts_interface
-    def write_tool_menu_to_disk(self, reserved: int = 0) -> typing.Any:
+    def write_tool_menu_to_disk(self, reserved: int = 0) -> typing.Any:  # noqa: ANN401
         self._engine.WriteToolMenuToDisk(int(reserved))
 
     @ts_interface

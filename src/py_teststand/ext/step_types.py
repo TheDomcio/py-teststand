@@ -11,7 +11,7 @@ def py_teststand_step(name: str | None = None) -> Callable[[StepLogic], StepLogi
 
     def decorator(func: StepLogic) -> StepLogic:
         @functools.wraps(func)
-        def wrapper(*args: typing.Any, **kwargs: typing.Any) -> typing.Any:
+        def wrapper(*args: typing.Any, **kwargs: typing.Any) -> typing.Any:  # noqa: ANN401
             return func(*args, **kwargs)
 
         typing.cast("typing.Any", wrapper).__teststand_step__ = True
@@ -23,12 +23,12 @@ def py_teststand_step(name: str | None = None) -> Callable[[StepLogic], StepLogi
 
 
 class StepTypeBuilder:
-    def __init__(self, engine: typing.Any):
+    def __init__(self, engine: typing.Any):  # noqa: ANN401
         self.engine = engine
 
     def create_python_step_type(
         self,
-        palette_file: typing.Any,
+        palette_file: typing.Any,  # noqa: ANN401
         type_name: str,
         module_path: str,
         function_name: str,

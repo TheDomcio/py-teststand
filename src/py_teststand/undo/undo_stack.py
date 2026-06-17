@@ -54,8 +54,8 @@ class UndoStack(COMWrapper):
         self,
         num_items_to_aggregate: int,
         description: str = "",
-        pre_edit_locations: typing.Any = None,
-        post_edit_locations: typing.Any = None,
+        pre_edit_locations: typing.Any = None,  # noqa: ANN401
+        post_edit_locations: typing.Any = None,  # noqa: ANN401
     ) -> None:
         com_pre = getattr(pre_edit_locations, "_com_obj", pre_edit_locations)
         com_post = getattr(post_edit_locations, "_com_obj", post_edit_locations)
@@ -67,15 +67,15 @@ class UndoStack(COMWrapper):
         )
 
     @ts_interface
-    def get_redo_description(self, accelerator_prefix: str = "") -> typing.Any:
+    def get_redo_description(self, accelerator_prefix: str = "") -> str:
         return str(self._com_obj.GetRedoDescription(str(accelerator_prefix)))
 
     @ts_interface
-    def get_undo_description(self, accelerator_prefix: str = "") -> typing.Any:
+    def get_undo_description(self, accelerator_prefix: str = "") -> str:
         return str(self._com_obj.GetUndoDescription(str(accelerator_prefix)))
 
     @ts_interface
-    def push(self, item: typing.Any) -> typing.Any:
+    def push(self, item: typing.Any) -> typing.Any:  # noqa: ANN401
         com_item = getattr(item, "_com_obj", item)
         self._com_obj.Push(com_item)
 
@@ -91,7 +91,7 @@ class UndoItems(COMWrapper):
         return UndoItem(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
-    def remove(self, index: int) -> typing.Any:
+    def remove(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Remove(index)
 
     @property

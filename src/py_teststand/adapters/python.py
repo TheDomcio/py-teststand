@@ -132,12 +132,12 @@ class PythonParameters(COMWrapper):
 class PythonArgument(COMWrapper):
     @property
     @ts_interface
-    def value(self) -> typing.Any:
+    def value(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Value
 
     @value.setter
     @ts_interface
-    def value(self, value: typing.Any) -> None:
+    def value(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Value = value
 
 

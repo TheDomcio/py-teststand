@@ -90,7 +90,7 @@ logger = logging.getLogger(__name__)
 
 
 class Adapter(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -138,7 +138,7 @@ class Adapter(PropertyObject):
 
     @property
     @ts_interface
-    def large_icon(self) -> typing.Any:
+    def large_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.LargeIcon
 
     @property
@@ -148,7 +148,7 @@ class Adapter(PropertyObject):
 
     @property
     @ts_interface
-    def small_icon(self) -> typing.Any:
+    def small_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.SmallIcon
 
     @property
@@ -237,7 +237,7 @@ class CommonCParameter(PropertyObject):
         self._com_obj.Flags = value
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> bool:
+    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> bool:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
@@ -336,11 +336,11 @@ class CommonCParameter(PropertyObject):
         self._com_obj.StructType = value
 
     @ts_interface
-    def set_array_dimension_size(self, dimension: int, size: int) -> typing.Any:
+    def set_array_dimension_size(self, dimension: int, size: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetArrayDimensionSize(dimension, size)
 
     @ts_interface
-    def set_array_dimension_size_expr(self, dimension: int, size_expr: str) -> typing.Any:
+    def set_array_dimension_size_expr(self, dimension: int, size_expr: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetArrayDimensionSizeExpr(dimension, size_expr)
 
     @property
@@ -413,7 +413,7 @@ class ModuleType(IntEnum):
 class Module(PropertyObject):
     @property
     @ts_interface
-    def adapter(self) -> typing.Any:
+    def adapter(self) -> typing.Any:  # noqa: ANN401
         return Adapter(self._com_obj.Adapter, self._engine_ref)
 
     @property
@@ -444,7 +444,7 @@ class Module(PropertyObject):
         return bool(self._com_obj.EditCode())
 
     @ts_interface
-    def get_description(self) -> typing.Any:
+    def get_description(self) -> str:
         return str(self._com_obj.GetDescription())
 
     @ts_interface
@@ -456,19 +456,19 @@ class Module(PropertyObject):
         return bool(self._com_obj.IsPrototypeIncompatible())
 
     @ts_interface
-    def load(self, load_options: int = 0, sequence_context: typing.Any = None) -> typing.Any:
+    def load(self, load_options: int = 0, sequence_context: typing.Any = None) -> typing.Any:  # noqa: ANN401
         raw_ctx = (
             getattr(sequence_context, "_com_obj", sequence_context) if sequence_context else None
         )
         return bool(self._com_obj.Load(int(load_options), raw_ctx))
 
     @ts_interface
-    def specify(self, options: int = 0) -> typing.Any:
+    def specify(self, options: int = 0) -> bool:
         return bool(self._com_obj.Specify(int(options)))
 
     @property
     @ts_interface
-    def step(self) -> typing.Any:
+    def step(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.step import Step
 
         return Step(self._com_obj.Step, self._engine_ref)
@@ -483,11 +483,11 @@ class Module(PropertyObject):
         return UnmappedArgumentValueList(self._com_obj.UnmappedArgumentValues, self._engine_ref)
 
     @ts_interface
-    def load_prototype(self, options: int = 0) -> typing.Any:
+    def load_prototype(self, options: int = 0) -> bool:
         return bool(self._com_obj.LoadPrototype(options))
 
     @ts_interface
-    def evaluate_ex(self, expression: str, options: int = 0) -> typing.Any:
+    def evaluate_ex(self, expression: str, options: int = 0) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.EvaluateEx(expression, options)
 
@@ -677,7 +677,7 @@ class UnmappedArgumentValueList(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return UnmappedArgumentValue(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface

@@ -166,13 +166,13 @@ class EditTimeMenuItems(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> EditTimeMenuItem:
+    def item(self, index: typing.Any) -> EditTimeMenuItem:  # noqa: ANN401
         return EditTimeMenuItem(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, key: typing.Any) -> EditTimeMenuItem:
+    def __getitem__(self, key: typing.Any) -> EditTimeMenuItem:  # noqa: ANN401
         return self.item(key)
 
     def __iter__(self) -> typing.Iterator[EditTimeMenuItem]:
@@ -230,13 +230,13 @@ class RunTimeMenuItems(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> RunTimeMenuItem:
+    def item(self, index: typing.Any) -> RunTimeMenuItem:  # noqa: ANN401
         return RunTimeMenuItem(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, key: typing.Any) -> RunTimeMenuItem:
+    def __getitem__(self, key: typing.Any) -> RunTimeMenuItem:  # noqa: ANN401
         return self.item(key)
 
     def __iter__(self) -> typing.Iterator[RunTimeMenuItem]:

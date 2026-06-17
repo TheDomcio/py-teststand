@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 class StepType(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine_ref: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine_ref: typing.Any = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine_ref)
 
@@ -44,7 +44,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def batch_sync_option(self) -> typing.Any:
+    def batch_sync_option(self) -> typing.Any:  # noqa: ANN401
 
         return BatchSynchronization(int(self._com_obj.BatchSyncOption))
 
@@ -147,14 +147,14 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def module(self) -> typing.Any:
+    def module(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters.adapter import Module
 
         return Module(self._com_obj.Module, self._engine_ref)
 
     @property
     @ts_interface
-    def module_load_option(self) -> typing.Any:
+    def module_load_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import ModuleLoadOption
 
         return ModuleLoadOption(int(self._com_obj.ModuleLoadOption))
@@ -166,7 +166,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def module_unload_option(self) -> typing.Any:
+    def module_unload_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import ModuleUnloadOption
 
         return ModuleUnloadOption(int(self._com_obj.ModuleUnloadOption))
@@ -203,7 +203,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def eval_precond_for_interactive_execution(self) -> typing.Any:
+    def eval_precond_for_interactive_execution(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.step import EvalPrecondOption
 
         return EvalPrecondOption(int(self._com_obj.EvalPrecondForInteractiveExecution))
@@ -275,7 +275,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def menu_icon(self) -> typing.Any:
+    def menu_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.MenuIcon
 
     @property
@@ -435,7 +435,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def result_recording_option(self) -> typing.Any:
+    def result_recording_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.step import ResultRecordingOption
 
         return ResultRecordingOption(int(self._com_obj.ResultRecordingOption))
@@ -477,7 +477,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def switch_exec_connection_lifetime(self) -> typing.Any:
+    def switch_exec_connection_lifetime(self) -> int:
         return int(self._com_obj.SwitchExecConnectionLifetime)
 
     @switch_exec_connection_lifetime.setter
@@ -497,7 +497,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def switch_exec_multiconnect_mode(self) -> typing.Any:
+    def switch_exec_multiconnect_mode(self) -> int:
         return int(self._com_obj.SwitchExecMulticonnectMode)
 
     @switch_exec_multiconnect_mode.setter
@@ -507,7 +507,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def switch_exec_operation(self) -> typing.Any:
+    def switch_exec_operation(self) -> typing.Any:  # noqa: ANN401
 
         return SwitchExecOperation(int(self._com_obj.SwitchExecOperation))
 
@@ -518,7 +518,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def switch_exec_operation_order(self) -> typing.Any:
+    def switch_exec_operation_order(self) -> int:
         return int(self._com_obj.SwitchExecOperationOrder)
 
     @switch_exec_operation_order.setter
@@ -578,7 +578,7 @@ class StepType(PropertyObject):
 
     @property
     @ts_interface
-    def window_activation(self) -> typing.Any:
+    def window_activation(self) -> int:
         return int(self._com_obj.WindowActivation)
 
     @window_activation.setter
@@ -587,22 +587,22 @@ class StepType(PropertyObject):
         self._com_obj.WindowActivation = value
 
     @ts_interface
-    def change_designated_adapter(self, adapter_name: str) -> typing.Any:
+    def change_designated_adapter(self, adapter_name: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.ChangeDesignatedAdapter(adapter_name)
 
     @ts_interface
-    def add_substep(self, new_substep: Step) -> typing.Any:
+    def add_substep(self, new_substep: Step) -> typing.Any:  # noqa: ANN401
         self._com_obj.AddSubstep(new_substep._com_obj)
 
     @ts_interface
-    def create_combined_step_type(self, combine_with: StepType) -> typing.Any:
+    def create_combined_step_type(self, combine_with: StepType) -> typing.Any:  # noqa: ANN401
         return StepType(
             self._com_obj.CreateCombinedStepType(combine_with._com_obj),
             self._engine_ref,
         )
 
     @ts_interface
-    def dim_property(self, property_key_name: str, new_value: bool) -> typing.Any:
+    def dim_property(self, property_key_name: str, new_value: bool) -> typing.Any:  # noqa: ANN401
         self._com_obj.DimProperty(property_key_name, new_value)
 
     @ts_interface
@@ -610,27 +610,27 @@ class StepType(PropertyObject):
         return str(self._com_obj.GetDefaultName())
 
     @ts_interface
-    def get_dimmable_property_display_name(self, property_key_name: str) -> typing.Any:
+    def get_dimmable_property_display_name(self, property_key_name: str) -> str:
         return str(self._com_obj.GetDimmablePropertyDisplayName(property_key_name))
 
     @ts_interface
-    def get_substep(self, substep_index: int) -> typing.Any:
+    def get_substep(self, substep_index: int) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.step import Step
 
         return Step(self._com_obj.GetSubstep(substep_index), self._engine_ref)
 
     @ts_interface
-    def is_property_dimmed(self, property_key_name: str) -> typing.Any:
+    def is_property_dimmed(self, property_key_name: str) -> bool:
         return bool(self._com_obj.IsPropertyDimmed(property_key_name))
 
     @ts_interface
-    def remove_substep(self, substep_index: int) -> typing.Any:
+    def remove_substep(self, substep_index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.RemoveSubstep(substep_index)
 
     @ts_interface
-    def specify_module(self, spec_mod_options: int = 0) -> typing.Any:
+    def specify_module(self, spec_mod_options: int = 0) -> bool:
         return bool(self._com_obj.SpecifyModule(spec_mod_options))
 
     @ts_interface
-    def swap_substeps(self, index1: int, index2: int) -> typing.Any:
+    def swap_substeps(self, index1: int, index2: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.SwapSubsteps(index1, index2)

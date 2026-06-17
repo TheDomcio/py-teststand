@@ -23,11 +23,7 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from py_teststand import Engine, StepGroup
-from py_teststand.property.property_object import PropertyObject
-from py_teststand.sequence.sequence import Sequence
-from py_teststand.sequence.sequence_file import SequenceFile
-from py_teststand.sequence.step import Step
+from py_teststand import Engine, PropertyObject, Sequence, SequenceFile, Step, StepGroup
 
 ROOT_TEMP_DIR: Path = Path(tempfile.gettempdir()) / "py-teststand"
 LATEST_POINTER: Path = ROOT_TEMP_DIR / "latest_sequence.txt"

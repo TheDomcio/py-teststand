@@ -23,7 +23,7 @@ class CodeTemplateType(IntFlag):
 class CodeTemplate(PropertyObject):
     @property
     @ts_interface
-    def type(self) -> typing.Any:
+    def type(self) -> int:
         return int(self._com_obj.Type)
 
     @property

@@ -211,7 +211,7 @@ class ApplicationSite(IntEnum):
 class Location(COMWrapper):
     @property
     @ts_interface
-    def kind(self) -> typing.Any:
+    def kind(self) -> int:
         return int(self._com_obj.Kind)
 
     @kind.setter
@@ -301,7 +301,7 @@ class Location(COMWrapper):
 
     @property
     @ts_interface
-    def element(self) -> typing.Any:
+    def element(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Element
 
     @property
@@ -336,7 +336,7 @@ class Location(COMWrapper):
 
     @property
     @ts_interface
-    def step_group(self) -> typing.Any:
+    def step_group(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.StepGroup
 
     @property
@@ -366,7 +366,7 @@ class Location(COMWrapper):
 
     @property
     @ts_interface
-    def type_category(self) -> typing.Any:
+    def type_category(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.TypeCategory
 
 
@@ -377,7 +377,7 @@ class Locations(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> Location:
+    def item(self, index_or_name: typing.Any) -> Location:  # noqa: ANN401
         return Location(self._com_obj.Item(index_or_name), self._engine_ref)
 
     @ts_interface
@@ -389,9 +389,9 @@ class Locations(COMWrapper):
     @ts_interface
     def add_api_location(
         self,
-        base_obj: typing.Any,
+        base_obj: typing.Any,  # noqa: ANN401
         api_location: int,
-        obj_file: typing.Any = None,
+        obj_file: typing.Any = None,  # noqa: ANN401
     ) -> Location:
         com_base = getattr(base_obj, "_com_obj", base_obj)
         com_file = getattr(obj_file, "_com_obj", obj_file) if obj_file else None
@@ -403,7 +403,7 @@ class Locations(COMWrapper):
     @ts_interface
     def add_execution_location(
         self,
-        seq_context: typing.Any,
+        seq_context: typing.Any,  # noqa: ANN401
         lookup_string: str,
         elem: int = 0,
         selection_start: int = 0,
@@ -424,8 +424,8 @@ class Locations(COMWrapper):
     @ts_interface
     def add_execution_location_by_object(
         self,
-        seq_context: typing.Any,
-        obj: typing.Any,
+        seq_context: typing.Any,  # noqa: ANN401
+        obj: typing.Any,  # noqa: ANN401
         elem: int = 0,
         selection_start: int = 0,
         selection_length: int = -1,
@@ -446,7 +446,7 @@ class Locations(COMWrapper):
     @ts_interface
     def add_file_location(
         self,
-        file: typing.Any,
+        file: typing.Any,  # noqa: ANN401
         lookup_string: str,
         elem: int = 0,
         selection_start: int = 0,
@@ -467,7 +467,7 @@ class Locations(COMWrapper):
     @ts_interface
     def add_file_location_by_object(
         self,
-        obj: typing.Any,
+        obj: typing.Any,  # noqa: ANN401
         elem: int = 0,
         selection_start: int = 0,
         selection_length: int = -1,
@@ -491,15 +491,15 @@ class Locations(COMWrapper):
         )
 
     @ts_interface
-    def add_locations(self, locations_to_add: typing.Any, copy_location_option: int) -> typing.Any:
+    def add_locations(self, locations_to_add: typing.Any, copy_location_option: int) -> typing.Any:  # noqa: ANN401
         com_locs = getattr(locations_to_add, "_com_obj", locations_to_add)
         self._com_obj.AddLocations(com_locs, int(copy_location_option))
 
     @ts_interface
     def add_type_location(
         self,
-        file: typing.Any,
-        root_type_def: typing.Any,
+        file: typing.Any,  # noqa: ANN401
+        root_type_def: typing.Any,  # noqa: ANN401
         lookup_string: str,
         elem: int = 0,
         selection_start: int = 0,
@@ -522,8 +522,8 @@ class Locations(COMWrapper):
     @ts_interface
     def add_type_location_by_object(
         self,
-        file: typing.Any,
-        obj: typing.Any,
+        file: typing.Any,  # noqa: ANN401
+        obj: typing.Any,  # noqa: ANN401
         elem: int = 0,
         selection_start: int = 0,
         selection_length: int = -1,
@@ -543,7 +543,7 @@ class Locations(COMWrapper):
 
     @property
     @ts_interface
-    def application_site(self) -> typing.Any:
+    def application_site(self) -> int:
         return int(self._com_obj.ApplicationSite)
 
     @application_site.setter
@@ -573,16 +573,16 @@ class Locations(COMWrapper):
 
     @property
     @ts_interface
-    def user_data(self) -> typing.Any:
+    def user_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserData
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: typing.Any) -> None:
+    def user_data(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserData = value
 
     @ts_interface
-    def to_property_object(self) -> typing.Any:
+    def to_property_object(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         return PropertyObject(self._com_obj.ToPropertyObject(), self._engine_ref)
@@ -592,7 +592,7 @@ class Locations(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_property_object(self, val: typing.Any) -> None:
+    def from_property_object(self, val: typing.Any) -> None:  # noqa: ANN401
         com_po = getattr(val, "_com_obj", val)
         self._com_obj.FromPropertyObject(com_po)
 
@@ -605,13 +605,13 @@ class Locations(COMWrapper):
         self._com_obj.GotoLocationInApplication(str(application_path), int(options))
 
     @ts_interface
-    def remove(self, index_or_name: typing.Any) -> None:
+    def remove(self, index_or_name: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Remove(index_or_name)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, index_or_name: typing.Any) -> Location:
+    def __getitem__(self, index_or_name: typing.Any) -> Location:  # noqa: ANN401
 
         return self.item(index_or_name)

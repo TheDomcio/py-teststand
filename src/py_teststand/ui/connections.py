@@ -158,13 +158,13 @@ class AdapterListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> AdapterListConnection:
+    def add(self, ui_obj: typing.Any) -> AdapterListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return AdapterListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -173,7 +173,7 @@ class AdapterListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> AdapterListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> AdapterListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return AdapterListConnection(res, self._engine_ref) if res else None
@@ -209,7 +209,7 @@ class Strings(COMWrapper):
 
         self.set_item(index, value)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self.item(i)
@@ -285,13 +285,13 @@ class CaptionConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> CaptionConnection:
+    def add(self, ui_obj: typing.Any) -> CaptionConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return CaptionConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -300,7 +300,7 @@ class CaptionConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> CaptionConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> CaptionConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return CaptionConnection(res, self._engine_ref) if res else None
@@ -370,7 +370,7 @@ class CommandConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -379,7 +379,7 @@ class CommandConnections(COMWrapper):
     def add(
         self,
         command_kind: int,
-        ui_obj: typing.Any,
+        ui_obj: typing.Any,  # noqa: ANN401
         index: int = 0,
         options: int = 0,
     ) -> CommandConnection:
@@ -394,7 +394,7 @@ class CommandConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> CommandConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> CommandConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return CommandConnection(res, self._engine_ref) if res else None
@@ -426,13 +426,13 @@ class CallStackConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> CallStackConnection:
+    def add(self, ui_obj: typing.Any) -> CallStackConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return CallStackConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -441,7 +441,7 @@ class CallStackConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> CallStackConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> CallStackConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return CallStackConnection(res, self._engine_ref) if res else None
@@ -491,13 +491,13 @@ class ExecutionListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> ExecutionListConnection:
+    def add(self, ui_obj: typing.Any) -> ExecutionListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return ExecutionListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -506,7 +506,7 @@ class ExecutionListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> ExecutionListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> ExecutionListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return ExecutionListConnection(res, self._engine_ref) if res else None
@@ -536,7 +536,7 @@ class Executions(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -602,7 +602,7 @@ class ExecutionViewConnection(COMWrapper):
 
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
 
@@ -624,13 +624,13 @@ class ExecutionViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> ExecutionViewConnection:
+    def add(self, ui_obj: typing.Any) -> ExecutionViewConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return ExecutionViewConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -639,7 +639,7 @@ class ExecutionViewConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> ExecutionViewConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> ExecutionViewConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return ExecutionViewConnection(res, self._engine_ref) if res else None
@@ -679,13 +679,13 @@ class ImageConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> ImageConnection:
+    def add(self, ui_obj: typing.Any) -> ImageConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return ImageConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -694,7 +694,7 @@ class ImageConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> ImageConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> ImageConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return ImageConnection(res, self._engine_ref) if res else None
@@ -715,22 +715,22 @@ class SelectedSteps(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index: int) -> typing.Any:
+    def item(self, index: int) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.step import Step
 
         return Step(self._com_obj.Item(index), self._engine_ref)
 
-    def __getitem__(self, index: int) -> typing.Any:
+    def __getitem__(self, index: int) -> typing.Any:  # noqa: ANN401
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add_step(self, val: typing.Any) -> None:
+    def add_step(self, val: typing.Any) -> None:  # noqa: ANN401
         raw_step = getattr(val, "_com_obj", val)
         self._com_obj.AddStep(raw_step)
 
@@ -797,22 +797,22 @@ class SelectedPropertyObjects(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index: int) -> typing.Any:
+    def item(self, index: int) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         return PropertyObject(self._com_obj.Item(index), self._engine_ref)
 
-    def __getitem__(self, index: int) -> typing.Any:
+    def __getitem__(self, index: int) -> typing.Any:  # noqa: ANN401
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add_property_object(self, val: typing.Any) -> None:
+    def add_property_object(self, val: typing.Any) -> None:  # noqa: ANN401
         raw_po = getattr(val, "_com_obj", val)
         self._com_obj.AddPropertyObject(raw_po)
 
@@ -845,22 +845,22 @@ class SelectedSequences(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index: int) -> typing.Any:
+    def item(self, index: int) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.sequence import Sequence
 
         return Sequence(self._com_obj.Item(index), self._engine_ref)
 
-    def __getitem__(self, index: int) -> typing.Any:
+    def __getitem__(self, index: int) -> typing.Any:  # noqa: ANN401
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add_sequence(self, val: typing.Any) -> None:
+    def add_sequence(self, val: typing.Any) -> None:  # noqa: ANN401
         raw_seq = getattr(val, "_com_obj", val)
         self._com_obj.AddSequence(raw_seq)
 
@@ -924,17 +924,17 @@ class ExpressionEditButton(COMWrapper):
 
     @property
     @ts_interface
-    def icon(self) -> typing.Any:
+    def icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Icon
 
     @icon.setter
     @ts_interface
-    def icon(self, value: typing.Any) -> None:
+    def icon(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Icon = value
 
     @property
     @ts_interface
-    def kind(self) -> typing.Any:
+    def kind(self) -> int:
 
         return ExpressionEditButtonKind(self._com_obj.Kind)
 
@@ -955,7 +955,7 @@ class ExpressionEditButton(COMWrapper):
 
     @property
     @ts_interface
-    def shortcut_modifier(self) -> typing.Any:
+    def shortcut_modifier(self) -> int:
 
         return ShortcutModifier(self._com_obj.ShortcutModifier)
 
@@ -966,7 +966,7 @@ class ExpressionEditButton(COMWrapper):
 
     @property
     @ts_interface
-    def style(self) -> typing.Any:
+    def style(self) -> typing.Any:  # noqa: ANN401
 
         return ExpressionEditButtonStyle(self._com_obj.Style)
 
@@ -977,12 +977,12 @@ class ExpressionEditButton(COMWrapper):
 
     @property
     @ts_interface
-    def image(self) -> typing.Any:
+    def image(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Image
 
     @image.setter
     @ts_interface
-    def image(self, value: typing.Any) -> None:
+    def image(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Image = value
 
     @property
@@ -1022,14 +1022,14 @@ class ExpressionEditButtons(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> ExpressionEditButton:
+    def item(self, index_or_name: typing.Any) -> ExpressionEditButton:  # noqa: ANN401
         return ExpressionEditButton(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> ExpressionEditButton:
+    def __getitem__(self, index_or_name: typing.Any) -> ExpressionEditButton:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1043,7 +1043,7 @@ class ExpressionEditButtons(COMWrapper):
         return ExpressionEditButton(self._com_obj.Insert(index, kind), self._engine_ref)
 
     @ts_interface
-    def remove(self, index_or_name: typing.Any) -> None:
+    def remove(self, index_or_name: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Remove(index_or_name)
 
 
@@ -1070,12 +1070,12 @@ class ExpressionEditComboBoxItem(COMWrapper):
 
     @property
     @ts_interface
-    def icon(self) -> typing.Any:
+    def icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Icon
 
     @icon.setter
     @ts_interface
-    def icon(self, value: typing.Any) -> None:
+    def icon(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Icon = value
 
     @property
@@ -1117,7 +1117,7 @@ class ExpressionEditComboBoxItems(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1136,7 +1136,7 @@ class ExpressionEditComboBoxItems(COMWrapper):
         index: int,
         val: str,
         display_name: str = "",
-        icon: typing.Any = None,
+        icon: typing.Any = None,  # noqa: ANN401
     ) -> ExpressionEditComboBoxItem:
         return ExpressionEditComboBoxItem(
             self._com_obj.Insert(index, val, display_name, icon),
@@ -1211,14 +1211,14 @@ class InsertionPalettePages(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> InsertionPalettePage:
+    def item(self, index_or_name: typing.Any) -> InsertionPalettePage:  # noqa: ANN401
         return InsertionPalettePage(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> InsertionPalettePage:
+    def __getitem__(self, index_or_name: typing.Any) -> InsertionPalettePage:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1252,7 +1252,7 @@ class ListBarPage(COMWrapper):
 
     @property
     @ts_interface
-    def items(self) -> typing.Any:
+    def items(self) -> typing.Any:  # noqa: ANN401
         return ListBarPageItems(self._com_obj.Items, self._engine_ref)
 
     @property
@@ -1319,14 +1319,14 @@ class ListBarPageItems(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> ListBarPageItem:
+    def item(self, index_or_name: typing.Any) -> ListBarPageItem:  # noqa: ANN401
         return ListBarPageItem(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> ListBarPageItem:
+    def __getitem__(self, index_or_name: typing.Any) -> ListBarPageItem:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1358,14 +1358,14 @@ class ListBarPages(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> ListBarPage:
+    def item(self, index_or_name: typing.Any) -> ListBarPage:  # noqa: ANN401
         return ListBarPage(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> ListBarPage:
+    def __getitem__(self, index_or_name: typing.Any) -> ListBarPage:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1386,7 +1386,7 @@ class ListBarPages(COMWrapper):
 class ListBoxColumn(COMWrapper):
     @property
     @ts_interface
-    def auto_sizing(self) -> typing.Any:
+    def auto_sizing(self) -> typing.Any:  # noqa: ANN401
 
         return AutoSizingOption(self._com_obj.AutoSizing)
 
@@ -1439,7 +1439,7 @@ class ListBoxColumns(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -1463,7 +1463,7 @@ class MRUFiles(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self.item(i)
@@ -1530,13 +1530,13 @@ class NumericConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> NumericConnection:
+    def add(self, ui_obj: typing.Any) -> NumericConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return NumericConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -1545,7 +1545,7 @@ class NumericConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> NumericConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> NumericConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return NumericConnection(res, self._engine_ref) if res else None
@@ -1577,13 +1577,13 @@ class ReportViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> ReportViewConnection:
+    def add(self, ui_obj: typing.Any) -> ReportViewConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return ReportViewConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -1592,7 +1592,7 @@ class ReportViewConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> ReportViewConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> ReportViewConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return ReportViewConnection(res, self._engine_ref) if res else None
@@ -1615,7 +1615,7 @@ class InsertionPaletteConnection(COMWrapper):
 
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
 
@@ -1637,13 +1637,13 @@ class InsertionPaletteConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> InsertionPaletteConnection:
+    def add(self, ui_obj: typing.Any) -> InsertionPaletteConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return InsertionPaletteConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -1652,7 +1652,7 @@ class InsertionPaletteConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> InsertionPaletteConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> InsertionPaletteConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return InsertionPaletteConnection(res, self._engine_ref) if res else None
@@ -1773,13 +1773,13 @@ class ThreadListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> ThreadListConnection:
+    def add(self, ui_obj: typing.Any) -> ThreadListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return ThreadListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -1788,13 +1788,13 @@ class ThreadListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> ThreadListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> ThreadListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return ThreadListConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 
@@ -1812,7 +1812,7 @@ class SequenceViewConnection(COMWrapper):
 
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
 
@@ -1834,13 +1834,13 @@ class SequenceViewConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> SequenceViewConnection:
+    def add(self, ui_obj: typing.Any) -> SequenceViewConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return SequenceViewConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -1849,13 +1849,13 @@ class SequenceViewConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> SequenceViewConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> SequenceViewConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return SequenceViewConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 
@@ -1863,7 +1863,7 @@ class SequenceViewConnections(COMWrapper):
 class SeqViewColumn(COMWrapper):
     @property
     @ts_interface
-    def auto_sizing(self) -> typing.Any:
+    def auto_sizing(self) -> typing.Any:  # noqa: ANN401
 
         return AutoSizingOption(self._com_obj.AutoSizing)
 
@@ -1970,14 +1970,14 @@ class SeqViewColumns(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> SeqViewColumn:
+    def item(self, index_or_name: typing.Any) -> SeqViewColumn:  # noqa: ANN401
         return SeqViewColumn(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> SeqViewColumn:
+    def __getitem__(self, index_or_name: typing.Any) -> SeqViewColumn:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -2002,7 +2002,7 @@ class SeqViewColumns(COMWrapper):
         self._com_obj.MoveRight(index)
 
     @ts_interface
-    def remove(self, index_or_name: typing.Any) -> None:
+    def remove(self, index_or_name: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Remove(index_or_name)
 
 
@@ -2019,7 +2019,7 @@ class SequenceListConnection(COMWrapper):
 
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
     @ts_interface
@@ -2053,13 +2053,13 @@ class SequenceListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> SequenceListConnection:
+    def add(self, ui_obj: typing.Any) -> SequenceListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return SequenceListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -2068,13 +2068,13 @@ class SequenceListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> SequenceListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> SequenceListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return SequenceListConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 
@@ -2119,13 +2119,13 @@ class SequenceFileListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> SequenceFileListConnection:
+    def add(self, ui_obj: typing.Any) -> SequenceFileListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return SequenceFileListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -2134,13 +2134,13 @@ class SequenceFileListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> SequenceFileListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> SequenceFileListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return SequenceFileListConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 
@@ -2156,16 +2156,16 @@ class SequenceFiles(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_path: typing.Any) -> SequenceFile:
+    def item(self, index_or_path: typing.Any) -> SequenceFile:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import SequenceFile
 
         return SequenceFile(self._com_obj.Item(index_or_path), self._engine_ref)
 
-    def __getitem__(self, index_or_path: typing.Any) -> SequenceFile:
+    def __getitem__(self, index_or_path: typing.Any) -> SequenceFile:  # noqa: ANN401
 
         return self.item(index_or_path)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -2219,7 +2219,7 @@ class StatusBarPane(COMWrapper):
 
     @property
     @ts_interface
-    def style(self) -> typing.Any:
+    def style(self) -> typing.Any:  # noqa: ANN401
 
         return StatusBarPaneStyle(self._com_obj.Style)
 
@@ -2230,7 +2230,7 @@ class StatusBarPane(COMWrapper):
 
     @property
     @ts_interface
-    def text_alignment(self) -> typing.Any:
+    def text_alignment(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.ui.label_ctrl import AlignmentStyle
 
         return AlignmentStyle(self._com_obj.TextAlignment)
@@ -2292,14 +2292,14 @@ class StatusBarPanes(COMWrapper):
         return self.count
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> StatusBarPane:
+    def item(self, index_or_name: typing.Any) -> StatusBarPane:  # noqa: ANN401
         return StatusBarPane(self._com_obj.Item(index_or_name), self._engine_ref)
 
-    def __getitem__(self, index_or_name: typing.Any) -> StatusBarPane:
+    def __getitem__(self, index_or_name: typing.Any) -> StatusBarPane:  # noqa: ANN401
 
         return self.item(index_or_name)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
@@ -2313,14 +2313,14 @@ class StatusBarPanes(COMWrapper):
         return StatusBarPane(self._com_obj.Insert(pane_name, insert_before), self._engine_ref)
 
     @ts_interface
-    def remove(self, index_or_name: typing.Any) -> None:
+    def remove(self, index_or_name: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Remove(index_or_name)
 
 
 class StepGroupListConnection(COMWrapper):
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
 
@@ -2342,13 +2342,13 @@ class StepGroupListConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> StepGroupListConnection:
+    def add(self, ui_obj: typing.Any) -> StepGroupListConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return StepGroupListConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -2357,13 +2357,13 @@ class StepGroupListConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> StepGroupListConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> StepGroupListConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return StepGroupListConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 
@@ -2371,7 +2371,7 @@ class StepGroupListConnections(COMWrapper):
 class VariablesConnection(COMWrapper):
     @property
     @ts_interface
-    def ui_control(self) -> typing.Any:
+    def ui_control(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UIControl
 
 
@@ -2393,13 +2393,13 @@ class VariablesConnections(COMWrapper):
 
         return self.item(index)
 
-    def __iter__(self) -> typing.Any:
+    def __iter__(self) -> typing.Any:  # noqa: ANN401
 
         for i in range(len(self)):
             yield self[i]
 
     @ts_interface
-    def add(self, ui_obj: typing.Any) -> VariablesConnection:
+    def add(self, ui_obj: typing.Any) -> VariablesConnection:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return VariablesConnection(self._com_obj.Add(raw_ui), self._engine_ref)
 
@@ -2408,13 +2408,13 @@ class VariablesConnections(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def from_control(self, ui_obj: typing.Any) -> VariablesConnection | None:
+    def from_control(self, ui_obj: typing.Any) -> VariablesConnection | None:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         res = self._com_obj.FromControl(raw_ui)
         return VariablesConnection(res, self._engine_ref) if res else None
 
     @ts_interface
-    def remove(self, ui_obj: typing.Any) -> bool:
+    def remove(self, ui_obj: typing.Any) -> bool:  # noqa: ANN401
         raw_ui = getattr(ui_obj, "_com_obj", ui_obj)
         return bool(self._com_obj.Remove(raw_ui))
 

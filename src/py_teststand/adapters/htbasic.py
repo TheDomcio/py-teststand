@@ -33,7 +33,7 @@ class HTBasicStepAdditions:
 class HTBasicAdapter(Adapter):
     @property
     @ts_interface
-    def default_working_directory(self) -> typing.Any:
+    def default_working_directory(self) -> typing.Any:  # noqa: ANN401
         return HTBasicDefaultWorkingDir(self._com_obj.DefaultWorkingDirectory)
 
     @default_working_directory.setter
@@ -123,7 +123,7 @@ class HTBasicModule(Module):
 
     @property
     @ts_interface
-    def working_directory(self) -> typing.Any:
+    def working_directory(self) -> typing.Any:  # noqa: ANN401
         return HTBasicWorkingDir(self._com_obj.WorkingDirectory)
 
     @working_directory.setter

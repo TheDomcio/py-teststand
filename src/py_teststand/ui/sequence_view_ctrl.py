@@ -94,12 +94,12 @@ class SequenceViewCtrl(COMWrapper):
 
     @property
     @ts_interface
-    def comments_font(self) -> typing.Any:
+    def comments_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.CommentsFont
 
     @comments_font.setter
     @ts_interface
-    def comments_font(self, value: typing.Any) -> None:
+    def comments_font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.CommentsFont = value
 
     @property
@@ -164,12 +164,12 @@ class SequenceViewCtrl(COMWrapper):
 
     @property
     @ts_interface
-    def header_font(self) -> typing.Any:
+    def header_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.HeaderFont
 
     @header_font.setter
     @ts_interface
-    def header_font(self, value: typing.Any) -> None:
+    def header_font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.HeaderFont = value
 
     @property
@@ -249,12 +249,12 @@ class SequenceViewCtrl(COMWrapper):
 
     @property
     @ts_interface
-    def mouse_icon(self) -> typing.Any:
+    def mouse_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.MouseIcon
 
     @mouse_icon.setter
     @ts_interface
-    def mouse_icon(self, value: typing.Any) -> None:
+    def mouse_icon(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.MouseIcon = value
 
     @property
@@ -369,12 +369,12 @@ class SequenceViewCtrl(COMWrapper):
 
     @property
     @ts_interface
-    def text_font(self) -> typing.Any:
+    def text_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.TextFont
 
     @text_font.setter
     @ts_interface
-    def text_font(self, value: typing.Any) -> None:
+    def text_font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.TextFont = value
 
     @property

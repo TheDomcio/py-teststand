@@ -228,13 +228,13 @@ else:
 
 
 class Step(COMWrapper):
-    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
     @property
     @ts_interface
-    def name(self) -> typing.Any:
+    def name(self) -> str:
         return str(self._com_obj.Name)
 
     @name.setter
@@ -282,7 +282,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def window_activation(self) -> typing.Any:
+    def window_activation(self) -> int:
         return int(self._com_obj.WindowActivation)
 
     @window_activation.setter
@@ -376,7 +376,7 @@ class Step(COMWrapper):
         self.custom_action_expression = value
 
     @classmethod
-    def create(cls, engine: Engine | typing.Any, adapter_name: str, step_type_name: str) -> Step:
+    def create(cls, engine: Engine | typing.Any, adapter_name: str, step_type_name: str) -> Step:  # noqa: ANN401
 
         raw_engine = getattr(engine, "_engine", engine)
         raw_step = raw_engine.NewStep(adapter_name, step_type_name)
@@ -384,7 +384,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def step_group(self) -> typing.Any:
+    def step_group(self) -> typing.Any:  # noqa: ANN401
 
         return StepGroup(int(self._com_obj.StepGroup))
 
@@ -394,7 +394,7 @@ class Step(COMWrapper):
         return str(self._com_obj.Description)
 
     @ts_interface
-    def get_description_ex(self, options: int = 0) -> typing.Any:
+    def get_description_ex(self, options: int = 0) -> str:
         return str(self._com_obj.GetDescriptionEx(options))
 
     @property
@@ -412,7 +412,7 @@ class Step(COMWrapper):
         return str(self._com_obj.GetResultStatusDisplayString())
 
     @ts_interface
-    def get_step_settings_string(self) -> typing.Any:
+    def get_step_settings_string(self) -> str:
         return str(self._com_obj.GetStepSettingsString())
 
     @property
@@ -543,7 +543,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def precondition(self) -> typing.Any:
+    def precondition(self) -> str:
         return str(self._com_obj.Precondition)
 
     @precondition.setter
@@ -583,7 +583,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def eval_precond_for_interactive_execution(self) -> typing.Any:
+    def eval_precond_for_interactive_execution(self) -> typing.Any:  # noqa: ANN401
 
         return EvalPrecondOption(int(self._com_obj.EvalPrecondForInteractiveExecution))
 
@@ -604,7 +604,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def result_recording_option(self) -> typing.Any:
+    def result_recording_option(self) -> typing.Any:  # noqa: ANN401
 
         return ResultRecordingOption(int(self._com_obj.ResultRecordingOption))
 
@@ -615,7 +615,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def batch_sync_option(self) -> typing.Any:
+    def batch_sync_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.execution.sync_manager import BatchSynchronization
 
         return BatchSynchronization(int(self._com_obj.BatchSyncOption))
@@ -657,7 +657,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def switch_exec_connection_lifetime(self) -> typing.Any:
+    def switch_exec_connection_lifetime(self) -> int:
         return int(self._com_obj.SwitchExecConnectionLifetime)
 
     @switch_exec_connection_lifetime.setter
@@ -687,7 +687,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def switch_exec_multiconnect_mode(self) -> typing.Any:
+    def switch_exec_multiconnect_mode(self) -> int:
         return int(self._com_obj.SwitchExecMulticonnectMode)
 
     @switch_exec_multiconnect_mode.setter
@@ -697,7 +697,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def switch_exec_operation_order(self) -> typing.Any:
+    def switch_exec_operation_order(self) -> int:
         return int(self._com_obj.SwitchExecOperationOrder)
 
     @switch_exec_operation_order.setter
@@ -737,7 +737,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def switch_exec_operation(self) -> typing.Any:
+    def switch_exec_operation(self) -> typing.Any:  # noqa: ANN401
         return SwitchExecOperation(int(self._com_obj.SwitchExecOperation))
 
     @switch_exec_operation.setter
@@ -767,17 +767,17 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def module(self) -> typing.Any:
+    def module(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters.adapter import Module
 
         return Module(self._com_obj.Module, self.engine)
 
     @ts_interface
-    def specify_module(self, options: int = 0) -> typing.Any:
+    def specify_module(self, options: int = 0) -> typing.Any:  # noqa: ANN401
         self._com_obj.SpecifyModule(options)
 
     @ts_interface
-    def load_module(self) -> typing.Any:
+    def load_module(self) -> typing.Any:  # noqa: ANN401
         self._com_obj.LoadModule()
 
     @ts_interface
@@ -786,7 +786,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def module_load_option(self) -> typing.Any:
+    def module_load_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import ModuleLoadOption
 
         return ModuleLoadOption(int(self._com_obj.ModuleLoadOption))
@@ -798,7 +798,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def module_unload_option(self) -> typing.Any:
+    def module_unload_option(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import ModuleUnloadOption
 
         return ModuleUnloadOption(int(self._com_obj.ModuleUnloadOption))
@@ -814,7 +814,7 @@ class Step(COMWrapper):
         return str(self._com_obj.AdapterKeyName)
 
     @property
-    def adapter_module(self) -> Module | typing.Any:
+    def adapter_module(self) -> Module | typing.Any:  # noqa: ANN401
         adapter_key = self._com_obj.AdapterKeyName
         from py_teststand.adapters.adapter import Module
 
@@ -928,7 +928,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def requirements(self) -> typing.Any:
+    def requirements(self) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.Requirements)
 
     @property
@@ -945,19 +945,19 @@ class Step(COMWrapper):
         self._com_obj.Requirements = value
 
     @ts_interface
-    def can_change_adapter(self, adapter_key_name: str) -> typing.Any:
+    def can_change_adapter(self, adapter_key_name: str) -> bool:
         return bool(self._com_obj.CanChangeAdapter(adapter_key_name))
 
     @ts_interface
-    def change_adapter(self, adapter_key_name: str) -> typing.Any:
+    def change_adapter(self, adapter_key_name: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.ChangeAdapter(adapter_key_name)
 
     @ts_interface
-    def can_change_step_type(self, step_type_name: str) -> typing.Any:
+    def can_change_step_type(self, step_type_name: str) -> bool:
         return bool(self._com_obj.CanChangeStepType(step_type_name))
 
     @ts_interface
-    def change_step_type(self, step_type_name: str) -> typing.Any:
+    def change_step_type(self, step_type_name: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.ChangeStepType(step_type_name)
 
     @ts_interface
@@ -973,7 +973,7 @@ class Step(COMWrapper):
         self,
         title: str = "",
         read_only: bool = False,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return bool(self._com_obj.DisplayAdditionalResultsDialog(title, read_only))
 
     @property
@@ -987,11 +987,11 @@ class Step(COMWrapper):
         self._com_obj.EditAsReadOnly = value
 
     @ts_interface
-    def get_execution_flow_string(self) -> typing.Any:
+    def get_execution_flow_string(self) -> str:
         return str(self._com_obj.GetExecutionFlowString())
 
     @ts_interface
-    def log_additional_result(self, result_name: str, result_value: typing.Any) -> typing.Any:
+    def log_additional_result(self, result_name: str, result_value: typing.Any) -> typing.Any:  # noqa: ANN401
         self._com_obj.LogAdditionalResult(result_name, result_value)
 
     @ts_interface
@@ -1001,7 +1001,7 @@ class Step(COMWrapper):
         return PropertyObject(self._com_obj.AsPropertyObject(), self._engine_ref)
 
     @ts_interface
-    def can_execute_substep(self, substep_index: int) -> typing.Any:
+    def can_execute_substep(self, substep_index: int) -> bool:
         return bool(self._com_obj.CanExecuteSubstep(substep_index))
 
     @property
@@ -1011,7 +1011,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def current_loop_result(self) -> typing.Any:
+    def current_loop_result(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         com_obj = self._com_obj.CurrentLoopResult
@@ -1019,7 +1019,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def last_step_result(self) -> typing.Any:
+    def last_step_result(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         com_obj = self._com_obj.LastStepResult
@@ -1034,23 +1034,23 @@ class Step(COMWrapper):
         self._com_obj.ExecuteEditSubstep(substep_index)
 
     @ts_interface
-    def execute_substep(self, substep_index: int) -> typing.Any:
+    def execute_substep(self, substep_index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.ExecuteSubstep(substep_index)
 
     @ts_interface
-    def get_break_on_step_ex(self, execution: Execution | typing.Any) -> typing.Any:
+    def get_break_on_step_ex(self, execution: Execution | bool) -> typing.Any:  # noqa: ANN401
         exec_com = getattr(execution, "_com_obj", execution)
         return bool(self._com_obj.GetBreakOnStepEx(exec_com))
 
     @ts_interface
-    def set_break_on_step_ex(self, execution: Execution | typing.Any, value: bool) -> typing.Any:
+    def set_break_on_step_ex(self, execution: Execution | typing.Any, value: bool) -> typing.Any:  # noqa: ANN401
         exec_com = getattr(execution, "_com_obj", execution)
         self._com_obj.SetBreakOnStepEx(exec_com, value)
 
     @ts_interface
     def get_break_settings(
         self,
-        execution: Execution | typing.Any = None,
+        execution: Execution | typing.Any = None,  # noqa: ANN401
     ) -> tuple[bool, bool, int, str]:
         exec_com = getattr(execution, "_com_obj", execution) if execution else None
         return self._com_obj.GetBreakSettings(None, None, None, None, exec_com)
@@ -1062,18 +1062,18 @@ class Step(COMWrapper):
         enabled: bool,
         pass_count: int,
         condition: str,
-        execution: Execution | typing.Any = None,
+        execution: Execution | typing.Any = None,  # noqa: ANN401
     ) -> None:
         exec_com = getattr(execution, "_com_obj", execution) if execution else None
         self._com_obj.SetBreakSettings(is_set, enabled, pass_count, condition, exec_com)
 
     @ts_interface
-    def get_run_mode_ex(self, execution: Execution | typing.Any) -> str:
+    def get_run_mode_ex(self, execution: Execution | typing.Any) -> str:  # noqa: ANN401
         exec_com = getattr(execution, "_com_obj", execution)
         return str(self._com_obj.GetRunModeEx(exec_com))
 
     @ts_interface
-    def set_run_mode_ex(self, run_mode: str, execution: Execution | typing.Any = None) -> None:
+    def set_run_mode_ex(self, run_mode: str, execution: Execution | typing.Any = None) -> None:  # noqa: ANN401
         exec_com = getattr(execution, "_com_obj", execution) if execution else None
         self._com_obj.SetRunModeEx(str(run_mode), exec_com)
 
@@ -1096,12 +1096,12 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def large_icon(self) -> typing.Any:
+    def large_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.LargeIcon
 
     @property
     @ts_interface
-    def small_icon(self) -> typing.Any:
+    def small_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.SmallIcon
 
     @property
@@ -1131,7 +1131,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def pass_action_target_by_expr(self) -> typing.Any:
+    def pass_action_target_by_expr(self) -> str:
         return str(self._com_obj.PassActionTargetByExpr)
 
     @pass_action_target_by_expr.setter
@@ -1161,7 +1161,7 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def fail_action_target_by_expr(self) -> typing.Any:
+    def fail_action_target_by_expr(self) -> str:
         return str(self._com_obj.FailActionTargetByExpr)
 
     @fail_action_target_by_expr.setter
@@ -1211,33 +1211,33 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def large_icon_index(self) -> typing.Any:
+    def large_icon_index(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.LargeIconIndex
 
     @large_icon_index.setter
     @ts_interface
-    def large_icon_index(self, value: typing.Any) -> None:
+    def large_icon_index(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.LargeIconIndex = value
 
     @property
     @ts_interface
-    def run_time_run_mode(self) -> typing.Any:
+    def run_time_run_mode(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.RunTimeRunMode
 
     @run_time_run_mode.setter
     @ts_interface
-    def run_time_run_mode(self, value: typing.Any) -> None:
+    def run_time_run_mode(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.RunTimeRunMode = value
 
     @property
     @ts_interface
-    def unique_step_id(self) -> typing.Any:
+    def unique_step_id(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.UniqueStepId
 
     @unique_step_id.setter
     @ts_interface
-    def unique_step_id(self, value: typing.Any) -> None:
+    def unique_step_id(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UniqueStepId = value

@@ -94,7 +94,7 @@ class StepCollection:
 
 
 class Sequence(PropertyObject):
-    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
@@ -260,7 +260,7 @@ class Sequence(PropertyObject):
 
     @property
     @ts_interface
-    def requirements(self) -> typing.Any:
+    def requirements(self) -> typing.Any:  # noqa: ANN401
         return PropertyObject(self._com_obj.Requirements, self._engine_ref)
 
     @property
@@ -281,7 +281,7 @@ class Sequence(PropertyObject):
 
     @property
     @ts_interface
-    def failure_action(self) -> typing.Any:
+    def failure_action(self) -> typing.Any:  # noqa: ANN401
 
         return FailureAction(self._com_obj.FailureAction)
 
@@ -321,7 +321,7 @@ class Sequence(PropertyObject):
         self._com_obj.OptimizeNonReentrantCalls = bool(value)
 
     @ts_interface
-    def get_num_steps(self, group: int = StepGroup.Main) -> typing.Any:
+    def get_num_steps(self, group: int = StepGroup.Main) -> int:
         return int(self._com_obj.GetNumSteps(int(group)))
 
     @ts_interface
@@ -374,7 +374,7 @@ class Sequence(PropertyObject):
     def load_modules(
         self,
         load_options: LoadModuleOption | int = 0,
-        context: typing.Any | None = None,
+        context: typing.Any | None = None,  # noqa: ANN401
     ) -> bool:
 
         ctx_com = getattr(context, "_com_obj", context)
@@ -389,23 +389,23 @@ class Sequence(PropertyObject):
         return bool(self._com_obj.StepNameExists(name, int(group)))
 
     @ts_interface
-    def eval_entry_point_enabled_expression(self, sequence_file: SequenceFile) -> typing.Any:
+    def eval_entry_point_enabled_expression(self, sequence_file: SequenceFile) -> bool:
         return bool(self._com_obj.EvalEntryPointEnabledExpression(sequence_file._com_obj))
 
     @ts_interface
-    def eval_entry_point_enabled_expression_ex(self, edit_args: typing.Any) -> typing.Any:
+    def eval_entry_point_enabled_expression_ex(self, edit_args: bool) -> typing.Any:  # noqa: ANN401
         arg_com = getattr(edit_args, "_com_obj", edit_args)
         return bool(self._com_obj.EvalEntryPointEnabledExpressionEx(arg_com))
 
     @ts_interface
-    def eval_entry_point_name_expression(self, sequence_file: SequenceFile) -> typing.Any:
+    def eval_entry_point_name_expression(self, sequence_file: SequenceFile) -> str:
         return str(self._com_obj.EvalEntryPointNameExpression(sequence_file._com_obj))
 
     @ts_interface
     def eval_entry_point_name_expression_ex(
         self,
-        edit_args: typing.Any | None = None,
-    ) -> typing.Any:
+        edit_args: typing.Any | None = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         arg_com = getattr(edit_args, "_com_obj", edit_args)
         return str(self._com_obj.EvalEntryPointNameExpressionEx(arg_com))
 
@@ -422,15 +422,15 @@ class Sequence(PropertyObject):
         self._com_obj.DeleteStep(index, int(step_group))
 
     @ts_interface
-    def get_entry_point_menu_from_hint(self, menu_name_list: str) -> typing.Any:
+    def get_entry_point_menu_from_hint(self, menu_name_list: str) -> int:
         return int(self._com_obj.GetEntryPointMenuFromHint(menu_name_list))
 
     @ts_interface
     def get_break_on_end(
         self,
         group: StepGroup | int,
-        execution: typing.Any | None = None,
-    ) -> typing.Any:
+        execution: typing.Any | None = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         exec_com = getattr(execution, "_com_obj", execution)
         return bool(self._com_obj.GetBreakOnEnd(int(group), exec_com))
 
@@ -438,13 +438,13 @@ class Sequence(PropertyObject):
     def get_break_on_end_settings(
         self,
         group: StepGroup | int,
-        execution: typing.Any | None = None,
+        execution: typing.Any | None = None,  # noqa: ANN401
     ) -> tuple[bool, bool, int, str]:
         exec_com = getattr(execution, "_com_obj", execution)
         return self._com_obj.GetBreakOnEndSettings(int(group), None, None, None, None, exec_com)
 
     @ts_interface
-    def get_effective_type(self) -> typing.Any:
+    def get_effective_type(self) -> typing.Any:  # noqa: ANN401
 
         return SequenceType(self._com_obj.GetEffectiveType())
 
@@ -453,7 +453,7 @@ class Sequence(PropertyObject):
         self,
         group: StepGroup | int,
         break_on_end: bool,
-        execution: typing.Any | None = None,
+        execution: typing.Any | None = None,  # noqa: ANN401
     ) -> None:
         exec_com = getattr(execution, "_com_obj", execution)
         self._com_obj.SetBreakOnEnd(int(group), break_on_end, exec_com)
@@ -466,7 +466,7 @@ class Sequence(PropertyObject):
         enabled: bool,
         pass_count: int,
         condition: str,
-        execution: typing.Any | None = None,
+        execution: typing.Any | None = None,  # noqa: ANN401
     ) -> None:
         exec_com = getattr(execution, "_com_obj", execution)
         self._com_obj.SetBreakOnEndSettings(

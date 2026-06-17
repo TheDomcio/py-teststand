@@ -72,7 +72,7 @@ if TYPE_CHECKING:
 
 
 class EvaluationType(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
@@ -108,7 +108,7 @@ class EvaluationType(COMWrapper):
 
     @property
     @ts_interface
-    def allowed_array_representations(self) -> typing.Any:
+    def allowed_array_representations(self) -> int:
         return int(self._com_obj.AllowedArrayRepresentations)
 
     @allowed_array_representations.setter
@@ -118,7 +118,7 @@ class EvaluationType(COMWrapper):
 
     @property
     @ts_interface
-    def allowed_representations(self) -> typing.Any:
+    def allowed_representations(self) -> int:
         return int(self._com_obj.AllowedRepresentations)
 
     @allowed_representations.setter
@@ -128,13 +128,13 @@ class EvaluationType(COMWrapper):
 
 
 class Expression(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
     @property
     @ts_interface
-    def text(self) -> typing.Any:
+    def text(self) -> str:
         return str(self._com_obj.Text)
 
     @text.setter
@@ -148,7 +148,7 @@ class Expression(COMWrapper):
         return int(self._com_obj.NumTokens)
 
     @ts_interface
-    def evaluate(self, evaluation_context: typing.Any = None, options: int = 0) -> typing.Any:
+    def evaluate(self, evaluation_context: typing.Any = None, options: int = 0) -> typing.Any:  # noqa: ANN401
         com_ctx = (
             getattr(evaluation_context, "_com_obj", evaluation_context)
             if evaluation_context
@@ -162,7 +162,7 @@ class Expression(COMWrapper):
         return None
 
     @ts_interface
-    def get_constant_value(self) -> typing.Any:
+    def get_constant_value(self) -> typing.Any:  # noqa: ANN401
         com_res = self._com_obj.GetConstantValue()
         if com_res:
             from py_teststand.property.property_object import PropertyObject
@@ -184,7 +184,7 @@ class Expression(COMWrapper):
     @ts_interface
     def validate(
         self,
-        evaluation_context: typing.Any = None,
+        evaluation_context: typing.Any = None,  # noqa: ANN401
         check_syntax_only: bool = True,
         evaluation_options: int = 0,
     ) -> tuple[bool, str, int, int]:
@@ -206,8 +206,8 @@ class Expression(COMWrapper):
     def validate_evaluation_type(
         self,
         valid_evaluation_types: EvaluationType,
-        additional_constants: typing.Any = None,
-        evaluation_context: typing.Any = None,
+        additional_constants: typing.Any = None,  # noqa: ANN401
+        evaluation_context: typing.Any = None,  # noqa: ANN401
         evaluation_options: int = 0,
     ) -> tuple[int, str, int, int]:
         com_types = getattr(valid_evaluation_types, "_com_obj", valid_evaluation_types)

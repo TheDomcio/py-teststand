@@ -25,7 +25,7 @@ class FileModificationIndicatorPolicy(IntEnum):
 
 
 class StationOptions(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
@@ -127,7 +127,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def auto_create_variable_location(self) -> typing.Any:
+    def auto_create_variable_location(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.sequence.location import AutoCreateVariableLocation
 
         return AutoCreateVariableLocation(int(self._com_obj.AutoCreateVariableLocation))
@@ -149,7 +149,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def interactive_branch_mode(self) -> typing.Any:
+    def interactive_branch_mode(self) -> int:
         return int(self._com_obj.InteractiveBranchMode)
 
     @interactive_branch_mode.setter
@@ -179,7 +179,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def seq_file_version_auto_increment_opt(self) -> typing.Any:
+    def seq_file_version_auto_increment_opt(self) -> int:
         return int(self._com_obj.SeqFileVersionAutoIncrementOpt)
 
     @seq_file_version_auto_increment_opt.setter
@@ -189,7 +189,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def type_version_auto_increment_opt(self) -> typing.Any:
+    def type_version_auto_increment_opt(self) -> int:
         return int(self._com_obj.TypeVersionAutoIncrementOpt)
 
     @type_version_auto_increment_opt.setter
@@ -239,7 +239,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def specify_steps_by_unique_id_in_expressions(self) -> typing.Any:
+    def specify_steps_by_unique_id_in_expressions(self) -> int:
         return int(self._com_obj.SpecifyStepsByUniqueIdInExpressions)
 
     @specify_steps_by_unique_id_in_expressions.setter
@@ -379,7 +379,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def system_default_source_code_control_provider(self) -> typing.Any:
+    def system_default_source_code_control_provider(self) -> str:
         return str(self._com_obj.SystemDefaultSourceCodeControlProvider)
 
     @system_default_source_code_control_provider.setter
@@ -449,7 +449,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def default_file_writing_format(self) -> typing.Any:
+    def default_file_writing_format(self) -> int:
         return int(self._com_obj.DefaultFileWritingFormat)
 
     @default_file_writing_format.setter
@@ -459,7 +459,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def allow_automatic_type_conflict_resolution(self) -> typing.Any:
+    def allow_automatic_type_conflict_resolution(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.core.engine import AllowAutomaticTypeConflictResolution
 
         return AllowAutomaticTypeConflictResolution(
@@ -493,7 +493,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def allow_cancelling_preload_expression(self) -> typing.Any:
+    def allow_cancelling_preload_expression(self) -> str:
         return str(self._com_obj.AllowCancellingPreloadExpression)
 
     @allow_cancelling_preload_expression.setter
@@ -523,7 +523,7 @@ class StationOptions(PropertyObject):
 
     @property
     @ts_interface
-    def default_cpu_affinity_for_threads(self) -> typing.Any:
+    def default_cpu_affinity_for_threads(self) -> int:
         return int(self._com_obj.DefaultCPUAffinityForThreads)
 
     @default_cpu_affinity_for_threads.setter
@@ -536,27 +536,27 @@ class StationOptions(PropertyObject):
         return list(self._com_obj.GetLanguages())
 
     @ts_interface
-    def get_time_limit(self, type: int, operation: int) -> typing.Any:
+    def get_time_limit(self, type: int, operation: int) -> float:
         return float(self._com_obj.GetTimeLimit(type, operation))
 
     @ts_interface
-    def set_time_limit(self, type: int, operation: int, value: float) -> typing.Any:
+    def set_time_limit(self, type: int, operation: int, value: float) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetTimeLimit(type, operation, value)
 
     @ts_interface
-    def get_time_limit_enabled(self, type: int, operation: int) -> typing.Any:
+    def get_time_limit_enabled(self, type: int, operation: int) -> bool:
         return bool(self._com_obj.GetTimeLimitEnabled(type, operation))
 
     @ts_interface
-    def set_time_limit_enabled(self, type: int, operation: int, value: bool) -> typing.Any:
+    def set_time_limit_enabled(self, type: int, operation: int, value: bool) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetTimeLimitEnabled(type, operation, value)
 
     @ts_interface
-    def get_time_limit_action(self, type: int, operation: int) -> typing.Any:
+    def get_time_limit_action(self, type: int, operation: int) -> int:
         return int(self._com_obj.GetTimeLimitAction(type, operation))
 
     @ts_interface
-    def set_time_limit_action(self, type: int, operation: int, value: int) -> typing.Any:
+    def set_time_limit_action(self, type: int, operation: int, value: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetTimeLimitAction(type, operation, value)
 
 

@@ -43,7 +43,7 @@ class WriteFileFormat(IntEnum):
 
 
 class FileInformation(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -97,7 +97,7 @@ class FileInformation(COMWrapper):
         return str(self._com_obj.GetFileFormatVersion())
 
     @ts_interface
-    def get_file_version(self, val: typing.Any = None) -> typing.Any:
+    def get_file_version(self, val: typing.Any = None) -> typing.Any:  # noqa: ANN401
         if val is None:
             if pythoncom is not None:
                 val = pythoncom.Missing

@@ -57,7 +57,7 @@ class AnalysisUtilities(PropertyObject):
         return bool(self._com_obj.ValidateCodeModuleUpToDate(step._com_obj, str(file_path)))
 
     @staticmethod
-    def auto_wire_parameters(module: typing.Any, sequence: typing.Any) -> None:
+    def auto_wire_parameters(module: typing.Any, sequence: typing.Any) -> None:  # noqa: ANN401
         import logging
 
         logger = logging.getLogger(__name__)

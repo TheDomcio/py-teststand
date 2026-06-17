@@ -34,9 +34,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from py_teststand import Engine, PropertyOption, PropValType
-from py_teststand.property.property_object import PropertyObject
-from py_teststand.sequence.sequence import Sequence
+from py_teststand import Engine, PropertyObject, PropertyOption, PropValType, Sequence
 
 INSERT_IF_MISSING = int(PropertyOption.InsertIfMissing)
 

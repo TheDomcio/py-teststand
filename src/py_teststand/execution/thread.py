@@ -44,7 +44,7 @@ class Thread(COMWrapper):
 
     @property
     @ts_interface
-    def batch(self) -> typing.Any:
+    def batch(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Batch
 
     @property
@@ -105,7 +105,7 @@ class Thread(COMWrapper):
         return bool(self._com_obj.WillStepIntoModule)
 
     @ts_interface
-    def add_to_batch(self, batch_obj: typing.Any, order_number: int) -> None:
+    def add_to_batch(self, batch_obj: typing.Any, order_number: int) -> None:  # noqa: ANN401
         self._com_obj.AddToBatch(batch_obj, int(order_number))
 
     @ts_interface
@@ -152,7 +152,7 @@ class Thread(COMWrapper):
         event_code: int,
         numeric_data_param: float,
         string_data_param: str,
-        active_x_data_param: typing.Any,
+        active_x_data_param: typing.Any,  # noqa: ANN401
         synchronous: bool,
     ) -> None:
         self._com_obj.PostUIMessageEx(
@@ -188,8 +188,8 @@ class Thread(COMWrapper):
         self,
         timeout_ms: int = -1,
         process_windows_msgs: bool = True,
-        step_to_store_results_in: typing.Any = None,
-        calling_sequence_context: typing.Any = None,
+        step_to_store_results_in: typing.Any = None,  # noqa: ANN401
+        calling_sequence_context: typing.Any = None,  # noqa: ANN401
     ) -> bool:
         return bool(
             self._com_obj.WaitForEnd(

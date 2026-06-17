@@ -61,13 +61,13 @@ class ListBoxColumns(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> ListBoxColumn:
+    def item(self, index_or_name: typing.Any) -> ListBoxColumn:  # noqa: ANN401
         return ListBoxColumn(self._com_obj.Item(index_or_name), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, key: typing.Any) -> ListBoxColumn:
+    def __getitem__(self, key: typing.Any) -> ListBoxColumn:  # noqa: ANN401
         return self.item(key)
 
     def __iter__(self) -> typing.Iterator[ListBoxColumn]:
@@ -155,12 +155,12 @@ class ListBox(COMWrapper):
 
     @property
     @ts_interface
-    def font(self) -> typing.Any:
+    def font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Font
 
     @font.setter
     @ts_interface
-    def font(self, value: typing.Any) -> None:
+    def font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Font = value
 
     @property
@@ -200,12 +200,12 @@ class ListBox(COMWrapper):
 
     @property
     @ts_interface
-    def mouse_icon(self) -> typing.Any:
+    def mouse_icon(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.MouseIcon
 
     @mouse_icon.setter
     @ts_interface
-    def mouse_icon(self, value: typing.Any) -> None:
+    def mouse_icon(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.MouseIcon = value
 
     @property

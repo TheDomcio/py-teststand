@@ -9,7 +9,7 @@ from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 class Command(COMWrapper):
     @property
     @ts_interface
-    def kind(self) -> typing.Any:
+    def kind(self) -> typing.Any:  # noqa: ANN401
         from .application_manager import CommandKind
 
         return CommandKind(int(self._com_obj.Kind))
@@ -133,27 +133,27 @@ class Command(COMWrapper):
 
     @property
     @ts_interface
-    def user_data(self) -> typing.Any:
+    def user_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserData
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: typing.Any) -> None:
+    def user_data(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserData = value
 
     @property
     @ts_interface
-    def user_object(self) -> typing.Any:
+    def user_object(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserObject
 
     @user_object.setter
     @ts_interface
-    def user_object(self, value: typing.Any) -> None:
+    def user_object(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserObject = value
 
     @property
     @ts_interface
-    def sequence_file_view_mgr(self) -> typing.Any | None:
+    def sequence_file_view_mgr(self) -> typing.Any | None:  # noqa: ANN401
         from .sequence_file_view_manager import SequenceFileViewManager
 
         mgr = self._com_obj.SequenceFileViewMgr
@@ -161,7 +161,7 @@ class Command(COMWrapper):
 
     @property
     @ts_interface
-    def execution_view_mgr(self) -> typing.Any | None:
+    def execution_view_mgr(self) -> typing.Any | None:  # noqa: ANN401
         from .execution_view_manager import ExecutionViewManager
 
         mgr = self._com_obj.ExecutionViewMgr
@@ -169,7 +169,7 @@ class Command(COMWrapper):
 
     @property
     @ts_interface
-    def subsidiary_commands(self) -> typing.Any:
+    def subsidiary_commands(self) -> typing.Any:  # noqa: ANN401
         return Commands(self._com_obj.SubsidiaryCommands, self._engine_ref)
 
     @ts_interface
@@ -178,7 +178,7 @@ class Command(COMWrapper):
 
     @property
     @ts_interface
-    def entry_point(self) -> typing.Any:
+    def entry_point(self) -> typing.Any:  # noqa: ANN401
         from .entry_point import EntryPoint
 
         obj = self._com_obj.EntryPoint

@@ -27,8 +27,14 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from py_teststand import Engine, PropertyOption, PropValType, TypeCategory, TypeUsageList
-from py_teststand.property.property_object import PropertyObject
+from py_teststand import (
+    Engine,
+    PropertyObject,
+    PropertyOption,
+    PropValType,
+    TypeCategory,
+    TypeUsageList,
+)
 
 ROOT_TEMP_DIR: Path = Path(tempfile.gettempdir()) / "py-teststand"
 INSERT_IF_MISSING = int(PropertyOption.InsertIfMissing)

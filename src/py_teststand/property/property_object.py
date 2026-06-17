@@ -19,14 +19,14 @@ except ImportError:
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 
 
-def _is_2d_list(value: typing.Any) -> bool:
+def _is_2d_list(value: typing.Any) -> bool:  # noqa: ANN401
     if not isinstance(value, (list, tuple)) or len(value) == 0:
         return False
     first = value[0]
     return isinstance(first, (list, tuple))
 
 
-def _make_2d_variant(value: typing.Any) -> typing.Any:
+def _make_2d_variant(value: typing.Any) -> typing.Any:  # noqa: ANN401
     if win32com is None or pythoncom is None:
         return value
     rows = [list(row) for row in value]
@@ -212,7 +212,7 @@ if TYPE_CHECKING:
 
 class PropertyObject(COMWrapper):
     @property
-    def _property_object(self) -> typing.Any:
+    def _property_object(self) -> typing.Any:  # noqa: ANN401
 
         if "Mock" in str(type(self._com_obj)):
             return self._com_obj
@@ -242,7 +242,7 @@ class PropertyObject(COMWrapper):
 
         return self._com_obj
 
-    def __getitem__(self, index: typing.Any) -> typing.Any:
+    def __getitem__(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
 
         lookup_string = index
         if isinstance(lookup_string, int):
@@ -269,7 +269,7 @@ class PropertyObject(COMWrapper):
             pass
         return self.get_val_variant(lookup_string, PropertyOption.NoneValue)
 
-    def __setitem__(self, lookup_string: str, value: typing.Any) -> None:
+    def __setitem__(self, lookup_string: str, value: typing.Any) -> None:  # noqa: ANN401
 
         if isinstance(value, COMWrapper):
             self._property_object.SetValVariant(
@@ -280,7 +280,7 @@ class PropertyObject(COMWrapper):
         else:
             self.set_val_variant(lookup_string, PropertyOption.NoneValue, value)
 
-    def __getattr__(self, name: str) -> typing.Any:
+    def __getattr__(self, name: str) -> typing.Any:  # noqa: ANN401
 
         if name.startswith("_") or name in self.__dict__:
             return object.__getattribute__(self, name)
@@ -310,7 +310,7 @@ class PropertyObject(COMWrapper):
         except Exception as e:
             raise AttributeError(f"Property '{name}' not found on {self!r}") from e
 
-    def __setattr__(self, name: str, value: typing.Any) -> None:
+    def __setattr__(self, name: str, value: typing.Any) -> None:  # noqa: ANN401
 
         if name.startswith("_") or name in self.__dict__:
             object.__setattr__(self, name, value)
@@ -357,7 +357,7 @@ class PropertyObject(COMWrapper):
                 yield self.get_nth_sub_property("", i)
 
     @ts_interface
-    def get_val_variant(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_variant(self, lookup_string: str = "", options: int = 0) -> typing.Any:  # noqa: ANN401
         return self._property_object.GetValVariant(lookup_string, options)
 
     @ts_interface
@@ -365,8 +365,8 @@ class PropertyObject(COMWrapper):
         self,
         lookup_string: str = "",
         options: int = 0,
-        value: typing.Any = None,
-    ) -> typing.Any:
+        value: typing.Any = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         if pythoncom is not None and win32com is not None:
             if isinstance(value, bool):
                 try:
@@ -391,7 +391,7 @@ class PropertyObject(COMWrapper):
         self._property_object.SetValVariant(lookup_string, options, value)
 
     @ts_interface
-    def get_val_string(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_string(self, lookup_string: str = "", options: int = 0) -> str:
         return str(self._property_object.GetValString(lookup_string, options))
 
     @ts_interface
@@ -400,11 +400,11 @@ class PropertyObject(COMWrapper):
         lookup_string: str = "",
         options: int = 0,
         value: str = "",
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.SetValString(lookup_string, options, value)
 
     @ts_interface
-    def get_val_number(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_number(self, lookup_string: str = "", options: int = 0) -> float:
         return float(self._property_object.GetValNumber(lookup_string, options))
 
     @ts_interface
@@ -413,11 +413,11 @@ class PropertyObject(COMWrapper):
         lookup_string: str = "",
         options: int = 0,
         value: float = 0.0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.SetValNumber(lookup_string, options, value)
 
     @ts_interface
-    def get_val_boolean(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_boolean(self, lookup_string: str = "", options: int = 0) -> bool:
         return bool(self._property_object.GetValBoolean(lookup_string, options))
 
     @ts_interface
@@ -458,7 +458,7 @@ class PropertyObject(COMWrapper):
         self._property_object.InsertSubProperty(lookup_string, int(value_type), as_array, raw_sub)
 
     @ts_interface
-    def evaluate(self, expression: str) -> typing.Any:
+    def evaluate(self, expression: str) -> typing.Any:  # noqa: ANN401
         return PropertyObject(self._property_object.Evaluate(expression), self._engine_ref)
 
     @ts_interface
@@ -493,7 +493,7 @@ class PropertyObject(COMWrapper):
         limit_to_named_props: list[str] | None = None,
         limit_to_props_of_named_types: list[str] | None = None,
         subprop_lookup_strings_to_exclude: list[str] | None = None,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return self._property_object.Search(
             lookup_string,
             search_string,
@@ -529,11 +529,11 @@ class PropertyObject(COMWrapper):
         return self.get_property_object(lookup_string, options)
 
     @ts_interface
-    def exists(self, lookup_string: str, options: int = 0) -> typing.Any:
+    def exists(self, lookup_string: str, options: int = 0) -> bool:
         return bool(self._property_object.Exists(lookup_string, options))
 
     @ts_interface
-    def validate_new_name(self, new_name: str, allow_duplicates: bool = False) -> typing.Any:
+    def validate_new_name(self, new_name: str, allow_duplicates: bool = False) -> bool:
         res = self._property_object.ValidateNewName(new_name, allow_duplicates)
         if isinstance(res, tuple) and len(res) >= 2:
             return bool(res[1]), str(res[0])
@@ -568,7 +568,7 @@ class PropertyObject(COMWrapper):
 
     @property
     @ts_interface
-    def type_obj(self) -> typing.Any:
+    def type_obj(self) -> typing.Any:  # noqa: ANN401
         return self._property_object.Type
 
     def get_type_name(self, lookup_string: str = "", options: PropertyOption | int = 0) -> str:
@@ -678,7 +678,7 @@ class PropertyObject(COMWrapper):
         self._property_object.IsModifiedType = value
 
     @ts_interface
-    def delete_sub_property(self, lookup_string: str, options: int = 0) -> typing.Any:
+    def delete_sub_property(self, lookup_string: str, options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.DeleteSubProperty(lookup_string, options)
 
     @ts_interface
@@ -687,7 +687,7 @@ class PropertyObject(COMWrapper):
         lookup_string: str,
         index: int,
         options: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.DeleteNthSubProperty(lookup_string, index, options)
 
     @ts_interface
@@ -695,11 +695,11 @@ class PropertyObject(COMWrapper):
         return int(self._property_object.GetNumElements())
 
     @ts_interface
-    def set_num_elements(self, num_elements: int, options: int = 0) -> typing.Any:
+    def set_num_elements(self, num_elements: int, options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.SetNumElements(num_elements, options)
 
     @ts_interface
-    def get_num_sub_properties(self, lookup_string: str = "") -> typing.Any:
+    def get_num_sub_properties(self, lookup_string: str = "") -> int:
         return int(self._property_object.GetNumSubProperties(lookup_string))
 
     @ts_interface
@@ -727,16 +727,16 @@ class PropertyObject(COMWrapper):
         return PropertyFlag(int(self._property_object.GetFlags(lookup_string, int(options))))
 
     @ts_interface
-    def get_type_definition(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_type_definition(self, lookup_string: str = "", options: int = 0) -> typing.Any:  # noqa: ANN401
         com_obj = self._property_object.GetTypeDefinition(lookup_string, options)
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
 
     @ts_interface
-    def get_type_display_string(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_type_display_string(self, lookup_string: str = "", options: int = 0) -> str:
         return str(self._property_object.GetTypeDisplayString(lookup_string, options))
 
     @ts_interface
-    def get_type_flags(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_type_flags(self, lookup_string: str = "", options: int = 0) -> int:
         return int(self._property_object.GetTypeFlags(lookup_string, options))
 
     @ts_interface
@@ -768,19 +768,19 @@ class PropertyObject(COMWrapper):
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
 
     @ts_interface
-    def get_val_boolean_by_offset(self, array_offset: int, options: int = 0) -> typing.Any:
+    def get_val_boolean_by_offset(self, array_offset: int, options: int = 0) -> bool:
         return bool(self._property_object.GetValBooleanByOffset(array_offset, options))
 
     @ts_interface
-    def get_val_number_by_offset(self, array_offset: int, options: int = 0) -> typing.Any:
+    def get_val_number_by_offset(self, array_offset: int, options: int = 0) -> float:
         return float(self._property_object.GetValNumberByOffset(array_offset, options))
 
     @ts_interface
-    def get_val_string_by_offset(self, array_offset: int, options: int = 0) -> typing.Any:
+    def get_val_string_by_offset(self, array_offset: int, options: int = 0) -> str:
         return str(self._property_object.GetValStringByOffset(array_offset, options))
 
     @ts_interface
-    def get_val_variant_by_offset(self, array_offset: int, options: int = 0) -> typing.Any:
+    def get_val_variant_by_offset(self, array_offset: int, options: int = 0) -> typing.Any:  # noqa: ANN401
         return self._property_object.GetValVariantByOffset(array_offset, options)
 
     @ts_interface
@@ -815,7 +815,7 @@ class PropertyObject(COMWrapper):
         self,
         array_offset: int,
         options: int = 0,
-        value: typing.Any = None,
+        value: typing.Any = None,  # noqa: ANN401
     ) -> None:
         if pythoncom is not None and win32com is not None:
             if isinstance(value, bool):
@@ -841,7 +841,7 @@ class PropertyObject(COMWrapper):
         self._property_object.SetValVariantByOffset(array_offset, options, value)
 
     @ts_interface
-    def get_val_integer64(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_integer64(self, lookup_string: str = "", options: int = 0) -> int:
         return int(self._property_object.GetValInteger64(lookup_string, options))
 
     @ts_interface
@@ -850,11 +850,11 @@ class PropertyObject(COMWrapper):
         lookup_string: str = "",
         options: int = 0,
         value: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.SetValInteger64(lookup_string, options, value)
 
     @ts_interface
-    def get_val_unsigned_integer64(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_unsigned_integer64(self, lookup_string: str = "", options: int = 0) -> typing.Any:  # noqa: ANN401
         return int(self._property_object.GetValUnsignedInteger64(lookup_string, options))
 
     @ts_interface
@@ -888,15 +888,15 @@ class PropertyObject(COMWrapper):
         self.set_val_number(lookup_string, options, float(value))
 
     @ts_interface
-    def get_val_binary(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_binary(self, lookup_string: str = "", options: int = 0) -> typing.Any:  # noqa: ANN401
         return bytes(self._property_object.GetValBinary(lookup_string, options))
 
     @ts_interface
-    def set_val_binary(self, lookup_string: str, options: int, value: bytes) -> typing.Any:
+    def set_val_binary(self, lookup_string: str, options: int, value: bytes) -> typing.Any:  # noqa: ANN401
         self._property_object.SetValBinary(lookup_string, options, value)
 
     @ts_interface
-    def get_val_interface(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_val_interface(self, lookup_string: str = "", options: int = 0) -> typing.Any:  # noqa: ANN401
         com_obj = self._property_object.GetValInterface(lookup_string, options)
         return PropertyObject(com_obj, self._engine_ref) if com_obj else None
 
@@ -905,17 +905,17 @@ class PropertyObject(COMWrapper):
         self,
         lookup_string: str = "",
         options: int = 0,
-        value: typing.Any = None,
+        value: typing.Any = None,  # noqa: ANN401
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValInterface(lookup_string, options, val_com)
 
     @ts_interface
-    def insert_elements(self, array_offset: int, num_elements: int, options: int = 0) -> typing.Any:
+    def insert_elements(self, array_offset: int, num_elements: int, options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.InsertElements(array_offset, num_elements, options)
 
     @ts_interface
-    def delete_elements(self, array_offset: int, num_elements: int, options: int = 0) -> typing.Any:
+    def delete_elements(self, array_offset: int, num_elements: int, options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.DeleteElements(array_offset, num_elements, options)
 
     @ts_interface
@@ -923,8 +923,8 @@ class PropertyObject(COMWrapper):
         self,
         lookup_string: str,
         options: int,
-        value: typing.Any,
-    ) -> typing.Any:
+        value: typing.Any,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetPropertyObject(lookup_string, options, val_com)
 
@@ -933,17 +933,17 @@ class PropertyObject(COMWrapper):
         self,
         array_offset: int,
         options: int,
-        value: typing.Any,
-    ) -> typing.Any:
+        value: typing.Any,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetPropertyObjectByOffset(array_offset, options, val_com)
 
     @ts_interface
-    def is_alias_object(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def is_alias_object(self, lookup_string: str = "", options: int = 0) -> bool:
         return bool(self._property_object.IsAliasObject(lookup_string, options))
 
     @ts_interface
-    def is_equal_to(self, object_to_compare: typing.Any, options: int = 0) -> bool:
+    def is_equal_to(self, object_to_compare: typing.Any, options: int = 0) -> bool:  # noqa: ANN401
         obj_com = getattr(object_to_compare, "_com_obj", object_to_compare)
         return bool(self._property_object.IsEqualTo(obj_com, options))
 
@@ -974,7 +974,7 @@ class PropertyObject(COMWrapper):
         xml_string: str,
         options: int = 0,
         initial_indentation: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.SetXML(str(xml_string), int(options), int(initial_indentation))
 
     @ts_interface
@@ -1010,11 +1010,11 @@ class PropertyObject(COMWrapper):
         lookup_string: str,
         options: int,
         prop_name: str,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return int(self._property_object.GetSubPropertyIndex(lookup_string, options, prop_name))
 
     @ts_interface
-    def get_structure_change_count(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_structure_change_count(self, lookup_string: str = "", options: int = 0) -> int:
         return int(self._property_object.GetStructureChangeCount(lookup_string, options))
 
     @ts_interface
@@ -1028,12 +1028,12 @@ class PropertyObject(COMWrapper):
         self._property_object.SetNthSubPropertyName(lookup_string, index, options, new_value)
 
     @ts_interface
-    def get_location(self, top_object: typing.Any = None) -> typing.Any:
+    def get_location(self, top_object: str | None = None) -> typing.Any:  # noqa: ANN401
         top_com = getattr(top_object, "_com_obj", top_object) if top_object is not None else None
         return str(self._property_object.GetLocation(top_com))
 
     @ts_interface
-    def get_instance_default_flags(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_instance_default_flags(self, lookup_string: str = "", options: int = 0) -> int:
         return int(self._property_object.GetInstanceDefaultFlags(lookup_string, options))
 
     @ts_interface
@@ -1046,7 +1046,7 @@ class PropertyObject(COMWrapper):
         self._property_object.SetInstanceDefaultFlags(lookup_string, options, flags)
 
     @ts_interface
-    def get_instance_override_flags(self, lookup_string: str = "", options: int = 0) -> typing.Any:
+    def get_instance_override_flags(self, lookup_string: str = "", options: int = 0) -> int:
         return int(self._property_object.GetInstanceOverrideFlags(lookup_string, options))
 
     @ts_interface
@@ -1075,7 +1075,7 @@ class PropertyObject(COMWrapper):
         self,
         new_value: int,
         password_string: str = "",
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._property_object.SetTypeDefinitionProtection(new_value, password_string)
 
     @ts_interface
@@ -1083,11 +1083,11 @@ class PropertyObject(COMWrapper):
         self._property_object.ClearTypeDefinitionPasswordHistory()
 
     @ts_interface
-    def read(self, path_string: str, object_name: str = "", rw_options: int = 0) -> typing.Any:
+    def read(self, path_string: str, object_name: str = "", rw_options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.Read(path_string, object_name, rw_options)
 
     @ts_interface
-    def write(self, path_string: str, object_name: str = "", rw_options: int = 0) -> typing.Any:
+    def write(self, path_string: str, object_name: str = "", rw_options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.Write(path_string, object_name, rw_options)
 
     @ts_interface
@@ -1101,11 +1101,11 @@ class PropertyObject(COMWrapper):
         self._property_object.ReadEx(path_string, object_name, rw_options, handler_type)
 
     @ts_interface
-    def serialize(self, stream: str = "", object_name: str = "", rw_options: int = 0) -> typing.Any:
+    def serialize(self, stream: str = "", object_name: str = "", rw_options: int = 0) -> str:
         return str(self._property_object.Serialize(stream, object_name, rw_options))
 
     @ts_interface
-    def unserialize(self, stream: str, rw_options: int = 0) -> typing.Any:
+    def unserialize(self, stream: str, rw_options: int = 0) -> typing.Any:  # noqa: ANN401
         self._property_object.Unserialize(stream, rw_options)
 
     @ts_interface
@@ -1142,7 +1142,7 @@ class PropertyObject(COMWrapper):
         self,
         lookup_string: str = "",
         options: int = 0,
-        value: typing.Any = None,
+        value: typing.Any = None,  # noqa: ANN401
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValIDispatch(lookup_string, options, val_com)
@@ -1152,7 +1152,7 @@ class PropertyObject(COMWrapper):
         self,
         array_offset: int = 0,
         options: int = 0,
-        value: typing.Any = None,
+        value: typing.Any = None,  # noqa: ANN401
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValIDispatchByOffset(array_offset, options, val_com)
@@ -1171,7 +1171,7 @@ class PropertyObject(COMWrapper):
         self,
         array_offset: int = 0,
         options: int = 0,
-        value: typing.Any = None,
+        value: typing.Any = None,  # noqa: ANN401
     ) -> None:
         val_com = getattr(value, "_com_obj", value) if value is not None else None
         self._property_object.SetValInterfaceByOffset(array_offset, options, val_com)
@@ -1193,7 +1193,7 @@ class PropertyObject(COMWrapper):
     def display_attributes_dialog(
         self,
         dlg_title: str = "",
-        file: typing.Any = None,
+        file: typing.Any = None,  # noqa: ANN401
         dlg_options: int = 0,
     ) -> bool:
         file_com = getattr(file, "_com_obj", file) if file is not None else None
@@ -1218,7 +1218,7 @@ class PropertyObject(COMWrapper):
     def display_properties_dialog(
         self,
         dlg_title: str = "",
-        file: typing.Any = None,
+        file: typing.Any = None,  # noqa: ANN401
         dlg_options: int = 0,
     ) -> int:
         file_com = getattr(file, "_com_obj", file) if file is not None else None

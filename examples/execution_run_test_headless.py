@@ -21,8 +21,7 @@ records Passed or Failed, which we read from each entry in the ResultList.
 
 from __future__ import annotations
 
-from py_teststand import AdapterKeyName, Engine, StepGroup
-from py_teststand.sequence.sequence import Sequence
+from py_teststand import AdapterKeyName, Engine, Sequence, StepGroup
 
 # (name, measurement expression, low limit, high limit)
 TESTS: list[tuple[str, str, float, float]] = [

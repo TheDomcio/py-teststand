@@ -201,7 +201,7 @@ class ApplicationManager(COMWrapper):
     def __enter__(self) -> ApplicationManager:
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
         try:
             self.shutdown()
         except Exception:
@@ -209,7 +209,7 @@ class ApplicationManager(COMWrapper):
         self.release()
 
     @property
-    def events(self) -> typing.Any:
+    def events(self) -> typing.Any:  # noqa: ANN401
         from .events import ApplicationMgrEventsSink, connect_events
 
         return connect_events(self, ApplicationMgrEventsSink)
@@ -518,12 +518,12 @@ class ApplicationManager(COMWrapper):
 
     @property
     @ts_interface
-    def user_data(self) -> typing.Any:
+    def user_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserData
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: typing.Any) -> None:
+    def user_data(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserData = value
 
     @property
@@ -540,7 +540,7 @@ class ApplicationManager(COMWrapper):
         self,
         edited_file: PropertyObjectFile | None,
         edit_kind: EditKind | int,
-        objects_to_edit: typing.Any,
+        objects_to_edit: typing.Any,  # noqa: ANN401
     ) -> bool:
         raw_file = edited_file._com_obj if edited_file else None
         return bool(self._com_obj.BeginEdit(raw_file, int(edit_kind), objects_to_edit))
@@ -559,7 +559,7 @@ class ApplicationManager(COMWrapper):
         self._com_obj.CloseAllSequenceFiles()
 
     @ts_interface
-    def close_execution(self, execution: typing.Any) -> None:
+    def close_execution(self, execution: typing.Any) -> None:  # noqa: ANN401
         raw_exec = getattr(execution, "_com_obj", execution)
         self._com_obj.CloseExecution(raw_exec)
 
@@ -569,13 +569,13 @@ class ApplicationManager(COMWrapper):
         self._com_obj.CloseSequenceFile(raw_file)
 
     @ts_interface
-    def connect_adapter_list(self, control: typing.Any) -> typing.Any:
+    def connect_adapter_list(self, control: typing.Any) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ConnectAdapterList(control)
 
     @ts_interface
     def connect_caption(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         source: CaptionSource | int,
         long_name: bool = False,
     ) -> CaptionConnection:
@@ -590,7 +590,7 @@ class ApplicationManager(COMWrapper):
     def connect_command(
         self,
         command_kind: CommandKind | int,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         index: int = 0,
         options: int = 0,
     ) -> CommandConnection:
@@ -606,7 +606,7 @@ class ApplicationManager(COMWrapper):
         self,
         edited_file: PropertyObjectFile | None,
         edit_kind: EditKind | int,
-        edited_objects: typing.Any,
+        edited_objects: typing.Any,  # noqa: ANN401
         cancelled: bool,
     ) -> None:
         raw_file = edited_file._com_obj if edited_file else None
@@ -672,7 +672,7 @@ class ApplicationManager(COMWrapper):
         return TerminationStates(self._com_obj.GetTerminationState())
 
     @ts_interface
-    def get_visible(self, execution: typing.Any) -> bool:
+    def get_visible(self, execution: typing.Any) -> bool:  # noqa: ANN401
         raw_exec = getattr(execution, "_com_obj", execution)
         return bool(self._com_obj.GetVisible(raw_exec))
 
@@ -745,7 +745,7 @@ class ApplicationManager(COMWrapper):
         self._com_obj.RefreshAllViewMgrs()
 
     @ts_interface
-    def refresh_file(self, file: typing.Any) -> None:
+    def refresh_file(self, file: typing.Any) -> None:  # noqa: ANN401
         raw_file = getattr(file, "_com_obj", file)
         self._com_obj.RefreshFile(raw_file)
 
@@ -754,7 +754,7 @@ class ApplicationManager(COMWrapper):
         self._com_obj.ReloadConfigFile()
 
     @ts_interface
-    def reload_file(self, file: typing.Any) -> None:
+    def reload_file(self, file: typing.Any) -> None:  # noqa: ANN401
         raw_file = getattr(file, "_com_obj", file)
         self._com_obj.ReloadFile(raw_file)
 

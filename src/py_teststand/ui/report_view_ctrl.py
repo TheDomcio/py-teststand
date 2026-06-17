@@ -92,7 +92,7 @@ class ReportView(COMWrapper):
 
     @property
     @ts_interface
-    def text_report_font(self) -> typing.Any:
+    def text_report_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.TextReportFont
 
     @property
@@ -138,7 +138,7 @@ class ReportView(COMWrapper):
         self._com_obj.PrintReport(show_print_dialog)
 
     @ts_interface
-    def update_from_execution(self, execution: typing.Any) -> None:
+    def update_from_execution(self, execution: typing.Any) -> None:  # noqa: ANN401
         raw_exec = getattr(execution, "_com_obj", execution)
         self._com_obj.UpdateFromExecution(raw_exec)
 

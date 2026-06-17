@@ -41,12 +41,12 @@ class ListBar(COMWrapper):
 
     @property
     @ts_interface
-    def button_font(self) -> typing.Any:
+    def button_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ButtonFont
 
     @button_font.setter
     @ts_interface
-    def button_font(self, value: typing.Any) -> None:
+    def button_font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.ButtonFont = value
 
     @property
@@ -106,12 +106,12 @@ class ListBar(COMWrapper):
 
     @property
     @ts_interface
-    def page_font(self) -> typing.Any:
+    def page_font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.PageFont
 
     @page_font.setter
     @ts_interface
-    def page_font(self, value: typing.Any) -> None:
+    def page_font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.PageFont = value
 
     @property

@@ -72,7 +72,7 @@ class AutoReleaser(COMWrapper):
         self._com_obj.EarlyRelease()
 
     @ts_interface
-    def early_release_ex(self, sequence_context: typing.Any = None) -> typing.Any:
+    def early_release_ex(self, sequence_context: typing.Any = None) -> typing.Any:  # noqa: ANN401
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.EarlyReleaseEx(com_context)
 
@@ -80,7 +80,7 @@ class AutoReleaser(COMWrapper):
 
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
 
         self.early_release()
 
@@ -108,7 +108,7 @@ class Mutex(SyncObject):
         thread_display_name: str,
         home_sync_mgr: SyncManager,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
         is_part_of_group_lock: bool = False,
     ) -> tuple[AutoReleaser, WaitResult, str]:
@@ -134,7 +134,7 @@ class Mutex(SyncObject):
         thread_display_name: str,
         home_sync_mgr: SyncManager,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[list[AutoReleaser], WaitResult, str]:
 
@@ -160,14 +160,14 @@ class Mutex(SyncObject):
     @ts_interface
     def early_unlock_mutex_ex(
         self,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         thread_id: str = "",
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.EarlyUnlockMutexEx(com_context, thread_id)
 
     @ts_interface
-    def get_saved_owner_info(self) -> typing.Any:
+    def get_saved_owner_info(self) -> str:
         res = self._com_obj.GetSavedOwnerInfo()
         return str(res[0]), str(res[1]), SyncManager(res[2], self._engine_ref)
 
@@ -176,11 +176,11 @@ class Mutex(SyncObject):
         self._com_obj.FinalizeForGroupLock(home_sync_mgr._com_obj)
 
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         return int(self._com_obj.GetInfo())
 
     @ts_interface
-    def get_info_ex(self) -> typing.Any:
+    def get_info_ex(self) -> int:
         res = self._com_obj.GetInfoEx()
         return int(res[0]), int(res[1]), str(res[2])
 
@@ -190,7 +190,7 @@ class Semaphore(SyncObject):
     def acquire_semaphore(
         self,
         timeout_in_seconds: float,
-        sequence_context: typing.Any,
+        sequence_context: typing.Any,  # noqa: ANN401
         process_msgs: bool,
     ) -> WaitResult:
 
@@ -203,7 +203,7 @@ class Semaphore(SyncObject):
     def acquire_semaphore_with_auto_releaser(
         self,
         timeout_in_seconds: float,
-        sequence_context: typing.Any,
+        sequence_context: typing.Any,  # noqa: ANN401
         process_msgs: bool,
     ) -> tuple[AutoReleaser, WaitResult]:
 
@@ -216,7 +216,7 @@ class Semaphore(SyncObject):
         return AutoReleaser(res[0], self._engine_ref), WaitResult(res[1])
 
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1]), int(res[2]), int(res[3])
 
@@ -227,7 +227,7 @@ class Semaphore(SyncObject):
     @ts_interface
     def release_semaphore_ex(
         self,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         thread_id: str = "",
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
@@ -237,7 +237,7 @@ class Semaphore(SyncObject):
 class Batch(SyncObject):
     @property
     @ts_interface
-    def default_batch_synchronization(self) -> typing.Any:
+    def default_batch_synchronization(self) -> typing.Any:  # noqa: ANN401
 
         return BatchSyncType(self._com_obj.DefaultBatchSynchronization)
 
@@ -247,11 +247,11 @@ class Batch(SyncObject):
         self._com_obj.DefaultBatchSynchronization = int(value)
 
     @ts_interface
-    def add_thread(self, engine: Engine, thread: Thread, order_number: int) -> typing.Any:
+    def add_thread(self, engine: Engine, thread: Thread, order_number: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.AddThread(engine._com_obj, thread._com_obj, order_number)
 
     @ts_interface
-    def remove_thread(self, engine: Engine, thread: Thread) -> typing.Any:
+    def remove_thread(self, engine: Engine, thread: Thread) -> typing.Any:  # noqa: ANN401
         self._com_obj.RemoveThread(engine._com_obj, thread._com_obj)
 
     @ts_interface
@@ -262,7 +262,7 @@ class Batch(SyncObject):
         return [Thread(t, self._engine_ref) for t in com_threads]
 
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1])
 
@@ -272,7 +272,7 @@ class Batch(SyncObject):
         section_name: str,
         batch_sync_type: int,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[WaitResult, bool]:
 
@@ -291,7 +291,7 @@ class Batch(SyncObject):
         self,
         section_name: str,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
         rte_occurred: bool = False,
     ) -> WaitResult:
@@ -311,7 +311,7 @@ class Batch(SyncObject):
     def exit_all_synchronized_sections_in_current_sequence(
         self,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
         rte_occurred: bool = False,
     ) -> WaitResult:
@@ -327,22 +327,22 @@ class Batch(SyncObject):
         )
 
     @ts_interface
-    def report_rte_occurred(self, sequence_context: typing.Any = None) -> None:
+    def report_rte_occurred(self, sequence_context: typing.Any = None) -> None:  # noqa: ANN401
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.ReportRTEOccurred(com_context)
 
 
 class Notification(SyncObject):
     @ts_interface
-    def set(self, data_prop_obj: typing.Any = None, by_ref: bool = False) -> typing.Any:
+    def set(self, data_prop_obj: typing.Any = None, by_ref: bool = False) -> typing.Any:  # noqa: ANN401
         raw_data = getattr(data_prop_obj, "_com_obj", data_prop_obj)
         self._com_obj.Set(raw_data, by_ref)
 
     @ts_interface
     def set_ex(
         self,
-        sequence_context: typing.Any = None,
-        data_prop_obj: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
+        data_prop_obj: typing.Any = None,  # noqa: ANN401
         by_ref: bool = False,
         auto_clear: bool = False,
     ) -> None:
@@ -351,15 +351,15 @@ class Notification(SyncObject):
         self._com_obj.SetEx(com_context, raw_data, by_ref, auto_clear)
 
     @ts_interface
-    def pulse(self, data_prop_obj: typing.Any = None, by_ref: bool = False) -> typing.Any:
+    def pulse(self, data_prop_obj: typing.Any = None, by_ref: bool = False) -> typing.Any:  # noqa: ANN401
         raw_data = getattr(data_prop_obj, "_com_obj", data_prop_obj)
         self._com_obj.Pulse(raw_data, by_ref)
 
     @ts_interface
     def pulse_ex(
         self,
-        sequence_context: typing.Any = None,
-        data_prop_obj: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
+        data_prop_obj: typing.Any = None,  # noqa: ANN401
         by_ref: bool = False,
         apply_to_all_waiters: bool = False,
     ) -> None:
@@ -372,21 +372,21 @@ class Notification(SyncObject):
         self._com_obj.Clear()
 
     @ts_interface
-    def clear_ex(self, sequence_context: typing.Any = None) -> typing.Any:
+    def clear_ex(self, sequence_context: typing.Any = None) -> typing.Any:  # noqa: ANN401
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.ClearEx(com_context)
 
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         res = self._com_obj.GetInfo()
         return int(res[0]), bool(res[1])
 
     @ts_interface
     def wait(
         self,
-        destination_prop_obj: typing.Any = None,
+        destination_prop_obj: typing.Any = None,  # noqa: ANN401
         timeout_in_seconds: float = -1.0,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[typing.Any, WaitResult]:
 
@@ -401,7 +401,7 @@ class Notification(SyncObject):
         notifications: list[Notification],
         wait_all: bool,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[int, WaitResult]:
 
@@ -420,7 +420,7 @@ class Notification(SyncObject):
     def begin_wait_for_multi_wait(
         self,
         notification_count: int,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.BeginWaitForMultiWait(notification_count, com_context)
@@ -431,7 +431,7 @@ class Notification(SyncObject):
         notifications: list[Notification],
         wait_all: bool,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[int, WaitResult]:
 
@@ -453,7 +453,7 @@ class Notification(SyncObject):
 
 class Rendezvous(SyncObject):
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1])
 
@@ -461,7 +461,7 @@ class Rendezvous(SyncObject):
     def rendezvous(
         self,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[int, WaitResult]:
 
@@ -474,10 +474,10 @@ class Queue(SyncObject):
     @ts_interface
     def enqueue(
         self,
-        data_prop_obj: typing.Any,
+        data_prop_obj: typing.Any,  # noqa: ANN401
         enqueue_location: int,
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[EnqueueResult, int]:
 
@@ -495,9 +495,9 @@ class Queue(SyncObject):
     @ts_interface
     def dequeue(
         self,
-        destination_prop_obj: typing.Any,
+        destination_prop_obj: typing.Any,  # noqa: ANN401
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[typing.Any, WaitResult, int]:
 
@@ -511,7 +511,7 @@ class Queue(SyncObject):
         self,
         destination_prop_objs: list[typing.Any],
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[list[typing.Any], WaitResult]:
 
@@ -526,12 +526,12 @@ class Queue(SyncObject):
         return list(res[0]), WaitResult(res[1])
 
     @ts_interface
-    def flush(self, sequence_context: typing.Any = None) -> typing.Any:
+    def flush(self, sequence_context: typing.Any = None) -> typing.Any:  # noqa: ANN401
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         return list(self._com_obj.Flush(com_context))
 
     @ts_interface
-    def get_info(self) -> typing.Any:
+    def get_info(self) -> int:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1]), int(res[2])
 
@@ -539,7 +539,7 @@ class Queue(SyncObject):
     def begin_dequeue_for_multi_dequeue(
         self,
         dequeue_count: int,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
     ) -> None:
         com_context = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.BeginDequeueForMultiDequeue(dequeue_count, com_context)
@@ -549,7 +549,7 @@ class Queue(SyncObject):
         self,
         destination_prop_objs: list[typing.Any],
         timeout_in_seconds: float,
-        sequence_context: typing.Any = None,
+        sequence_context: typing.Any = None,  # noqa: ANN401
         process_msgs: bool = False,
     ) -> tuple[list[typing.Any], WaitResult]:
 
@@ -570,7 +570,7 @@ class Queue(SyncObject):
 
 class SyncManager(COMWrapper):
     @ts_interface
-    def create_mutex(self, name: str) -> typing.Any:
+    def create_mutex(self, name: str) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.CreateMutex(name)
         if isinstance(res, (list, tuple)):
             return Mutex(res[0], self._engine_ref), bool(res[1])
@@ -589,55 +589,55 @@ class SyncManager(COMWrapper):
         return Semaphore(res, self._engine_ref), False
 
     @ts_interface
-    def create_batch(self, name: str) -> typing.Any:
+    def create_batch(self, name: str) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.CreateBatch(name)
         if isinstance(res, (list, tuple)):
             return Batch(res[0], self._engine_ref), bool(res[1])
         return Batch(res, self._engine_ref), False
 
     @ts_interface
-    def create_notification(self, name: str) -> typing.Any:
+    def create_notification(self, name: str) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.CreateNotification(name)
         if isinstance(res, (list, tuple)):
             return Notification(res[0], self._engine_ref), bool(res[1])
         return Notification(res, self._engine_ref), False
 
     @ts_interface
-    def create_queue(self, name: str, size_limit: int = 0) -> typing.Any:
+    def create_queue(self, name: str, size_limit: int = 0) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.CreateQueue(name, size_limit)
         if isinstance(res, (list, tuple)):
             return Queue(res[0], self._engine_ref), bool(res[1])
         return Queue(res, self._engine_ref), False
 
     @ts_interface
-    def create_rendezvous(self, name: str, rendezvous_count: int = 1) -> typing.Any:
+    def create_rendezvous(self, name: str, rendezvous_count: int = 1) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.CreateRendezvous(name, rendezvous_count)
         if isinstance(res, (list, tuple)):
             return Rendezvous(res[0], self._engine_ref), bool(res[1])
         return Rendezvous(res, self._engine_ref), False
 
     @ts_interface
-    def get_mutex(self, name: str) -> typing.Any:
+    def get_mutex(self, name: str) -> typing.Any:  # noqa: ANN401
         return Mutex(self._com_obj.GetMutex(name), self._engine_ref)
 
     @ts_interface
-    def get_semaphore(self, name: str) -> typing.Any:
+    def get_semaphore(self, name: str) -> typing.Any:  # noqa: ANN401
         return Semaphore(self._com_obj.GetSemaphore(name), self._engine_ref)
 
     @ts_interface
-    def get_batch(self, name: str) -> typing.Any:
+    def get_batch(self, name: str) -> typing.Any:  # noqa: ANN401
         return Batch(self._com_obj.GetBatch(name), self._engine_ref)
 
     @ts_interface
-    def get_notification(self, name: str) -> typing.Any:
+    def get_notification(self, name: str) -> typing.Any:  # noqa: ANN401
         return Notification(self._com_obj.GetNotification(name), self._engine_ref)
 
     @ts_interface
-    def get_queue(self, name: str) -> typing.Any:
+    def get_queue(self, name: str) -> typing.Any:  # noqa: ANN401
         return Queue(self._com_obj.GetQueue(name), self._engine_ref)
 
     @ts_interface
-    def get_rendezvous(self, name: str) -> typing.Any:
+    def get_rendezvous(self, name: str) -> typing.Any:  # noqa: ANN401
         return Rendezvous(self._com_obj.GetRendezvous(name), self._engine_ref)
 
     @property
@@ -676,7 +676,7 @@ class SyncManager(COMWrapper):
     def log_action(
         self,
         synchronization_mechanism: str,
-        sequence_context: typing.Any,
+        sequence_context: typing.Any,  # noqa: ANN401
         thread_id: str,
         thread_display_name: str,
         resource_name: str,
@@ -684,7 +684,7 @@ class SyncManager(COMWrapper):
         operation: str,
         timeout: float,
         post_message: bool,
-        reserved: typing.Any = None,
+        reserved: typing.Any = None,  # noqa: ANN401
     ) -> OutputMessage | None:
         from py_teststand.messaging.output_message import OutputMessage
 
@@ -704,11 +704,11 @@ class SyncManager(COMWrapper):
         return OutputMessage(res, self._engine_ref) if res else None
 
     @ts_interface
-    def release_server_on_destruct(self, server_to_release: typing.Any) -> None:
+    def release_server_on_destruct(self, server_to_release: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.ReleaseServerOnDestruct(server_to_release)
 
     @ts_interface
-    def get_sync_object(self, name: str, sync_obj_type: int) -> typing.Any:
+    def get_sync_object(self, name: str, sync_obj_type: int) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.GetSyncObject(name, sync_obj_type)
         if res is None:
             return None
@@ -729,12 +729,12 @@ class SyncManager(COMWrapper):
         return SyncObject(res, self._engine_ref)
 
     @ts_interface
-    def get_mutex_owner_info(self, mutex_name: str) -> typing.Any:
+    def get_mutex_owner_info(self, mutex_name: str) -> str:
         res = self._com_obj.GetMutexOwnerInfo(mutex_name)
         return str(res[0]), str(res[1]), SyncManager(res[2], self._engine_ref)
 
     @ts_interface
-    def get_lock_mutex_thread_is_waiting_for(self, thread_id: str) -> typing.Any:
+    def get_lock_mutex_thread_is_waiting_for(self, thread_id: str) -> str:
         res = self._com_obj.GetLockMutexThreadIsWaitingFor(thread_id)
         return str(res[0]), SyncManager(res[1], self._engine_ref)
 

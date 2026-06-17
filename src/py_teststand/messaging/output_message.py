@@ -44,12 +44,12 @@ class OutputMessage(COMWrapper):
 
     @property
     @ts_interface
-    def timestamp(self) -> typing.Any:
+    def timestamp(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.TimeStamp
 
     @timestamp.setter
     @ts_interface
-    def timestamp(self, value: typing.Any) -> None:
+    def timestamp(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.TimeStamp = value
 
     @property

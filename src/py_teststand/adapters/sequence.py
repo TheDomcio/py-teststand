@@ -30,13 +30,13 @@ class SequenceAdapter(Adapter):
 
 
 class SequenceCallModule(Module):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
     @property
     @ts_interface
-    def cpu_affinity_for_new_thread_option(self) -> typing.Any:
+    def cpu_affinity_for_new_thread_option(self) -> int:
         return int(self._com_obj.CPUAffinityForNewThreadOption)
 
     @cpu_affinity_for_new_thread_option.setter
@@ -46,7 +46,7 @@ class SequenceCallModule(Module):
 
     @property
     @ts_interface
-    def custom_cpu_affinity_for_new_thread(self) -> typing.Any:
+    def custom_cpu_affinity_for_new_thread(self) -> str:
         return str(self._com_obj.CustomCPUAffinityForNewThread)
 
     @custom_cpu_affinity_for_new_thread.setter
@@ -74,18 +74,18 @@ class SequenceCallModule(Module):
         self._com_obj.LoadParameters(bool(use_current_seq_file), str(seq_file_path), str(seq_name))
 
     @ts_interface
-    def load_parameters_from_sequence(self, sequence: typing.Any) -> None:
+    def load_parameters_from_sequence(self, sequence: typing.Any) -> None:  # noqa: ANN401
         com_seq = getattr(sequence, "_com_obj", sequence)
         self._com_obj.LoadParametersFromSequence(com_seq)
 
     @ts_interface
-    def load_prototype_from_sequence(self, sequence: typing.Any) -> None:
+    def load_prototype_from_sequence(self, sequence: typing.Any) -> None:  # noqa: ANN401
         com_seq = getattr(sequence, "_com_obj", sequence)
         self._com_obj.LoadPrototypeFromSequence(com_seq)
 
     @property
     @ts_interface
-    def multithreading_and_remote_exec_option(self) -> typing.Any:
+    def multithreading_and_remote_exec_option(self) -> int:
         return int(self._com_obj.MultithreadingAndRemoteExecOption)
 
     @multithreading_and_remote_exec_option.setter
@@ -105,7 +105,7 @@ class SequenceCallModule(Module):
 
     @property
     @ts_interface
-    def new_execution_model_option(self) -> typing.Any:
+    def new_execution_model_option(self) -> int:
         return int(self._com_obj.NewExecutionModelOption)
 
     @new_execution_model_option.setter
@@ -165,7 +165,7 @@ class SequenceCallModule(Module):
 
     @property
     @ts_interface
-    def parameter_prototype(self) -> typing.Any:
+    def parameter_prototype(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ParameterPrototype
 
     @property
@@ -240,7 +240,7 @@ class SequenceCallModule(Module):
 
     @property
     @ts_interface
-    def trace_setting(self) -> typing.Any:
+    def trace_setting(self) -> int:
         return int(self._com_obj.TraceSetting)
 
     @trace_setting.setter
@@ -269,7 +269,7 @@ class SequenceCallModule(Module):
         self._com_obj.UseSequenceParameterPrototype = bool(value)
 
     @ts_interface
-    def as_module(self) -> typing.Any:
+    def as_module(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters import Module
 
         return Module(self._com_obj.AsModule(), self._engine_ref)
@@ -307,7 +307,7 @@ class SequenceCallParameter(PropertyObject):
 
     @property
     @ts_interface
-    def type(self) -> typing.Any:
+    def type(self) -> int:
         return int(self._com_obj.Type)
 
     @property
@@ -355,7 +355,7 @@ class SequenceCallParameters(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return SequenceCallParameter(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:

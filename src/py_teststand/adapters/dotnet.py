@@ -103,7 +103,7 @@ class DotNetAdapterGetMemberNamesOption(IntFlag):
 class DotNetAdapter(Adapter):
     @property
     @ts_interface
-    def visual_studio_dte_version_for_debugging(self) -> typing.Any:
+    def visual_studio_dte_version_for_debugging(self) -> str:
         return str(self._com_obj.VisualStudioDTEVersionForDebugging)
 
     @visual_studio_dte_version_for_debugging.setter
@@ -113,7 +113,7 @@ class DotNetAdapter(Adapter):
 
     @property
     @ts_interface
-    def visual_studio_dte_version_for_editing(self) -> typing.Any:
+    def visual_studio_dte_version_for_editing(self) -> str:
         return str(self._com_obj.VisualStudioDTEVersionForEditing)
 
     @visual_studio_dte_version_for_editing.setter
@@ -152,7 +152,7 @@ class DotNetAdapter(Adapter):
         )
 
     @ts_interface
-    def cache_assembly_info(self, assembly_location: int, assembly_path: str) -> typing.Any:
+    def cache_assembly_info(self, assembly_location: int, assembly_path: str) -> typing.Any:  # noqa: ANN401
         self._warn_if_gac_unsupported(assembly_location)
         self._com_obj.CacheAssemblyInfo(assembly_location, assembly_path)
 
@@ -242,7 +242,7 @@ class DotNetAdapter(Adapter):
         )
 
     @ts_interface
-    def get_structure_passing_enabled(self, type_definition: PropertyObject) -> typing.Any:
+    def get_structure_passing_enabled(self, type_definition: PropertyObject) -> bool:
         return bool(self._com_obj.GetStructurePassingEnabled(type_definition._com_obj))
 
     @ts_interface
@@ -250,7 +250,7 @@ class DotNetAdapter(Adapter):
         self,
         type_definition: PropertyObject,
         enabled: bool,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetStructurePassingEnabled(type_definition._com_obj, enabled)
 
     @ts_interface
@@ -259,7 +259,7 @@ class DotNetAdapter(Adapter):
         assembly_location: int,
         assembly_path: str,
         class_name: str,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return bool(self._com_obj.IsClassValid(assembly_location, assembly_path, class_name))
 
     @ts_interface
@@ -284,7 +284,7 @@ class DotNetAdapter(Adapter):
 class DotNetModule(Module):
     @property
     @ts_interface
-    def allow_unload(self) -> typing.Any:
+    def allow_unload(self) -> bool:
         return bool(self._com_obj.AllowUnload)
 
     @allow_unload.setter
@@ -363,7 +363,7 @@ class DotNetModule(Module):
         self._com_obj.CreateObject = value
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:
+    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", None) if sequence_context else None
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
@@ -380,15 +380,15 @@ class DotNetModule(Module):
     @ts_interface
     def execute(
         self,
-        sequence_context: typing.Any = None,
-        arguments: typing.Any = None,
-    ) -> typing.Any:
+        sequence_context: typing.Any = None,  # noqa: ANN401
+        arguments: typing.Any = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", None) if sequence_context else None
         raw_args = getattr(arguments, "_com_obj", None) if arguments else None
         self._com_obj.Execute(raw_ctx, raw_args)
 
     @ts_interface
-    def get_assembly(self) -> typing.Any:
+    def get_assembly(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetAssembly()
 
     @ts_interface
@@ -410,7 +410,7 @@ class DotNetModule(Module):
         return bool(self._com_obj.IsStruct)
 
     @ts_interface
-    def load_constructor_info(self, discard_parameter_values: bool = False) -> typing.Any:
+    def load_constructor_info(self, discard_parameter_values: bool = False) -> bool:
         return bool(self._com_obj.LoadConstructorInfo(discard_parameter_values))
 
     @ts_interface
@@ -424,7 +424,7 @@ class DotNetModule(Module):
         )
 
     @ts_interface
-    def load_member_info(self, discard_parameter_values: bool = False) -> typing.Any:
+    def load_member_info(self, discard_parameter_values: bool = False) -> bool:
         return bool(self._com_obj.LoadMemberInfo(discard_parameter_values))
 
     @ts_interface
@@ -432,7 +432,7 @@ class DotNetModule(Module):
         self,
         metadata_token: int,
         options: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return bool(self._com_obj.LoadPrototypeFromMetadataToken(metadata_token, options))
 
     @property
@@ -496,7 +496,7 @@ class DotNetModule(Module):
 
     @property
     @ts_interface
-    def remote_host(self) -> typing.Any:
+    def remote_host(self) -> str:
         return str(self._com_obj.RemoteHost)
 
     @remote_host.setter
@@ -505,7 +505,7 @@ class DotNetModule(Module):
         self._com_obj.RemoteHost = value
 
     @ts_interface
-    def set_assembly(self, location: int, path: str) -> typing.Any:
+    def set_assembly(self, location: int, path: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetAssembly(location, path)
 
     @property
@@ -677,7 +677,7 @@ class DotNetArgument(COMWrapper):
 
     @value.setter
     @ts_interface
-    def value(self, val: typing.Any) -> None:
+    def value(self, val: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Value = val._com_obj if hasattr(val, "_com_obj") else val
 
 
@@ -688,7 +688,7 @@ class DotNetArguments(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DotNetArgument(self._com_obj.Item(index), self._engine_ref)
 
 
@@ -722,15 +722,15 @@ class DotNetCall(COMWrapper):
         return bool(self._com_obj.EditCode())
 
     @ts_interface
-    def get_assembly(self) -> typing.Any:
+    def get_assembly(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetAssembly()
 
     @ts_interface
-    def get_assembly_for_next_call(self) -> typing.Any:
+    def get_assembly_for_next_call(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetAssemblyForNextCall()
 
     @ts_interface
-    def is_call_valid(self) -> typing.Any:
+    def is_call_valid(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.IsCallValid()
 
     @property
@@ -770,11 +770,11 @@ class DotNetCall(COMWrapper):
         return DotNetModuleMemberType(int(self._com_obj.MemberType))
 
     @ts_interface
-    def reload_prototype(self, options: int = 0) -> typing.Any:
+    def reload_prototype(self, options: int = 0) -> bool:
         return bool(self._com_obj.ReloadPrototype(options))
 
     @ts_interface
-    def set_incomplete_signature(self, partial_signature: str) -> typing.Any:
+    def set_incomplete_signature(self, partial_signature: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetIncompleteSignature(partial_signature)
 
     @property
@@ -800,7 +800,7 @@ class DotNetCalls(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DotNetCall(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
@@ -808,15 +808,15 @@ class DotNetCalls(COMWrapper):
         self._com_obj.Clear()
 
     @ts_interface
-    def delete(self, index: int) -> typing.Any:
+    def delete(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Delete(index)
 
     @ts_interface
-    def delete_all_after_index(self, index: int) -> typing.Any:
+    def delete_all_after_index(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeleteAllAfterIndex(index)
 
     @ts_interface
-    def new(self, index: int) -> typing.Any:
+    def new(self, index: int) -> typing.Any:  # noqa: ANN401
         return DotNetCall(self._com_obj.New(index), self._engine_ref)
 
     def release(self) -> None:
@@ -837,13 +837,13 @@ class DotNetModuleArguments(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DotNetArguments(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> DotNetArguments:
+    def __getitem__(self, index: typing.Any) -> DotNetArguments:  # noqa: ANN401
         return self.item(index)
 
     def __iter__(self) -> typing.Iterator[DotNetArguments]:
@@ -858,13 +858,13 @@ class DotNetParameters(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DotNetParameter(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> DotNetParameter:
+    def __getitem__(self, index: typing.Any) -> DotNetParameter:  # noqa: ANN401
         return self.item(index)
 
     def __iter__(self) -> typing.Iterator[DotNetParameter]:
@@ -894,7 +894,7 @@ class DotNetParameter(PropertyObject):
         return str(self._com_obj.DefaultValue)
 
     @ts_interface
-    def delete_array_element(self, index: int) -> typing.Any:
+    def delete_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeleteArrayElement(index)
 
     @property
@@ -908,7 +908,7 @@ class DotNetParameter(PropertyObject):
         return DotNetParameters(self._com_obj.Elements, self._engine_ref)
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:
+    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(sequence_context._com_obj))
 
     @property
@@ -942,16 +942,16 @@ class DotNetParameter(PropertyObject):
         return [PropertyObject(obj, self._engine_ref) for obj in res]
 
     @ts_interface
-    def insert_array_element(self, index: int) -> typing.Any:
+    def insert_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.InsertArrayElement(index)
 
     @ts_interface
-    def is_parameter_mapping_invalid(self) -> typing.Any:
+    def is_parameter_mapping_invalid(self) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.IsParameterMappingInvalid("")
         return (bool(res[0]), str(res[1]))
 
     @ts_interface
-    def is_struct_mapping_invalid(self) -> typing.Any:
+    def is_struct_mapping_invalid(self) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.IsStructMappingInvalid("")
         return (bool(res[0]), str(res[1]))
 

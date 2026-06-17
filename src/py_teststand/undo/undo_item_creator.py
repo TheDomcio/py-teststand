@@ -22,12 +22,12 @@ class UndoItemCreator(COMWrapper):
         self._com_obj.BeginBatchEdit(com_objects)
 
     @ts_interface
-    def begin_edit(self, object_to_edit: typing.Any) -> None:
+    def begin_edit(self, object_to_edit: typing.Any) -> None:  # noqa: ANN401
         com_obj = getattr(object_to_edit, "_com_obj", object_to_edit)
         self._com_obj.BeginEdit(com_obj)
 
     @ts_interface
-    def begin_edit_ex(self, object_to_edit: typing.Any, lookup_string: str) -> None:
+    def begin_edit_ex(self, object_to_edit: typing.Any, lookup_string: str) -> None:  # noqa: ANN401
         com_obj = getattr(object_to_edit, "_com_obj", object_to_edit)
         self._com_obj.BeginEditEx(com_obj, str(lookup_string))
 
@@ -36,7 +36,7 @@ class UndoItemCreator(COMWrapper):
         self,
         options: CreateUndoItemOption | int = 0,
         locations_application_site: ApplicationSite | int = 0,
-        locations_user_data: typing.Any = None,
+        locations_user_data: typing.Any = None,  # noqa: ANN401
     ) -> UndoItem | None:
         from py_teststand.undo.undo_item import UndoItem
 

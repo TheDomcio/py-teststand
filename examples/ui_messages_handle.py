@@ -23,8 +23,7 @@ plus the execution id that identifies who posted.
 
 from __future__ import annotations
 
-from py_teststand import AdapterKeyName, Engine, StepGroup, UIMessage, UIMessageCode
-from py_teststand.sequence.sequence import Sequence
+from py_teststand import AdapterKeyName, Engine, Sequence, StepGroup, UIMessage, UIMessageCode
 
 STAGE_MESSAGE = int(UIMessageCode.UserMessageBase) + 1
 PROGRESS_MESSAGE = int(UIMessageCode.UserMessageBase) + 2

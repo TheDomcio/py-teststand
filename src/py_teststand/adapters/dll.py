@@ -98,7 +98,7 @@ if TYPE_CHECKING:
 class DLLAdapter(Adapter):
     @property
     @ts_interface
-    def visual_studio_dte_version_for_debugging(self) -> typing.Any:
+    def visual_studio_dte_version_for_debugging(self) -> str:
         return str(self._com_obj.VisualStudioDTEVersionForDebugging)
 
     @visual_studio_dte_version_for_debugging.setter
@@ -108,7 +108,7 @@ class DLLAdapter(Adapter):
 
     @property
     @ts_interface
-    def visual_studio_dte_version_for_editing(self) -> typing.Any:
+    def visual_studio_dte_version_for_editing(self) -> str:
         return str(self._com_obj.VisualStudioDTEVersionForEditing)
 
     @visual_studio_dte_version_for_editing.setter
@@ -133,15 +133,15 @@ class DLLAdapter(Adapter):
 
 class CommonCAdapter(Adapter):
     @ts_interface
-    def get_dll_functions(self, dll_path: str) -> typing.Any:
+    def get_dll_functions(self, dll_path: str) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetDllFunctions(dll_path)
 
     @ts_interface
-    def get_allow_struct_passing(self, type_definition: PropertyObject) -> typing.Any:
+    def get_allow_struct_passing(self, type_definition: PropertyObject) -> bool:
         return bool(self._com_obj.GetAllowStructPassing(type_definition._com_obj))
 
     @ts_interface
-    def get_enumeration_names(self, include_enum_arrays: bool) -> typing.Any:
+    def get_enumeration_names(self, include_enum_arrays: bool) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.GetEnumerationNames(include_enum_arrays))
 
     @ts_interface
@@ -313,9 +313,9 @@ class DLLModule(CommonCModule):
     @ts_interface
     def execute(
         self,
-        sequence_context: typing.Any = None,
-        arguments: typing.Any = None,
-    ) -> typing.Any:
+        sequence_context: typing.Any = None,  # noqa: ANN401
+        arguments: typing.Any = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         ctx_obj = (
             sequence_context._com_obj if hasattr(sequence_context, "_com_obj") else sequence_context
         )
@@ -324,7 +324,7 @@ class DLLModule(CommonCModule):
 
 
 class DllArgument(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -334,7 +334,7 @@ class DllArgument(PropertyObject):
 
     @imaginary_part_value.setter
     @ts_interface
-    def imaginary_part_value(self, val: typing.Any) -> None:
+    def imaginary_part_value(self, val: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.ImaginaryPartValue = val._com_obj if hasattr(val, "_com_obj") else val
 
     @property
@@ -344,7 +344,7 @@ class DllArgument(PropertyObject):
 
     @value.setter
     @ts_interface
-    def value(self, val: typing.Any) -> None:
+    def value(self, val: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Value = val._com_obj if hasattr(val, "_com_obj") else val
 
 
@@ -355,7 +355,7 @@ class DllArgumentList(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DllArgument(self._com_obj.Item(index), self._engine_ref)
 
 
@@ -403,16 +403,16 @@ class DllFunctionList(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DllFunction(self._com_obj.Item(index), self._engine_ref)
 
 
 class DllParameter(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         COMWrapper.__init__(self, com_obj, engine)
 
     @ts_interface
-    def as_common_c_parameter(self) -> typing.Any:
+    def as_common_c_parameter(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters.adapter import CommonCParameter as CommonCParam
 
         return CommonCParam(self._com_obj.AsCommonCParameter(), self._engine_ref)
@@ -459,7 +459,7 @@ class DllParameter(COMWrapper):
 
 
 class DllParameterList:
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         self._com_obj: typing.Any = com_obj
         self._engine_ref = engine
 
@@ -469,15 +469,15 @@ class DllParameterList:
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return DllParameter(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
-    def delete(self, index: int) -> typing.Any:
+    def delete(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Delete(index)
 
     @ts_interface
-    def move(self, index: int, new_index: int) -> typing.Any:
+    def move(self, index: int, new_index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Move(index, new_index)
 
     @ts_interface

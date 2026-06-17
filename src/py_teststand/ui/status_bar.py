@@ -120,13 +120,13 @@ class StatusBarPanes(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> StatusBarPane:
+    def item(self, index_or_name: typing.Any) -> StatusBarPane:  # noqa: ANN401
         return StatusBarPane(self._com_obj.Item(index_or_name), self._engine_ref)
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, key: typing.Any) -> StatusBarPane:
+    def __getitem__(self, key: typing.Any) -> StatusBarPane:  # noqa: ANN401
         return self.item(key)
 
     def __iter__(self) -> typing.Iterator[StatusBarPane]:
@@ -159,12 +159,12 @@ class StatusBar(COMWrapper):
 
     @property
     @ts_interface
-    def font(self) -> typing.Any:
+    def font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Font
 
     @font.setter
     @ts_interface
-    def font(self, value: typing.Any) -> None:
+    def font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Font = value
 
     @property

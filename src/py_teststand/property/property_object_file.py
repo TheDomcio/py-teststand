@@ -329,7 +329,7 @@ class TypeUsageList(COMWrapper):
         return bool(self._com_obj.Union(union_type_usage_list._com_obj))
 
     @ts_interface
-    def validate_new_type_name(self, new_name: str, allow_duplicates: bool) -> typing.Any:
+    def validate_new_type_name(self, new_name: str, allow_duplicates: bool) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ValidateNewTypeName(str(new_name), bool(allow_duplicates))
 
     def __len__(self) -> int:

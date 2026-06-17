@@ -108,7 +108,7 @@ class UIMessage(PropertyObject):
 
     @property
     @ts_interface
-    def activex_data(self) -> typing.Any:
+    def activex_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ActiveXData
 
     @ts_interface

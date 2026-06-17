@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class Images(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -19,15 +19,15 @@ class Images(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, image_index: int) -> typing.Any:
+    def item(self, image_index: int) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Item(int(image_index))
 
     def __len__(self) -> int:
         return self.count
 
-    def __getitem__(self, image_index: int) -> typing.Any:
+    def __getitem__(self, image_index: int) -> typing.Any:  # noqa: ANN401
         return self.item(image_index)
 
     @ts_interface
-    def find_image(self, icon_name: str, desired_width: int, desired_height: int) -> typing.Any:
+    def find_image(self, icon_name: str, desired_width: int, desired_height: int) -> typing.Any:  # noqa: ANN401
         return self._com_obj.FindImage(str(icon_name), int(desired_width), int(desired_height))

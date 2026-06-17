@@ -31,21 +31,21 @@ class EntryPoint(COMWrapper):
         return Sequence(obj, self._engine_ref) if obj else None
 
     @ts_interface
-    def run(self, edit_args_val: typing.Any = None) -> Execution:
+    def run(self, edit_args_val: typing.Any = None) -> Execution:  # noqa: ANN401
         from py_teststand.execution.execution import Execution
 
         raw_args = getattr(edit_args_val, "_com_obj", edit_args_val) if edit_args_val else None
         return Execution(self._com_obj.Run(raw_args), self._engine_ref)
 
     @ts_interface
-    def run_selected_steps(self, edit_args_val: typing.Any = None) -> Execution:
+    def run_selected_steps(self, edit_args_val: typing.Any = None) -> Execution:  # noqa: ANN401
         from py_teststand.execution.execution import Execution
 
         raw_args = getattr(edit_args_val, "_com_obj", edit_args_val) if edit_args_val else None
         return Execution(self._com_obj.RunSelectedSteps(raw_args), self._engine_ref)
 
     @ts_interface
-    def loop_on_selected_steps(self, edit_args_val: typing.Any = None) -> Execution:
+    def loop_on_selected_steps(self, edit_args_val: typing.Any = None) -> Execution:  # noqa: ANN401
         from py_teststand.execution.execution import Execution
 
         raw_args = getattr(edit_args_val, "_com_obj", edit_args_val) if edit_args_val else None
@@ -64,14 +64,14 @@ class EntryPoints(COMWrapper):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index_or_name: typing.Any) -> EntryPoint:
+    def item(self, index_or_name: typing.Any) -> EntryPoint:  # noqa: ANN401
         return EntryPoint(self._com_obj.Item(index_or_name), self._engine_ref)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, key: typing.Any) -> EntryPoint:
+    def __getitem__(self, key: typing.Any) -> EntryPoint:  # noqa: ANN401
 
         return self.item(key)
 

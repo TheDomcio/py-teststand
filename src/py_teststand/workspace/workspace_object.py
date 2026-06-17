@@ -54,7 +54,7 @@ if TYPE_CHECKING:
 
 
 class WorkspaceObject(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | None = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -148,7 +148,7 @@ class WorkspaceObject(COMWrapper):
         self,
         sc_command: int | SourceControlCommand,
         options: int | SourceControlCommandOption = 0,
-        item_list: typing.Any | None = None,
+        item_list: typing.Any | None = None,  # noqa: ANN401
     ) -> bool:
         return bool(
             self._com_obj.CanDoSourceControlCommand(int(sc_command), int(options), item_list),
@@ -159,7 +159,7 @@ class WorkspaceObject(COMWrapper):
         self,
         sc_command: int | SourceControlCommand,
         options: int | SourceControlCommandOption = 0,
-        item_list: typing.Any | None = None,
+        item_list: typing.Any | None = None,  # noqa: ANN401
     ) -> tuple[bool, bool]:
         res = self._com_obj.DoSourceControlCommand(int(sc_command), None, int(options), item_list)
         if isinstance(res, tuple):
@@ -167,7 +167,7 @@ class WorkspaceObject(COMWrapper):
         return bool(res), False
 
     @ts_interface
-    def insert_code_modules(self, item_list: typing.Any | None = None) -> list[WorkspaceObject]:
+    def insert_code_modules(self, item_list: typing.Any | None = None) -> list[WorkspaceObject]:  # noqa: ANN401
         res = self._com_obj.InsertCodeModules(item_list)
         if not res:
             return []

@@ -129,7 +129,7 @@ class Execution(COMWrapper):
 
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
 
         if exc_type is not None:
             try:
@@ -349,12 +349,12 @@ class Execution(COMWrapper):
 
     @property
     @ts_interface
-    def report(self) -> typing.Any:
+    def report(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Report
 
     @property
     @ts_interface
-    def reports(self) -> typing.Any:
+    def reports(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Reports
 
     @property
@@ -374,7 +374,7 @@ class Execution(COMWrapper):
 
     @property
     @ts_interface
-    def rte_option_for_this_execution(self) -> typing.Any:
+    def rte_option_for_this_execution(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.core.engine import RTEOption
 
         return RTEOption(int(self._com_obj.RTEOptionForThisExecution))
@@ -531,7 +531,7 @@ class Execution(COMWrapper):
         )
 
     @ts_interface
-    def get_model_sequence_file(self) -> typing.Any | None:
+    def get_model_sequence_file(self) -> typing.Any | None:  # noqa: ANN401
         from py_teststand.sequence.sequence_file import SequenceFile
 
         model_com = self._com_obj.GetModelSequenceFile()
@@ -558,7 +558,7 @@ class Execution(COMWrapper):
         return SequenceFile(self._com_obj.GetSequenceFile(), self._engine_ref)
 
     @ts_interface
-    def get_states(self) -> typing.Any:
+    def get_states(self) -> typing.Any:  # noqa: ANN401
 
         run_state = 0
         term_state = 0
@@ -569,7 +569,7 @@ class Execution(COMWrapper):
     def get_termination_monitor_status(
         self,
         termination_monitor_data: PropertyObject,
-        sequence_context: typing.Any | None = None,
+        sequence_context: typing.Any | None = None,  # noqa: ANN401
     ) -> bool:
         ctx_com = sequence_context._com_obj if sequence_context else None
         return bool(
@@ -577,7 +577,7 @@ class Execution(COMWrapper):
         )
 
     @ts_interface
-    def get_thread(self, thread_id: int) -> typing.Any:
+    def get_thread(self, thread_id: int) -> typing.Any:  # noqa: ANN401
         from py_teststand.execution.thread import Thread
 
         return Thread(self._com_obj.GetThread(int(thread_id)), self._engine_ref)
@@ -605,7 +605,7 @@ class Execution(COMWrapper):
         sequence_file: SequenceFile,
         sequence_name: str,
         options: NewThreadOption | int,
-        sequence_context: typing.Any | None = None,
+        sequence_context: typing.Any | None = None,  # noqa: ANN401
         sequence_args: PropertyObject | None = None,
     ) -> Thread:
         from py_teststand.execution.thread import Thread
@@ -677,8 +677,8 @@ class Execution(COMWrapper):
         self,
         timeout_ms: int = -1,
         process_windows_msgs: bool = True,
-        step_to_store_results_in: typing.Any | None = None,
-        calling_sequence_context: typing.Any | None = None,
+        step_to_store_results_in: typing.Any | None = None,  # noqa: ANN401
+        calling_sequence_context: typing.Any | None = None,  # noqa: ANN401
     ) -> bool:
         import pythoncom
 
@@ -710,12 +710,12 @@ class Execution(COMWrapper):
         return self.wait_for_end_ex(timeout_ms)
 
     @ts_interface
-    def restart(self) -> typing.Any:
+    def restart(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.Restart()
 
     @ts_interface
-    def wait_for_end(self) -> typing.Any:
+    def wait_for_end(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.WaitForEnd()
 

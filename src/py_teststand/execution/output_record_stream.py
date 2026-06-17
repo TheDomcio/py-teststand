@@ -58,7 +58,7 @@ class ExecutionOutputRecordStream(COMWrapper):
         self._com_obj.Close()
 
     @ts_interface
-    def define_fields(self, field_definitions: typing.Any, mapping: str = "") -> None:
+    def define_fields(self, field_definitions: typing.Any, mapping: str = "") -> None:  # noqa: ANN401
         self._com_obj.DefineFields(field_definitions, str(mapping))
 
     @ts_interface
@@ -82,11 +82,11 @@ class ExecutionOutputRecordStream(COMWrapper):
         self._com_obj.SetActiveReport()
 
     @ts_interface
-    def write_record(self, record: typing.Any, mapping: str = "") -> None:
+    def write_record(self, record: typing.Any, mapping: str = "") -> None:  # noqa: ANN401
         self._com_obj.WriteRecord(record, str(mapping))
 
     @ts_interface
-    def write_record_from(self, context: typing.Any, record: list[str]) -> None:
+    def write_record_from(self, context: typing.Any, record: list[str]) -> None:  # noqa: ANN401
         self._com_obj.WriteRecordFrom(context, record)
 
 
@@ -153,7 +153,7 @@ class CsvFileOutputRecordStream(COMWrapper):
         self._com_obj.Open(str(absolute_path), int(open_mode))
 
     @ts_interface
-    def write_field_headers(self, fields: typing.Any, mapping: str = "") -> None:
+    def write_field_headers(self, fields: typing.Any, mapping: str = "") -> None:  # noqa: ANN401
         self._com_obj.WriteFieldHeaders(fields, str(mapping))
 
     @ts_interface
@@ -161,7 +161,7 @@ class CsvFileOutputRecordStream(COMWrapper):
         self._com_obj.WriteLine(str(line_string))
 
     @ts_interface
-    def write_record_prototype(self, prototype: typing.Any, mapping: str = "") -> None:
+    def write_record_prototype(self, prototype: typing.Any, mapping: str = "") -> None:  # noqa: ANN401
         self._com_obj.WriteRecordPrototype(prototype, str(mapping))
 
 

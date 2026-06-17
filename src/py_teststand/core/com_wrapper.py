@@ -16,8 +16,8 @@ if TYPE_CHECKING:
     from py_teststand.core.engine import Engine
 
     class COMObject(Protocol):
-        def __getattr__(self, name: str) -> typing.Any: ...
-        def __setattr__(self, name: str, value: typing.Any) -> None: ...
+        def __getattr__(self, name: str) -> typing.Any: ...  # noqa: ANN401
+        def __setattr__(self, name: str, value: typing.Any) -> None: ...  # noqa: ANN401
 
     class COMErrorType(Protocol):
         hresult: int
@@ -38,7 +38,7 @@ _orphaned_com_objects: list[typing.Any] = []
 T = TypeVar("T", bound=Callable[..., typing.Any])
 
 
-def raw_engine_from_wrapper(engine: Engine | typing.Any) -> typing.Any:
+def raw_engine_from_wrapper(engine: Engine | typing.Any) -> typing.Any:  # noqa: ANN401
 
     store = getattr(engine, "__dict__", None)
     if store is not None:
@@ -51,7 +51,7 @@ def raw_engine_from_wrapper(engine: Engine | typing.Any) -> typing.Any:
 def ts_interface(func: T) -> T:
 
     @functools.wraps(func)
-    def wrapper(*args: typing.Any, **kwargs: typing.Any) -> typing.Any:
+    def wrapper(*args: typing.Any, **kwargs: typing.Any) -> typing.Any:  # noqa: ANN401
 
         instance = args[0] if args else None
         handling = getattr(instance, "_handling_error", False) if instance is not None else False
@@ -123,7 +123,7 @@ def ts_interface(func: T) -> T:
 class COMWrapper:
     _com_obj: COM
 
-    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         if com_obj is None:
             raise ValueError("COM object cannot be None")
@@ -153,7 +153,7 @@ class COMWrapper:
             raise Error("Cannot access COM object on a released wrapper.")
         return self._com_obj
 
-    def get_com_obj(self) -> typing.Any:
+    def get_com_obj(self) -> typing.Any:  # noqa: ANN401
         warnings.warn(
             "get_com_obj() is deprecated and will be removed in a future release. "
             "Access internal state via wrapper methods only.",
@@ -162,13 +162,13 @@ class COMWrapper:
         )
         return self._com()
 
-    def __getattr__(self, name: str) -> typing.Any:
+    def __getattr__(self, name: str) -> typing.Any:  # noqa: ANN401
 
         if name.startswith("_") or name.startswith("__"):
             raise AttributeError(name)
         return getattr(self._com(), name)
 
-    def __setattr__(self, name: str, value: typing.Any) -> None:
+    def __setattr__(self, name: str, value: typing.Any) -> None:  # noqa: ANN401
 
         if name.startswith("_"):
             super().__setattr__(name, value)
@@ -193,7 +193,7 @@ class COMWrapper:
 
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
 
         self.release()
 
@@ -228,7 +228,7 @@ class COMWrapper:
             pass
 
     @ts_interface
-    def as_property_object(self) -> typing.Any:
+    def as_property_object(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.property.property_object import PropertyObject
 
         return PropertyObject(self._com_obj.AsPropertyObject(), self._engine_ref)

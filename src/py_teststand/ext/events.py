@@ -60,14 +60,14 @@ class UIMessageHandler:
     of storing the message object.
     """
 
-    def __init__(self, engine: typing.Any):
+    def __init__(self, engine: typing.Any):  # noqa: ANN401
         self._engine_wrapper = engine
         self._callbacks: dict[int, list[Callback]] = {}
         self._global_callbacks: list[Callback] = []
         self._callbacks_lock = threading.Lock()
         self._polling_enabled = False
 
-    def on(self, event_code: int, callback: Callback | None = None) -> typing.Any:
+    def on(self, event_code: int, callback: Callback | None = None) -> typing.Any:  # noqa: ANN401
         """Register a callback for one event code (UIMessageCode or a custom code).
 
         Usable directly (``handler.on(code, callback)``) or as a decorator::
@@ -132,7 +132,7 @@ class UIMessageHandler:
 
     def messages(
         self,
-        execution: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
         timeout_seconds: float | None = None,
         poll_interval: float = 0.01,
     ) -> typing.Iterator[UIMessage]:
@@ -181,7 +181,7 @@ class UIMessageHandler:
 
     def wait_for_execution(
         self,
-        execution: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
         timeout_seconds: float | None = None,
         poll_interval: float = 0.01,
     ) -> bool:

@@ -55,12 +55,12 @@ class CheckBox(COMWrapper):
 
     @property
     @ts_interface
-    def font(self) -> typing.Any:
+    def font(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Font
 
     @font.setter
     @ts_interface
-    def font(self, value: typing.Any) -> None:
+    def font(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Font = value
 
     @property
@@ -90,12 +90,12 @@ class CheckBox(COMWrapper):
 
     @property
     @ts_interface
-    def image(self) -> typing.Any:
+    def image(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Image
 
     @image.setter
     @ts_interface
-    def image(self, value: typing.Any) -> None:
+    def image(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Image = value
 
     @property

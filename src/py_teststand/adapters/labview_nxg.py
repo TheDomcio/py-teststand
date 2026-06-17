@@ -121,7 +121,7 @@ class LabVIEWNXGAdapter(Adapter):
 
     @property
     @ts_interface
-    def auto_build_component_output(self) -> typing.Any:
+    def auto_build_component_output(self) -> bool:
         return bool(self._com_obj.AutoBuildComponentOutput)
 
     @auto_build_component_output.setter
@@ -135,7 +135,7 @@ class LabVIEWNXGAdapter(Adapter):
         return str(self._com_obj.CurrentServerVersion)
 
     @ts_interface
-    def get_classes_for_node_library(self, type_name: str) -> typing.Any:
+    def get_classes_for_node_library(self, type_name: str) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.GetClassesForNodeLibrary(type_name, None, None)
         if isinstance(res, tuple) and len(res) >= 3:
             return list(res[1]), list(res[2])
@@ -144,7 +144,7 @@ class LabVIEWNXGAdapter(Adapter):
     @ts_interface
     def get_cluster_member_is_binary_string(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
     ) -> bool:
         com_po = getattr(type_definition, "_com_obj", type_definition)
@@ -153,32 +153,32 @@ class LabVIEWNXGAdapter(Adapter):
     @ts_interface
     def get_cluster_member_label(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return str(self._com_obj.GetClusterMemberLabel(com_po, property_lookup_string))
 
     @ts_interface
-    def get_cluster_passing_enabled(self, type_definition: typing.Any) -> typing.Any:
+    def get_cluster_passing_enabled(self, type_definition: bool) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetClusterPassingEnabled(com_po))
 
     @ts_interface
     def get_exclude_from_cluster(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetExcludeFromCluster(com_po, property_lookup_string))
 
     @ts_interface
-    def get_items_in_gll(self, gll_absolute_path: str) -> typing.Any:
+    def get_items_in_gll(self, gll_absolute_path: str) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.GetItemsInGLL(gll_absolute_path))
 
     @ts_interface
-    def get_node_libraries(self) -> typing.Any:
+    def get_node_libraries(self) -> typing.Any:  # noqa: ANN401
         res = self._com_obj.GetNodeLibraries(None, None)
         if isinstance(res, tuple) and len(res) >= 2:
             return list(res[0]), list(res[1])
@@ -206,7 +206,7 @@ class LabVIEWNXGAdapter(Adapter):
         return [], [], [], [], []
 
     @ts_interface
-    def get_vi_version(self, project_or_gll_absolute_path: str, qualified_name: str) -> typing.Any:
+    def get_vi_version(self, project_or_gll_absolute_path: str, qualified_name: str) -> str:
         return str(self._com_obj.GetVIVersion(project_or_gll_absolute_path, qualified_name))
 
     @ts_interface
@@ -230,20 +230,20 @@ class LabVIEWNXGAdapter(Adapter):
         return bool(res), "", "", ""
 
     @ts_interface
-    def new_module(self) -> typing.Any:
+    def new_module(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWNXGModule(self._com_obj.NewModule(), self._engine_ref)
 
     @property
     @ts_interface
-    def server_info(self) -> typing.Any:
+    def server_info(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWNXGServer(self._com_obj.ServerInfo)
 
     @ts_interface
     def set_cluster_member_is_binary_string(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         val: bool,
     ) -> None:
@@ -253,7 +253,7 @@ class LabVIEWNXGAdapter(Adapter):
     @ts_interface
     def set_cluster_member_label(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         label: str,
     ) -> None:
@@ -261,14 +261,14 @@ class LabVIEWNXGAdapter(Adapter):
         self._com_obj.SetClusterMemberLabel(com_po, property_lookup_string, label)
 
     @ts_interface
-    def set_cluster_passing_enabled(self, type_definition: typing.Any, val: bool) -> typing.Any:
+    def set_cluster_passing_enabled(self, type_definition: typing.Any, val: bool) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterPassingEnabled(com_po, val)
 
     @ts_interface
     def set_exclude_from_cluster(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         val: bool,
     ) -> None:
@@ -288,7 +288,7 @@ class LabVIEWNXGAdapter(Adapter):
 
 class LabVIEWNXGModule(Module):
     @ts_interface
-    def as_module(self) -> typing.Any:
+    def as_module(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters import Module
 
         return Module(self._com_obj.AsModule(), self._engine_ref)
@@ -299,7 +299,7 @@ class LabVIEWNXGModule(Module):
 
     @property
     @ts_interface
-    def component_name(self) -> typing.Any:
+    def component_name(self) -> str:
         return str(self._com_obj.ComponentName)
 
     @component_name.setter
@@ -320,18 +320,18 @@ class LabVIEWNXGModule(Module):
         return bool(self._com_obj.EditProject())
 
     @ts_interface
-    def execute(self, sequence_context: typing.Any, arguments: typing.Any) -> typing.Any:
+    def execute(self, sequence_context: typing.Any, arguments: typing.Any) -> typing.Any:  # noqa: ANN401
         com_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         com_args = getattr(arguments, "_com_obj", arguments)
         self._com_obj.Execute(com_ctx, com_args)
 
     @ts_interface
-    def get_project_reference(self) -> typing.Any:
+    def get_project_reference(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWNXGProject(self._com_obj.GetProjectReference(), self._engine_ref)
 
     @ts_interface
-    def get_vi_absolute_path(self) -> typing.Any:
+    def get_vi_absolute_path(self) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.GetVIAbsolutePath("")
         if isinstance(result, tuple):
             return result
@@ -348,14 +348,14 @@ class LabVIEWNXGModule(Module):
         self._com_obj.GLLPath = str(value)
 
     @ts_interface
-    def have_properties_changed(self, options: int = 0) -> typing.Any:
+    def have_properties_changed(self, options: int = 0) -> bool:
         result = self._com_obj.HavePropertiesChanged(None, int(options))
         if isinstance(result, tuple) and len(result) >= 2:
             return bool(result[0]), list(result[1])
         return bool(result), []
 
     @ts_interface
-    def is_project_valid(self) -> typing.Any:
+    def is_project_valid(self) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.IsProjectValid("")
         if isinstance(result, tuple):
             return result
@@ -387,7 +387,7 @@ class LabVIEWNXGModule(Module):
 
     @property
     @ts_interface
-    def project_path(self) -> typing.Any:
+    def project_path(self) -> str:
         return str(self._com_obj.ProjectPath)
 
     @project_path.setter
@@ -406,7 +406,7 @@ class LabVIEWNXGModule(Module):
         self._com_obj.QualifiedName = str(value)
 
     @ts_interface
-    def update_module_from_step(self, old_step: typing.Any, options: int = 0) -> typing.Any:
+    def update_module_from_step(self, old_step: typing.Any, options: int = 0) -> typing.Any:  # noqa: ANN401
         com_step = getattr(old_step, "_com_obj", old_step)
         res = self._com_obj.UpdateModuleFromStep(com_step, int(options), None)
         if isinstance(res, tuple) and len(res) >= 3:
@@ -435,7 +435,7 @@ class LabVIEWNXGModule(Module):
 
     @property
     @ts_interface
-    def vi_target(self) -> typing.Any:
+    def vi_target(self) -> str:
         return str(self._com_obj.VITarget)
 
     @vi_target.setter
@@ -445,7 +445,7 @@ class LabVIEWNXGModule(Module):
 
 
 class LabVIEWNXGProject(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
@@ -466,14 +466,14 @@ class LabVIEWNXGProjectItems(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return LabVIEWNXGProjectItemObject(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWNXGProjectItemObject:
+    def __getitem__(self, index: typing.Any) -> LabVIEWNXGProjectItemObject:  # noqa: ANN401
 
         return self.item(index)
 
@@ -501,12 +501,12 @@ class LabVIEWNXGProjectItemObject(PropertyObject):
 
     @property
     @ts_interface
-    def target_name(self) -> typing.Any:
+    def target_name(self) -> str:
         return str(self._com_obj.TargetName)
 
     @property
     @ts_interface
-    def type(self) -> typing.Any:
+    def type(self) -> int:
         return int(self._com_obj.Type)
 
     @property
@@ -515,14 +515,14 @@ class LabVIEWNXGProjectItemObject(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> LabVIEWNXGArgument:
+    def item(self, index: typing.Any) -> LabVIEWNXGArgument:  # noqa: ANN401
         return LabVIEWNXGArgument(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWNXGArgument:
+    def __getitem__(self, index: typing.Any) -> LabVIEWNXGArgument:  # noqa: ANN401
 
         return self.item(index)
 
@@ -555,7 +555,7 @@ class LabVIEWNXGArgument(PropertyObject):
 
     @value.setter
     @ts_interface
-    def value(self, value: PropertyObject | typing.Any) -> None:
+    def value(self, value: PropertyObject | typing.Any) -> None:  # noqa: ANN401
         val_com = getattr(value, "_com_obj", value)
         self._com_obj.Value = val_com
 
@@ -571,17 +571,17 @@ class LabVIEWNXGNodeProperties(PropertyObject):
         self._com_obj.Clear()
 
     @ts_interface
-    def delete(self, index: typing.Any) -> typing.Any:
+    def delete(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         self._com_obj.Delete(index)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return LabVIEWNXGNodeProperty(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
     def new(
         self,
-        index: typing.Any,
+        index: typing.Any,  # noqa: ANN401
         long_name: str,
         data_name: str,
         unique_id: str,
@@ -593,7 +593,7 @@ class LabVIEWNXGNodeProperties(PropertyObject):
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWNXGNodeProperty:
+    def __getitem__(self, index: typing.Any) -> LabVIEWNXGNodeProperty:  # noqa: ANN401
 
         return self.item(index)
 
@@ -610,7 +610,7 @@ class LabVIEWNXGNodeProperty(PropertyObject):
 
     @property
     @ts_interface
-    def direction(self) -> typing.Any:
+    def direction(self) -> int:
         return int(self._com_obj.Direction)
 
     @direction.setter
@@ -646,7 +646,7 @@ class LabVIEWNXGParameter(PropertyObject):
 
     @property
     @ts_interface
-    def category(self) -> typing.Any:
+    def category(self) -> int:
         return int(self._com_obj.Category)
 
     @property
@@ -669,7 +669,7 @@ class LabVIEWNXGParameter(PropertyObject):
         return str(self._com_obj.DefaultValue)
 
     @ts_interface
-    def delete_array_element(self, index: int) -> typing.Any:
+    def delete_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeleteArrayElement(int(index))
 
     @ts_interface
@@ -683,11 +683,11 @@ class LabVIEWNXGParameter(PropertyObject):
 
     @property
     @ts_interface
-    def direction(self) -> typing.Any:
+    def direction(self) -> int:
         return int(self._com_obj.Direction)
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:
+    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
@@ -698,12 +698,12 @@ class LabVIEWNXGParameter(PropertyObject):
 
     @property
     @ts_interface
-    def elements(self) -> typing.Any:
+    def elements(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWNXGParameters(self._com_obj.Elements, self._engine_ref)
 
     @ts_interface
-    def expr_cluster_type_mismatch(self, sequence_context: typing.Any) -> typing.Any:
+    def expr_cluster_type_mismatch(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.ExprClusterTypeMismatch(raw_ctx))
 
@@ -713,11 +713,11 @@ class LabVIEWNXGParameter(PropertyObject):
         return str(self._com_obj.GetArrayElementIndex)
 
     @ts_interface
-    def get_array_index_from_offset(self, offset: int) -> typing.Any:
+    def get_array_index_from_offset(self, offset: int) -> str:
         return str(self._com_obj.GetArrayIndex(int(offset)))
 
     @ts_interface
-    def get_default_array_dimension_size(self, dimension: int) -> typing.Any:
+    def get_default_array_dimension_size(self, dimension: int) -> int:
         return int(self._com_obj.GetDefaultArrayDimensionSize(int(dimension)))
 
     @ts_interface
@@ -725,18 +725,18 @@ class LabVIEWNXGParameter(PropertyObject):
         return list(self._com_obj.GetEnumValues())
 
     @ts_interface
-    def insert_array_element(self, index: int) -> typing.Any:
+    def insert_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.InsertArrayElement(int(index))
 
     @ts_interface
-    def is_cluster_mapping_invalid(self) -> typing.Any:
+    def is_cluster_mapping_invalid(self) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.IsClusterMappingInvalid("")
         if isinstance(result, tuple):
             return result
         return (bool(result), "")
 
     @ts_interface
-    def is_parameter_mapping_valid(self) -> typing.Any:
+    def is_parameter_mapping_valid(self) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.IsParameterMappingValid("")
         if isinstance(result, tuple):
             return result
@@ -778,7 +778,7 @@ class LabVIEWNXGParameter(PropertyObject):
         return str(self._com_obj.TypeDisplayString)
 
     @ts_interface
-    def update_cluster_mapping(self, sequence_context: typing.Any) -> typing.Any:
+    def update_cluster_mapping(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.UpdateClusterMapping(raw_ctx))
 
@@ -799,7 +799,7 @@ class LabVIEWNXGParameter(PropertyObject):
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: PropertyObject | typing.Any) -> None:
+    def user_data(self, value: PropertyObject | typing.Any) -> None:  # noqa: ANN401
         val_com = getattr(value, "_com_obj", value)
         self._com_obj.UserData = val_com
 
@@ -837,7 +837,7 @@ class LabVIEWNXGParameter(PropertyObject):
 
     @property
     @ts_interface
-    def wire_requirement(self) -> typing.Any:
+    def wire_requirement(self) -> int:
         return int(self._com_obj.WireRequirement)
 
 
@@ -848,18 +848,18 @@ class LabVIEWNXGParameters(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return LabVIEWNXGParameter(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWNXGParameter:
+    def __getitem__(self, index: typing.Any) -> LabVIEWNXGParameter:  # noqa: ANN401
 
         return self.item(index)
 
     @ts_interface
-    def new_arguments(self) -> typing.Any:
+    def new_arguments(self) -> typing.Any:  # noqa: ANN401
 
         return PropertyObject(self._com_obj.NewArguments(), self._engine_ref)

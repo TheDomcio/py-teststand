@@ -52,7 +52,7 @@ class ExternalReportViewer(COMWrapper):
 
 
 class ExternalReportViewers(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property

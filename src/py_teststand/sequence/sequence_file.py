@@ -110,7 +110,7 @@ class SequenceCollection:
 
 
 class SequenceFile(PropertyObjectFile):
-    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj)
         self._engine_ref = (
@@ -123,7 +123,7 @@ class SequenceFile(PropertyObjectFile):
 
         return self
 
-    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:
+    def __exit__(self, exc_type: typing.Any, exc_val: typing.Any, exc_tb: typing.Any) -> None:  # noqa: ANN401
 
         try:
             if self.engine:
@@ -161,7 +161,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def sequence_file_type(self) -> typing.Any:
+    def sequence_file_type(self) -> int:
         return int(self._com_obj.SequenceFileType)
 
     @sequence_file_type.setter
@@ -181,7 +181,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def file_globals_scope(self) -> typing.Any:
+    def file_globals_scope(self) -> int:
         return int(self._com_obj.FileGlobalsScope)
 
     @file_globals_scope.setter
@@ -230,7 +230,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def batch_sync_option(self) -> typing.Any:
+    def batch_sync_option(self) -> typing.Any:  # noqa: ANN401
 
         return SeqFileBatchSynchronization(self._com_obj.BatchSyncOption)
 
@@ -241,7 +241,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def model_option(self) -> typing.Any:
+    def model_option(self) -> typing.Any:  # noqa: ANN401
 
         return ModelOption(self._com_obj.ModelOption)
 
@@ -270,7 +270,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def module_load_option(self) -> typing.Any:
+    def module_load_option(self) -> typing.Any:  # noqa: ANN401
 
         return ModuleLoadOption(self._com_obj.ModuleLoadOption)
 
@@ -281,7 +281,7 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def module_unload_option(self) -> typing.Any:
+    def module_unload_option(self) -> typing.Any:  # noqa: ANN401
 
         return ModuleUnloadOption(self._com_obj.ModuleUnloadOption)
 
@@ -318,7 +318,7 @@ class SequenceFile(PropertyObjectFile):
         return bool(self._com_obj.CanUnload)
 
     @ts_interface
-    def save(self, path: str | None = None) -> typing.Any:
+    def save(self, path: str | None = None) -> typing.Any:  # noqa: ANN401
         path_val = str(path) if path is not None else self.path
         self._com_obj.Save(path_val)
 
@@ -367,7 +367,7 @@ class SequenceFile(PropertyObjectFile):
         )
 
     @ts_interface
-    def load_modules(self, options: int = 0, context: typing.Any | None = None) -> typing.Any:
+    def load_modules(self, options: int = 0, context: bool | None = None) -> typing.Any:  # noqa: ANN401
         ctx_com = getattr(context, "_com_obj", context)
         return bool(self._com_obj.LoadModules(int(options), ctx_com))
 
@@ -451,11 +451,11 @@ class SequenceFile(PropertyObjectFile):
 
     @property
     @ts_interface
-    def path(self) -> typing.Any:
+    def path(self) -> typing.Any:  # noqa: ANN401
 
         return self._com_obj.Path
 
     @path.setter
     @ts_interface
-    def path(self, value: typing.Any) -> None:
+    def path(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Path = value

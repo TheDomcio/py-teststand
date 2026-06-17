@@ -9,6 +9,7 @@ EXAMPLES_DIR: Path = Path(__file__).resolve().parent
 # Script name, and what it does / how it relates to the rest.
 EXAMPLES: list[tuple[str, str]] = [
     ("station_options_update", "Set station and debug options. Start here."),
+    ("search_directory_manage", "Manage TestStand search directories."),
     ("variables_manage", "Create variables across scopes, then retype and remove one."),
     ("data_type_manage", "Create and evolve custom data types (container + strict enum)."),
     ("property_object_serialize", "Dump variables and typedefs to JSON and back."),

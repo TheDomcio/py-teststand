@@ -20,7 +20,7 @@ class SaveWorkspaceFileOption(IntFlag):
 
 
 class WorkspaceFile(COMWrapper):
-    def __init__(self, com_obj: typing.Any, engine: Engine | None = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: Engine | None = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -71,7 +71,7 @@ class WorkspaceFile(COMWrapper):
     @ts_interface
     def display_add_file_to_workspace_dialog(
         self,
-        selected_project: WorkspaceObject | typing.Any,
+        selected_project: WorkspaceObject | typing.Any,  # noqa: ANN401
         full_path: str,
     ) -> bool:
         proj_com = getattr(selected_project, "_com_obj", selected_project)

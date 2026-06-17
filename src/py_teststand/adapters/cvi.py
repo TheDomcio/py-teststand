@@ -83,7 +83,7 @@ class CVIAdapter(Adapter):
         return Adapter(self._com_obj.AsAdapter(), self._engine_ref)
 
     @ts_interface
-    def as_common_c_adapter(self) -> typing.Any:
+    def as_common_c_adapter(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters.dll import CommonCAdapter
 
         return CommonCAdapter(self._com_obj.AsCommonCAdapter(), self._engine_ref)
@@ -117,9 +117,9 @@ class CVIModule(CommonCModule):
     @ts_interface
     def execute(
         self,
-        sequence_context_param: typing.Any,
-        arguments_param: typing.Any,
-    ) -> typing.Any:
+        sequence_context_param: typing.Any,  # noqa: ANN401
+        arguments_param: typing.Any,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         ctx_obj = (
             sequence_context_param._com_obj
             if hasattr(sequence_context_param, "_com_obj")
@@ -139,11 +139,11 @@ class CVIModule(CommonCModule):
         return self._com_obj.GetModulePathFromProject(project_path_param, int(options))
 
     @ts_interface
-    def get_project_file_path_from_dll(self, dll_path: str) -> typing.Any:
+    def get_project_file_path_from_dll(self, dll_path: str) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetProjectFilePathFromDll(dll_path)
 
     @ts_interface
-    def get_source_file_path_from_dll(self, dll_path: str, function: str) -> typing.Any:
+    def get_source_file_path_from_dll(self, dll_path: str, function: str) -> typing.Any:  # noqa: ANN401
         return self._com_obj.GetSourceFilePathFromDll(dll_path, function)
 
     @property
@@ -163,7 +163,7 @@ class CVIModule(CommonCModule):
 
 
 class CVIParameterList:
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         self._com_obj: typing.Any = com_obj
         self._engine_ref = engine
 
@@ -173,15 +173,15 @@ class CVIParameterList:
         return int(self._com_obj.Count)
 
     @ts_interface
-    def delete(self, index: int) -> typing.Any:
+    def delete(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Delete(index)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return CVIParameter(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
-    def move(self, index: int, new_index: int) -> typing.Any:
+    def move(self, index: int, new_index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.Move(index, new_index)
 
     @ts_interface
@@ -219,7 +219,7 @@ class CVIParameterList:
 
 
 class CVIArgument(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         super().__init__(com_obj, engine)
 
     @property
@@ -229,7 +229,7 @@ class CVIArgument(PropertyObject):
 
     @value.setter
     @ts_interface
-    def value(self, val: typing.Any) -> None:
+    def value(self, val: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.Value = val._com_obj if hasattr(val, "_com_obj") else val
 
 
@@ -270,7 +270,7 @@ class CVIParameter(COMWrapper):
 
 
 class CVIArgumentList:
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
         self._com_obj: typing.Any = com_obj
         self._engine_ref = engine
 
@@ -280,7 +280,7 @@ class CVIArgumentList:
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return CVIArgument(self._com_obj.Item(index), self._engine_ref)
 
     def release(self) -> None:

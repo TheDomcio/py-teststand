@@ -104,7 +104,7 @@ class SequenceFileViewManagerConnections(COMWrapper):
 
 class SequenceFileViewManager(COMWrapper):
     @property
-    def events(self) -> typing.Any:
+    def events(self) -> typing.Any:  # noqa: ANN401
         from .events import SequenceFileViewMgrEventsSink, connect_events
 
         return connect_events(self, SequenceFileViewMgrEventsSink)
@@ -220,12 +220,12 @@ class SequenceFileViewManager(COMWrapper):
 
     @property
     @ts_interface
-    def user_data(self) -> typing.Any:
+    def user_data(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.UserData
 
     @user_data.setter
     @ts_interface
-    def user_data(self, value: typing.Any) -> None:
+    def user_data(self, value: typing.Any) -> None:  # noqa: ANN401
         self._com_obj.UserData = value
 
     @ts_interface
@@ -248,7 +248,7 @@ class SequenceFileViewManager(COMWrapper):
     @ts_interface
     def connect_caption(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         source: int | CaptionSource,
     ) -> CaptionConnection:
         from .connections import CaptionConnection
@@ -261,7 +261,7 @@ class SequenceFileViewManager(COMWrapper):
     @ts_interface
     def connect_command(
         self,
-        control: typing.Any,
+        control: typing.Any,  # noqa: ANN401
         command_kind: int,
         index: int = 0,
         options: int = 0,
@@ -281,17 +281,17 @@ class SequenceFileViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_image(self, control: typing.Any, source: int | ImageSource) -> ImageConnection:
+    def connect_image(self, control: typing.Any, source: int | ImageSource) -> ImageConnection:  # noqa: ANN401
         from .connections import ImageConnection
 
         return ImageConnection(self._com_obj.ConnectImage(control, int(source)), self._engine_ref)
 
     @ts_interface
-    def connect_insertion_palette(self, control: typing.Any) -> typing.Any:
+    def connect_insertion_palette(self, control: typing.Any) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ConnectInsertionPalette(control)
 
     @ts_interface
-    def connect_sequence_file_list(self, control: typing.Any) -> SequenceFileListConnection:
+    def connect_sequence_file_list(self, control: typing.Any) -> SequenceFileListConnection:  # noqa: ANN401
         from .connections import SequenceFileListConnection
 
         return SequenceFileListConnection(
@@ -300,19 +300,19 @@ class SequenceFileViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_sequence_list(self, control: typing.Any) -> SequenceListConnection:
+    def connect_sequence_list(self, control: typing.Any) -> SequenceListConnection:  # noqa: ANN401
         from .connections import SequenceListConnection
 
         return SequenceListConnection(self._com_obj.ConnectSequenceList(control), self._engine_ref)
 
     @ts_interface
-    def connect_sequence_view(self, control: typing.Any) -> SequenceViewConnection:
+    def connect_sequence_view(self, control: typing.Any) -> SequenceViewConnection:  # noqa: ANN401
         from .connections import SequenceViewConnection
 
         return SequenceViewConnection(self._com_obj.ConnectSequenceView(control), self._engine_ref)
 
     @ts_interface
-    def connect_step_group_list(self, control: typing.Any) -> StepGroupListConnection:
+    def connect_step_group_list(self, control: typing.Any) -> StepGroupListConnection:  # noqa: ANN401
         from .connections import StepGroupListConnection
 
         return StepGroupListConnection(
@@ -321,7 +321,7 @@ class SequenceFileViewManager(COMWrapper):
         )
 
     @ts_interface
-    def connect_variables(self, control: typing.Any) -> VariablesConnection:
+    def connect_variables(self, control: typing.Any) -> VariablesConnection:  # noqa: ANN401
         from .connections import VariablesConnection
 
         return VariablesConnection(self._com_obj.ConnectVariables(control), self._engine_ref)

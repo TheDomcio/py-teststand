@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class SequenceContext(PropertyObject):
-    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:
+    def __init__(self, com_obj: typing.Any, engine: typing.Any = None) -> None:  # noqa: ANN401
 
         super().__init__(com_obj, engine)
 
@@ -34,7 +34,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def engine_as_dispatch(self) -> typing.Any:
+    def engine_as_dispatch(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.EngineAsDispatch
 
     @property
@@ -59,7 +59,7 @@ class SequenceContext(PropertyObject):
         return self._com_obj.GetRunTimeErrorMessageEx()
 
     @ts_interface
-    def get_run_time_error_win_help_info(self) -> typing.Any:
+    def get_run_time_error_win_help_info(self) -> str:
         return str(self._com_obj.GetRunTimeErrorWinHelpInfo())
 
     @property
@@ -103,13 +103,13 @@ class SequenceContext(PropertyObject):
     @ts_interface
     def new_execution(
         self,
-        sequence_file: typing.Any,
+        sequence_file: typing.Any,  # noqa: ANN401
         sequence_name: str,
-        process_model: typing.Any = None,
+        process_model: typing.Any = None,  # noqa: ANN401
         break_at_first_step: bool = False,
         synchronous: bool = False,
         execution_type_mask: int = 0,
-        sequence_args: typing.Any = None,
+        sequence_args: typing.Any = None,  # noqa: ANN401
     ) -> Execution:
         from py_teststand.execution.execution import Execution
 
@@ -148,7 +148,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def loop_index(self) -> typing.Any:
+    def loop_index(self) -> int:
         return int(self._com_obj.LoopIndex)
 
     @property
@@ -243,7 +243,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def selected_property_object_file(self) -> typing.Any:
+    def selected_property_object_file(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.SelectedPropertyObjectFile
 
     @property
@@ -264,7 +264,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def selected_step_group(self) -> typing.Any:
+    def selected_step_group(self) -> int:
         return int(self._com_obj.SelectedStepGroup)
 
     @property
@@ -279,7 +279,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def id(self) -> typing.Any:
+    def id(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Id
 
     @property
@@ -390,7 +390,7 @@ class SequenceContext(PropertyObject):
 
     @property
     @ts_interface
-    def step_group(self) -> typing.Any:
+    def step_group(self) -> int:
         return int(self._com_obj.StepGroup)
 
     @step_group.setter

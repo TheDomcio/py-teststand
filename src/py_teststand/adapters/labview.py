@@ -192,16 +192,16 @@ class LabVIEWAdapter(Adapter):
         self._com_obj.UUTSerialNumberExpression = value
 
     @ts_interface
-    def get_vi_namespace(self, vi_path: str) -> typing.Any:
+    def get_vi_namespace(self, vi_path: str) -> str:
         return str(self._com_obj.GetVINamespace(vi_path))
 
     @ts_interface
-    def set_server_info(self, server_name: str, server_port: int) -> typing.Any:
+    def set_server_info(self, server_name: str, server_port: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.SetServerInfo(server_name, server_port)
 
     @property
     @ts_interface
-    def additional_threads_inherit_calling_threads_cpu_affinity(self) -> typing.Any:
+    def additional_threads_inherit_calling_threads_cpu_affinity(self) -> bool:
         return bool(self._com_obj.AdditionalThreadsInheritCallingThreadsCPUAffinity)
 
     @additional_threads_inherit_calling_threads_cpu_affinity.setter
@@ -211,7 +211,7 @@ class LabVIEWAdapter(Adapter):
 
     @property
     @ts_interface
-    def auto_deploy_shared_variables(self) -> typing.Any:
+    def auto_deploy_shared_variables(self) -> bool:
         return bool(self._com_obj.AutoDeploySharedVariables)
 
     @auto_deploy_shared_variables.setter
@@ -221,7 +221,7 @@ class LabVIEWAdapter(Adapter):
 
     @property
     @ts_interface
-    def auto_undeploy_shared_variables(self) -> typing.Any:
+    def auto_undeploy_shared_variables(self) -> bool:
         return bool(self._com_obj.AutoUndeploySharedVariables)
 
     @auto_undeploy_shared_variables.setter
@@ -257,7 +257,7 @@ class LabVIEWAdapter(Adapter):
         return (int(result), "")
 
     @ts_interface
-    def deploy_project_library(self, library_path: str) -> typing.Any:
+    def deploy_project_library(self, library_path: str) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeployProjectLibrary(str(library_path))
 
     @ts_interface
@@ -279,7 +279,7 @@ class LabVIEWAdapter(Adapter):
 
     @property
     @ts_interface
-    def enable_rte_debugging_and_tracing(self) -> typing.Any:
+    def enable_rte_debugging_and_tracing(self) -> bool:
         return bool(self._com_obj.EnableRTEDebuggingAndTracing)
 
     @enable_rte_debugging_and_tracing.setter
@@ -298,11 +298,11 @@ class LabVIEWAdapter(Adapter):
         self._com_obj.EnableVersionIndependentRuntime = bool(value)
 
     @ts_interface
-    def file_exists_in_llb(self, llb_path: str, vi_name: str) -> typing.Any:
+    def file_exists_in_llb(self, llb_path: str, vi_name: str) -> bool:
         return bool(self._com_obj.FileExistsInLLB(str(llb_path), str(vi_name)))
 
     @ts_interface
-    def get_classes_for_node_library(self, library_name: str, generic_type: str) -> typing.Any:
+    def get_classes_for_node_library(self, library_name: str, generic_type: str) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.GetClassesForNodeLibrary(str(library_name), str(generic_type)))
 
     @ts_interface
@@ -326,26 +326,26 @@ class LabVIEWAdapter(Adapter):
         type_name: str,
         member_name: str,
         options: int = 0,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         return str(
             self._com_obj.GetClusterMemberLabel(str(type_name), str(member_name), int(options)),
         )
 
     @ts_interface
-    def get_cluster_passing_enabled(self, type_name: str, options: int = 0) -> typing.Any:
+    def get_cluster_passing_enabled(self, type_name: str, options: int = 0) -> bool:
         return bool(self._com_obj.GetClusterPassingEnabled(str(type_name), int(options)))
 
     @ts_interface
     def get_exclude_from_cluster(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
-    ) -> typing.Any:
+    ) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         return bool(self._com_obj.GetExcludeFromCluster(com_po, str(property_lookup_string)))
 
     @ts_interface
-    def get_express_vi_menu_structure(self, vi_path: str) -> typing.Any:
+    def get_express_vi_menu_structure(self, vi_path: str) -> str:
         return str(self._com_obj.GetExpressVIMenuStructure(str(vi_path)))
 
     @ts_interface
@@ -360,7 +360,7 @@ class LabVIEWAdapter(Adapter):
         )
 
     @ts_interface
-    def get_node_libraries(self) -> typing.Any:
+    def get_node_libraries(self) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.GetNodeLibraries())
 
     @ts_interface
@@ -420,7 +420,7 @@ class LabVIEWAdapter(Adapter):
         return (int(result), "")
 
     @ts_interface
-    def get_vi_version(self, vi_path: str) -> typing.Any:
+    def get_vi_version(self, vi_path: str) -> str:
         return str(self._com_obj.GetVIVersion(str(vi_path)))
 
     @ts_interface
@@ -428,7 +428,7 @@ class LabVIEWAdapter(Adapter):
         self._com_obj.Initialize()
 
     @ts_interface
-    def is_build_and_execute_enabled(self, options: int = 0) -> typing.Any:
+    def is_build_and_execute_enabled(self, options: int = 0) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.IsBuildAndExecuteEnabled(int(options), "")
         if isinstance(result, tuple):
             return result
@@ -440,7 +440,7 @@ class LabVIEWAdapter(Adapter):
         return bool(self._com_obj.IsCurrentLabVIEWServerAnEditor)
 
     @ts_interface
-    def is_express_vi(self, vi_path: str) -> typing.Any:
+    def is_express_vi(self, vi_path: str) -> bool:
         return bool(self._com_obj.IsExpressVI(str(vi_path)))
 
     @property
@@ -480,7 +480,7 @@ class LabVIEWAdapter(Adapter):
     @ts_interface
     def set_cluster_member_is_binary_string(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         value: bool,
     ) -> None:
@@ -494,7 +494,7 @@ class LabVIEWAdapter(Adapter):
     @ts_interface
     def set_cluster_member_label(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         label: str,
     ) -> None:
@@ -502,14 +502,14 @@ class LabVIEWAdapter(Adapter):
         self._com_obj.SetClusterMemberLabel(com_po, str(property_lookup_string), str(label))
 
     @ts_interface
-    def set_cluster_passing_enabled(self, type_definition: typing.Any, value: bool) -> typing.Any:
+    def set_cluster_passing_enabled(self, type_definition: typing.Any, value: bool) -> typing.Any:  # noqa: ANN401
         com_po = getattr(type_definition, "_com_obj", type_definition)
         self._com_obj.SetClusterPassingEnabled(com_po, bool(value))
 
     @ts_interface
     def set_exclude_from_cluster(
         self,
-        type_definition: typing.Any,
+        type_definition: typing.Any,  # noqa: ANN401
         property_lookup_string: str,
         value: bool,
     ) -> None:
@@ -537,7 +537,7 @@ class LabVIEWAdapter(Adapter):
         self._com_obj.UUTIterationNumberExpression = str(value)
 
     @ts_interface
-    def clear_build_and_execute_cache(self) -> typing.Any:
+    def clear_build_and_execute_cache(self) -> typing.Any:  # noqa: ANN401
         self._com_obj.ClearBuildAndExecuteCache()
 
     @ts_interface
@@ -588,7 +588,7 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def call_type(self) -> typing.Any:
+    def call_type(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWCallType(self._com_obj.CallType)
 
@@ -616,7 +616,7 @@ class LabVIEWModule(Module):
         return bool(self._com_obj.CreateProject(str(project_path)))
 
     @ts_interface
-    def display_parameter_mapping_dialog(self) -> typing.Any:
+    def display_parameter_mapping_dialog(self) -> bool:
         return bool(self._com_obj.DisplayParameterMappingDialog())
 
     @ts_interface
@@ -656,7 +656,7 @@ class LabVIEWModule(Module):
         self._com_obj.EditProject()
 
     @ts_interface
-    def execute(self, sequence_context: typing.Any) -> typing.Any:
+    def execute(self, sequence_context: typing.Any) -> typing.Any:  # noqa: ANN401
         com_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         self._com_obj.Execute(com_ctx)
 
@@ -665,14 +665,14 @@ class LabVIEWModule(Module):
         self._com_obj.ExportVI(str(vi_path))
 
     @ts_interface
-    def get_vi_absolute_path(self) -> typing.Any:
+    def get_vi_absolute_path(self) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.GetVIAbsolutePath("")
         if isinstance(result, tuple):
             return result
         return (bool(result), "")
 
     @ts_interface
-    def get_vi_absolute_path_ex(self, options: int = 0) -> typing.Any:
+    def get_vi_absolute_path_ex(self, options: int = 0) -> typing.Any:  # noqa: ANN401
         result = self._com_obj.GetVIAbsolutePathEx("", int(options))
         if isinstance(result, tuple):
             return result
@@ -700,12 +700,12 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def help_picture(self) -> typing.Any:
+    def help_picture(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.HelpPicture
 
     @property
     @ts_interface
-    def help_picture_rects(self) -> typing.Any:
+    def help_picture_rects(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.HelpPictureRects
 
     @ts_interface
@@ -714,7 +714,7 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def is_project_valid(self) -> typing.Any:
+    def is_project_valid(self) -> bool:
         return bool(self._com_obj.IsProjectValid)
 
     @ts_interface
@@ -755,7 +755,7 @@ class LabVIEWModule(Module):
         self._com_obj.SpecifyHostByExpression = bool(value)
 
     @ts_interface
-    def validate_override_settings(self) -> typing.Any:
+    def validate_override_settings(self) -> bool:
         return bool(self._com_obj.ValidateOverrideSettings())
 
     @property
@@ -811,7 +811,7 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def parameters(self) -> typing.Any:
+    def parameters(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Parameters
 
     @property
@@ -916,7 +916,7 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def node_operation_mode(self) -> typing.Any:
+    def node_operation_mode(self) -> int:
         return int(self._com_obj.NodeOperationMode)
 
     @node_operation_mode.setter
@@ -926,12 +926,12 @@ class LabVIEWModule(Module):
 
     @property
     @ts_interface
-    def node_properties(self) -> typing.Any:
+    def node_properties(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.NodeProperties
 
     @property
     @ts_interface
-    def node_uses_data_value_reference(self) -> typing.Any:
+    def node_uses_data_value_reference(self) -> bool:
         return bool(self._com_obj.NodeUsesDataValueReference)
 
     @node_uses_data_value_reference.setter
@@ -955,19 +955,19 @@ class LabVIEWModule(Module):
         return str(self._com_obj.ExpressVIName)
 
     @ts_interface
-    def get_binary_build_specifications(self) -> typing.Any:
+    def get_binary_build_specifications(self) -> typing.Any:  # noqa: ANN401
         return list(self._com_obj.GetBinaryBuildSpecifications())
 
     @ts_interface
-    def get_class_absolute_path(self, class_path: str) -> typing.Any:
+    def get_class_absolute_path(self, class_path: str) -> str:
         return str(self._com_obj.GetClassAbsolutePath(str(class_path)))
 
     @ts_interface
-    def get_class_absolute_path_ex(self, class_path: str, options: int = 0) -> typing.Any:
+    def get_class_absolute_path_ex(self, class_path: str, options: int = 0) -> str:
         return str(self._com_obj.GetClassAbsolutePathEx(str(class_path), int(options)))
 
     @ts_interface
-    def convert_express_vi_to_standard_vi(self, new_vi_path: str) -> typing.Any:
+    def convert_express_vi_to_standard_vi(self, new_vi_path: str) -> bool:
         return bool(self._com_obj.ConvertExpressVIToStandardVI(new_vi_path))
 
     @property
@@ -1033,7 +1033,7 @@ class LabVIEWModule(Module):
         return list(self._com_obj.GetProjectUrlPathsForVIs(int(path_to_use)))
 
     @ts_interface
-    def as_module(self) -> typing.Any:
+    def as_module(self) -> typing.Any:  # noqa: ANN401
         from py_teststand.adapters import Module
 
         return Module(self._com_obj.AsModule(), self._engine_ref)
@@ -1047,7 +1047,7 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def array_element_prototype(self) -> typing.Any:
+    def array_element_prototype(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ArrayElementPrototype
 
     @ts_interface
@@ -1056,17 +1056,17 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def category(self) -> typing.Any:
+    def category(self) -> int:
         return int(self._com_obj.Category)
 
     @property
     @ts_interface
-    def complex_imaginary_part_element(self) -> typing.Any:
+    def complex_imaginary_part_element(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ComplexImaginaryPartElement
 
     @property
     @ts_interface
-    def complex_real_part_element(self) -> typing.Any:
+    def complex_real_part_element(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ComplexRealPartElement
 
     @ts_interface
@@ -1075,11 +1075,11 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def default_value(self) -> typing.Any:
+    def default_value(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.DefaultValue
 
     @ts_interface
-    def delete_array_element(self, index: int) -> typing.Any:
+    def delete_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeleteArrayElement(int(index))
 
     @ts_interface
@@ -1088,11 +1088,11 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def direction(self) -> typing.Any:
+    def direction(self) -> int:
         return int(self._com_obj.Direction)
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:
+    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
@@ -1103,13 +1103,13 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def elements(self) -> typing.Any:
+    def elements(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Elements
 
     @ts_interface
     def expr_cluster_type_mismatch(
         self,
-        sequence_context: typing.Any,
+        sequence_context: typing.Any,  # noqa: ANN401
         expr: str,
         error_msg: str,
     ) -> tuple[bool, str]:
@@ -1120,11 +1120,11 @@ class LabVIEWParameter(PropertyObject):
         return (bool(result), str(error_msg))
 
     @ts_interface
-    def get_array_index_from_offset(self, dimension: int) -> typing.Any:
+    def get_array_index_from_offset(self, dimension: int) -> int:
         return int(self._com_obj.GetArrayIndex(int(dimension)))
 
     @ts_interface
-    def get_default_array_dimension_size(self, dimension: int) -> typing.Any:
+    def get_default_array_dimension_size(self, dimension: int) -> int:
         return int(self._com_obj.GetDefaultArrayDimensionSize(int(dimension)))
 
     @ts_interface
@@ -1132,12 +1132,12 @@ class LabVIEWParameter(PropertyObject):
         return list(self._com_obj.GetEnumValues())
 
     @ts_interface
-    def insert_array_element(self, index: int) -> typing.Any:
+    def insert_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.InsertArrayElement(int(index))
 
     @property
     @ts_interface
-    def is_cluster_mapping_invalid(self) -> typing.Any:
+    def is_cluster_mapping_invalid(self) -> bool:
         return bool(self._com_obj.IsClusterMappingInvalid)
 
     @property
@@ -1147,7 +1147,7 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def is_parameter_mapping_valid(self) -> typing.Any:
+    def is_parameter_mapping_valid(self) -> bool:
         return bool(self._com_obj.IsParameterMappingValid)
 
     @property
@@ -1186,7 +1186,7 @@ class LabVIEWParameter(PropertyObject):
         return str(self._com_obj.TypeDisplayString)
 
     @ts_interface
-    def update_cluster_mapping(self) -> typing.Any:
+    def update_cluster_mapping(self) -> typing.Any:  # noqa: ANN401
         self._com_obj.UpdateClusterMapping()
 
     @property
@@ -1243,7 +1243,7 @@ class LabVIEWParameter(PropertyObject):
 
     @property
     @ts_interface
-    def wire_requirement(self) -> typing.Any:
+    def wire_requirement(self) -> int:
         return int(self._com_obj.WireRequirement)
 
 
@@ -1255,7 +1255,7 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def array_element_prototype(self) -> typing.Any:
+    def array_element_prototype(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ArrayElementPrototype
 
     @ts_interface
@@ -1264,17 +1264,17 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def category(self) -> typing.Any:
+    def category(self) -> int:
         return int(self._com_obj.Category)
 
     @property
     @ts_interface
-    def complex_imaginary_part_element(self) -> typing.Any:
+    def complex_imaginary_part_element(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ComplexImaginaryPartElement
 
     @property
     @ts_interface
-    def complex_real_part_element(self) -> typing.Any:
+    def complex_real_part_element(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ComplexRealPartElement
 
     @ts_interface
@@ -1283,11 +1283,11 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def default_value(self) -> typing.Any:
+    def default_value(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.DefaultValue
 
     @ts_interface
-    def delete_array_element(self, index: int) -> typing.Any:
+    def delete_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.DeleteArrayElement(int(index))
 
     @ts_interface
@@ -1296,11 +1296,11 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def direction(self) -> typing.Any:
+    def direction(self) -> int:
         return int(self._com_obj.Direction)
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:
+    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
         raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
         return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
@@ -1311,13 +1311,13 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def elements(self) -> typing.Any:
+    def elements(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.Elements
 
     @ts_interface
     def expr_cluster_type_mismatch(
         self,
-        sequence_context: typing.Any,
+        sequence_context: typing.Any,  # noqa: ANN401
         expr: str,
         error_msg: str,
     ) -> tuple[bool, str]:
@@ -1328,11 +1328,11 @@ class LabVIEWParameterElement(PropertyObject):
         return (bool(result), str(error_msg))
 
     @ts_interface
-    def get_array_index_from_offset(self, dimension: int) -> typing.Any:
+    def get_array_index_from_offset(self, dimension: int) -> int:
         return int(self._com_obj.GetArrayIndex(int(dimension)))
 
     @ts_interface
-    def get_default_array_dimension_size(self, dimension: int) -> typing.Any:
+    def get_default_array_dimension_size(self, dimension: int) -> int:
         return int(self._com_obj.GetDefaultArrayDimensionSize(int(dimension)))
 
     @ts_interface
@@ -1340,12 +1340,12 @@ class LabVIEWParameterElement(PropertyObject):
         return list(self._com_obj.GetEnumValues())
 
     @ts_interface
-    def insert_array_element(self, index: int) -> typing.Any:
+    def insert_array_element(self, index: int) -> typing.Any:  # noqa: ANN401
         self._com_obj.InsertArrayElement(int(index))
 
     @property
     @ts_interface
-    def is_cluster_mapping_invalid(self) -> typing.Any:
+    def is_cluster_mapping_invalid(self) -> bool:
         return bool(self._com_obj.IsClusterMappingInvalid)
 
     @property
@@ -1355,7 +1355,7 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def is_parameter_mapping_valid(self) -> typing.Any:
+    def is_parameter_mapping_valid(self) -> bool:
         return bool(self._com_obj.IsParameterMappingValid)
 
     @property
@@ -1399,7 +1399,7 @@ class LabVIEWParameterElement(PropertyObject):
         return str(self._com_obj.TypeDisplayString)
 
     @ts_interface
-    def update_cluster_mapping(self) -> typing.Any:
+    def update_cluster_mapping(self) -> typing.Any:  # noqa: ANN401
         self._com_obj.UpdateClusterMapping()
 
     @property
@@ -1456,7 +1456,7 @@ class LabVIEWParameterElement(PropertyObject):
 
     @property
     @ts_interface
-    def wire_requirement(self) -> typing.Any:
+    def wire_requirement(self) -> int:
         return int(self._com_obj.WireRequirement)
 
 
@@ -1467,14 +1467,14 @@ class LabVIEWArguments(PropertyObject):
         return int(self._com_obj.Count)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return LabVIEWArgument(self._com_obj.Item(index), self._engine_ref)
 
     def __len__(self) -> int:
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWArgument:
+    def __getitem__(self, index: typing.Any) -> LabVIEWArgument:  # noqa: ANN401
 
         return self.item(index)
 
@@ -1507,7 +1507,7 @@ class LabVIEWArgument(PropertyObject):
 
     @value.setter
     @ts_interface
-    def value(self, value: PropertyObject | typing.Any) -> None:
+    def value(self, value: PropertyObject | typing.Any) -> None:  # noqa: ANN401
         val_com = getattr(value, "_com_obj", value)
         self._com_obj.Value = val_com
 
@@ -1523,17 +1523,17 @@ class LabVIEWNodeProperties(PropertyObject):
         self._com_obj.Clear()
 
     @ts_interface
-    def delete(self, index: typing.Any) -> typing.Any:
+    def delete(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         self._com_obj.Delete(index)
 
     @ts_interface
-    def item(self, index: typing.Any) -> typing.Any:
+    def item(self, index: typing.Any) -> typing.Any:  # noqa: ANN401
         return LabVIEWNodeProperty(self._com_obj.Item(index), self._engine_ref)
 
     @ts_interface
     def new(
         self,
-        index: typing.Any,
+        index: typing.Any,  # noqa: ANN401
         long_name: str,
         data_name: str,
         unique_id: str,
@@ -1545,7 +1545,7 @@ class LabVIEWNodeProperties(PropertyObject):
 
         return self.count
 
-    def __getitem__(self, index: typing.Any) -> LabVIEWNodeProperty:
+    def __getitem__(self, index: typing.Any) -> LabVIEWNodeProperty:  # noqa: ANN401
 
         return self.item(index)
 
@@ -1562,7 +1562,7 @@ class LabVIEWNodeProperty(PropertyObject):
 
     @property
     @ts_interface
-    def direction(self) -> typing.Any:
+    def direction(self) -> typing.Any:  # noqa: ANN401
 
         return LabVIEWNodePropertyDirection(self._com_obj.Direction)
 

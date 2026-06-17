@@ -91,7 +91,7 @@ def clear_registered_rules() -> None:
     _REGISTERED.clear()
 
 
-def dispatch(com_context: Any) -> None:
+def dispatch(com_context: Any) -> None:  # noqa: ANN401
     from py_teststand.analyzer.analysis_context import AnalysisContext
 
     if isinstance(com_context, AnalysisContext):
