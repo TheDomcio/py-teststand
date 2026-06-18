@@ -37,7 +37,7 @@ MAXIMUM_STEP_NAME_LENGTH = 15
     transitions=(AnalysisTransition.BeforeStep,),
     severity=RuleSeverity.Warning,
 )
-def check_step_name_length(context: Any) -> None:
+def check_step_name_length(context: Any) -> None:  # noqa: ANN401
     """Report any step whose name is longer than MAXIMUM_STEP_NAME_LENGTH."""
     step: Any = context.object
     name: Any = step.name
@@ -51,7 +51,7 @@ def check_step_name_length(context: Any) -> None:
 
 
 class _Violation:
-    def __init__(self, rule_id: str, text: str, location: Any) -> None:
+    def __init__(self, rule_id: str, text: str, location: Any) -> None:  # noqa: ANN401
         self.rule_id: str = rule_id
         self.text: str = text
         self.location: Any = location
@@ -65,12 +65,12 @@ class _OfflineStepContext:
     py_teststand.analyzer.AnalysisContext instead, whose `object` is the step.
     """
 
-    def __init__(self, analyzed_object: Any) -> None:
+    def __init__(self, analyzed_object: Any) -> None:  # noqa: ANN401
         self.object: Any = analyzed_object
         self.transition = AnalysisTransition.BeforeStep
         self.findings: list[_Violation] = []
 
-    def report(self, rule_id: str, text: str, location_object: Any = None) -> None:
+    def report(self, rule_id: str, text: str, location_object: Any = None) -> None:  # noqa: ANN401
         self.findings.append(_Violation(rule_id, text, location_object))
 
 

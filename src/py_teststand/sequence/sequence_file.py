@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import functools
 import typing
-import weakref
 from enum import Enum, IntEnum
 from typing import TYPE_CHECKING
 
@@ -112,12 +111,7 @@ class SequenceCollection:
 class SequenceFile(PropertyObjectFile):
     def __init__(self, com_obj: typing.Any, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 
-        super().__init__(com_obj)
-        self._engine_ref = (
-            engine
-            if isinstance(engine, weakref.ReferenceType) or engine is None
-            else weakref.ref(engine)
-        )
+        super().__init__(com_obj, engine)
 
     def __enter__(self) -> SequenceFile:
 
@@ -211,7 +205,12 @@ class SequenceFile(PropertyObjectFile):
     @property
     @ts_interface
     def change_count(self) -> int:
-        return int(self._com_obj.ChangeCount)
+        return int(self.as_property_object_file().change_count)
+
+    @change_count.setter
+    @ts_interface
+    def change_count(self, value: int) -> None:
+        self.as_property_object_file().change_count = value
 
     @property
     @ts_interface
@@ -367,7 +366,11 @@ class SequenceFile(PropertyObjectFile):
         )
 
     @ts_interface
-    def load_modules(self, options: int = 0, context: bool | None = None) -> typing.Any:  # noqa: ANN401
+    def load_modules(
+        self,
+        options: int = 0,
+        context: typing.Any | None = None,  # noqa: ANN401
+    ) -> typing.Any:  # noqa: ANN401
         ctx_com = getattr(context, "_com_obj", context)
         return bool(self._com_obj.LoadModules(int(options), ctx_com))
 

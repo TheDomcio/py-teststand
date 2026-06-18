@@ -167,7 +167,7 @@ class Mutex(SyncObject):
         self._com_obj.EarlyUnlockMutexEx(com_context, thread_id)
 
     @ts_interface
-    def get_saved_owner_info(self) -> str:
+    def get_saved_owner_info(self) -> tuple[str, str, SyncManager]:
         res = self._com_obj.GetSavedOwnerInfo()
         return str(res[0]), str(res[1]), SyncManager(res[2], self._engine_ref)
 
@@ -180,7 +180,7 @@ class Mutex(SyncObject):
         return int(self._com_obj.GetInfo())
 
     @ts_interface
-    def get_info_ex(self) -> int:
+    def get_info_ex(self) -> tuple[int, int, str]:
         res = self._com_obj.GetInfoEx()
         return int(res[0]), int(res[1]), str(res[2])
 
@@ -216,7 +216,7 @@ class Semaphore(SyncObject):
         return AutoReleaser(res[0], self._engine_ref), WaitResult(res[1])
 
     @ts_interface
-    def get_info(self) -> int:
+    def get_info(self) -> tuple[int, int, int, int]:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1]), int(res[2]), int(res[3])
 
@@ -262,7 +262,7 @@ class Batch(SyncObject):
         return [Thread(t, self._engine_ref) for t in com_threads]
 
     @ts_interface
-    def get_info(self) -> int:
+    def get_info(self) -> tuple[int, int]:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1])
 
@@ -377,7 +377,7 @@ class Notification(SyncObject):
         self._com_obj.ClearEx(com_context)
 
     @ts_interface
-    def get_info(self) -> int:
+    def get_info(self) -> tuple[int, bool]:
         res = self._com_obj.GetInfo()
         return int(res[0]), bool(res[1])
 
@@ -453,7 +453,7 @@ class Notification(SyncObject):
 
 class Rendezvous(SyncObject):
     @ts_interface
-    def get_info(self) -> int:
+    def get_info(self) -> tuple[int, int]:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1])
 
@@ -531,7 +531,7 @@ class Queue(SyncObject):
         return list(self._com_obj.Flush(com_context))
 
     @ts_interface
-    def get_info(self) -> int:
+    def get_info(self) -> tuple[int, int, int]:
         res = self._com_obj.GetInfo()
         return int(res[0]), int(res[1]), int(res[2])
 
@@ -729,12 +729,12 @@ class SyncManager(COMWrapper):
         return SyncObject(res, self._engine_ref)
 
     @ts_interface
-    def get_mutex_owner_info(self, mutex_name: str) -> str:
+    def get_mutex_owner_info(self, mutex_name: str) -> tuple[str, str, SyncManager]:
         res = self._com_obj.GetMutexOwnerInfo(mutex_name)
         return str(res[0]), str(res[1]), SyncManager(res[2], self._engine_ref)
 
     @ts_interface
-    def get_lock_mutex_thread_is_waiting_for(self, thread_id: str) -> str:
+    def get_lock_mutex_thread_is_waiting_for(self, thread_id: str) -> tuple[str, SyncManager]:
         res = self._com_obj.GetLockMutexThreadIsWaitingFor(thread_id)
         return str(res[0]), SyncManager(res[1], self._engine_ref)
 

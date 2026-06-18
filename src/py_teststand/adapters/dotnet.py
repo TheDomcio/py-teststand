@@ -908,8 +908,9 @@ class DotNetParameter(PropertyObject):
         return DotNetParameters(self._com_obj.Elements, self._engine_ref)
 
     @ts_interface
-    def display_create_custom_data_type_dialog(self, sequence_context: bool) -> typing.Any:  # noqa: ANN401
-        return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(sequence_context._com_obj))
+    def display_create_custom_data_type_dialog(self, sequence_context: typing.Any) -> typing.Any:  # noqa: ANN401
+        raw_ctx = getattr(sequence_context, "_com_obj", sequence_context)
+        return bool(self._com_obj.DisplayCreateCustomDataTypeDialog(raw_ctx))
 
     @property
     @ts_interface
@@ -959,6 +960,11 @@ class DotNetParameter(PropertyObject):
     @ts_interface
     def name(self) -> str:
         return str(self._com_obj.Name)
+
+    @name.setter
+    @ts_interface
+    def name(self, value: str) -> None:  # noqa: ARG002
+        raise AttributeError("name is read-only on DotNetParameter")
 
     @property
     @ts_interface

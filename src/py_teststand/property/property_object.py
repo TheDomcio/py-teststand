@@ -387,7 +387,7 @@ class PropertyObject(COMWrapper):
                 except Exception:
                     value = tuple(typing.cast("typing.Any", value))
         elif isinstance(value, datetime.datetime) and pywintypes is not None:
-            value = pywintypes.Time(value)
+            value = pywintypes.Time(typing.cast("typing.Any", value))
         self._property_object.SetValVariant(lookup_string, options, value)
 
     @ts_interface
@@ -533,7 +533,7 @@ class PropertyObject(COMWrapper):
         return bool(self._property_object.Exists(lookup_string, options))
 
     @ts_interface
-    def validate_new_name(self, new_name: str, allow_duplicates: bool = False) -> bool:
+    def validate_new_name(self, new_name: str, allow_duplicates: bool = False) -> tuple[bool, str]:
         res = self._property_object.ValidateNewName(new_name, allow_duplicates)
         if isinstance(res, tuple) and len(res) >= 2:
             return bool(res[1]), str(res[0])
@@ -553,13 +553,12 @@ class PropertyObject(COMWrapper):
     @property
     @ts_interface
     def name(self) -> str:
-        return str(getattr(self._com_obj, "Name", ""))
+        return str(self._property_object.Name)
 
     @name.setter
     @ts_interface
     def name(self, value: str) -> None:
-        if hasattr(self._com_obj, "Name"):
-            self._com_obj.Name = value
+        self._property_object.Name = value
 
     @functools.cached_property
     @ts_interface
@@ -837,7 +836,7 @@ class PropertyObject(COMWrapper):
                 except Exception:
                     value = value
         elif isinstance(value, datetime.datetime) and pywintypes is not None:
-            value = pywintypes.Time(value)
+            value = pywintypes.Time(typing.cast("typing.Any", value))
         self._property_object.SetValVariantByOffset(array_offset, options, value)
 
     @ts_interface

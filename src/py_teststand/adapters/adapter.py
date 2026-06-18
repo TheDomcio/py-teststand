@@ -97,6 +97,10 @@ class Adapter(PropertyObject):
     def name(self) -> str:
         return self.key_name
 
+    @name.setter
+    def name(self, value: str) -> None:  # noqa: ARG002
+        raise AttributeError("name is read-only on Adapter")
+
     @property
     @ts_interface
     def key_name(self) -> str:
@@ -524,16 +528,6 @@ class Module(PropertyObject):
         from py_teststand.adapters.sequence import SequenceCallModule
 
         return SequenceCallModule(self._com_obj, self._engine_ref)
-
-    @property
-    @ts_interface
-    def comment(self) -> str:
-        return str(self._com_obj.Comment)
-
-    @property
-    @ts_interface
-    def name(self) -> str:
-        return str(self._com_obj.Name)
 
     @property
     @ts_interface

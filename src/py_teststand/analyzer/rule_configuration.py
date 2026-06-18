@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import typing
+
 from py_teststand.analyzer.rule import RuleSeverity
 from py_teststand.analyzer.rule_setting_values import RuleSettingValues
 from py_teststand.core.com_wrapper import ts_interface
@@ -56,8 +58,10 @@ class RuleConfiguration(PropertyObject):
 class RuleConfigurationContext(PropertyObject):
     @property
     @ts_interface
-    def engine(self) -> PropertyObject:
-        return PropertyObject(self._com_obj.Engine, self._engine_ref)
+    def engine(self) -> typing.Any:  # noqa: ANN401
+        from py_teststand.core.engine.engine import Engine
+
+        return Engine(self._com_obj.Engine)
 
     @property
     @ts_interface

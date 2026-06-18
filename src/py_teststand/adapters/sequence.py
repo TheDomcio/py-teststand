@@ -305,6 +305,11 @@ class SequenceCallParameter(PropertyObject):
     def name(self) -> str:
         return str(self._com_obj.Name)
 
+    @name.setter
+    @ts_interface
+    def name(self, value: str) -> None:  # noqa: ARG002
+        raise AttributeError("name is read-only on SequenceCallParameter")
+
     @property
     @ts_interface
     def type(self) -> int:

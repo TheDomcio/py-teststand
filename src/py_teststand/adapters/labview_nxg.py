@@ -348,7 +348,7 @@ class LabVIEWNXGModule(Module):
         self._com_obj.GLLPath = str(value)
 
     @ts_interface
-    def have_properties_changed(self, options: int = 0) -> bool:
+    def have_properties_changed(self, options: int = 0) -> tuple[bool, list[typing.Any]]:
         result = self._com_obj.HavePropertiesChanged(None, int(options))
         if isinstance(result, tuple) and len(result) >= 2:
             return bool(result[0]), list(result[1])
@@ -457,6 +457,11 @@ class LabVIEWNXGProject(PropertyObject):
     @ts_interface
     def name(self) -> str:
         return str(self._com_obj.Name)
+
+    @name.setter
+    @ts_interface
+    def name(self, value: str) -> None:  # noqa: ARG002
+        raise AttributeError("name is read-only on LabVIEWNXGProject")
 
 
 class LabVIEWNXGProjectItems(PropertyObject):
@@ -639,6 +644,11 @@ class LabVIEWNXGParameter(PropertyObject):
     @ts_interface
     def array_element_prototype(self) -> LabVIEWNXGParameter:
         return LabVIEWNXGParameter(self._com_obj.ArrayElementPrototype, self._engine_ref)
+
+    @array_element_prototype.setter
+    @ts_interface
+    def array_element_prototype(self, value: typing.Any) -> None:  # noqa: ANN401, ARG002
+        raise AttributeError("array_element_prototype is read-only")
 
     @ts_interface
     def as_property_object(self) -> PropertyObject:

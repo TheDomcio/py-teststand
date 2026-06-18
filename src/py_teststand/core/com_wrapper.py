@@ -122,6 +122,7 @@ def ts_interface(func: T) -> T:
 
 class COMWrapper:
     _com_obj: COM
+    _engine_ref: typing.Callable[[], Engine | typing.Any | None]
 
     def __init__(self, com_obj: COM, engine: Engine | typing.Any | None = None) -> None:  # noqa: ANN401
 

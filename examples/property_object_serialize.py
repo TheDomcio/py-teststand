@@ -26,7 +26,7 @@ INSERT_IF_MISSING = int(PropertyOption.InsertIfMissing)
 ROOT_TEMP_DIR = Path(tempfile.gettempdir()) / "py-teststand"
 
 
-def property_object_to_dict(container: Any) -> dict[str, Any]:
+def property_object_to_dict(container: Any) -> dict[str, Any]:  # noqa: ANN401
     """Walk a container PropertyObject's sub-properties into a plain dict."""
     result: dict[str, Any] = {}
     for index in range(container.get_num_sub_properties("")):
@@ -35,7 +35,7 @@ def property_object_to_dict(container: Any) -> dict[str, Any]:
     return result
 
 
-def _to_python(obj: Any) -> Any:
+def _to_python(obj: Any) -> Any:  # noqa: ANN401
     """Convert one sub-property object to a list (array), dict (container), or scalar."""
     value_type, _is_object, is_array, _type_name = obj.get_type("")
     if is_array:
@@ -52,7 +52,7 @@ def _to_python(obj: Any) -> Any:
     return obj.get_val_string("", 0)
 
 
-def dict_to_property_object(engine: Engine, data: dict[str, Any], container: Any = None) -> Any:
+def dict_to_property_object(engine: Engine, data: dict[str, Any], container: Any = None) -> Any:  # noqa: ANN401
     """Rebuild a container PropertyObject from a dict produced by the walk above."""
     if container is None:
         container = engine.new_property_object(PropValType.Container, False, "", 0)
@@ -61,7 +61,7 @@ def dict_to_property_object(engine: Engine, data: dict[str, Any], container: Any
     return container
 
 
-def _set_member(engine: Engine, container: Any, name: str, value: Any) -> None:
+def _set_member(engine: Engine, container: Any, name: str, value: Any) -> None:  # noqa: ANN401
     """Create one sub-property (container, array, or scalar) from a Python value."""
     if isinstance(value, dict):
         container.new_sub_property(name, PropValType.Container, False, "", INSERT_IF_MISSING)
@@ -101,14 +101,14 @@ def _element_type(items: list[Any]) -> PropValType:
     return PropValType.String
 
 
-def _child(container: Any, name: str) -> Any:
+def _child(container: Any, name: str) -> Any:  # noqa: ANN401
     """Fetch a sub-property object, asserting it exists (keeps type-checkers happy)."""
     obj = container.get_property_object(name, 0)
     assert obj is not None
     return obj
 
 
-def _build_example_container(engine: Engine) -> Any:
+def _build_example_container(engine: Engine) -> Any:  # noqa: ANN401
     """Scalars, a scalar array, a nested DigitalMultimeter container, and an array of them."""
     data = engine.new_property_object(PropValType.Container, False, "", 0)
     data.set_val_number("TestResult", INSERT_IF_MISSING, 0.0)
@@ -138,7 +138,7 @@ def _build_example_container(engine: Engine) -> Any:
     return data
 
 
-def _child_by_offset(array: Any, offset: int) -> Any:
+def _child_by_offset(array: Any, offset: int) -> Any:  # noqa: ANN401
     """Fetch an array element object, asserting it exists (keeps type-checkers happy)."""
     element = array.get_property_object_by_offset(offset, 0)
     assert element is not None

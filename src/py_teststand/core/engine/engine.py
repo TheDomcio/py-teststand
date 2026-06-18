@@ -789,6 +789,8 @@ class Engine(COMWrapper):
             int(dlg_options),
             selected_item_com,
         )
+        from py_teststand.execution.breakpoint import SelectedBreakpointItem
+
         item = SelectedBreakpointItem(selected_item_com, self) if selected_item_com else None
         return bool(result), item
 
@@ -1700,7 +1702,7 @@ class Engine(COMWrapper):
         return OutputMessages(self._engine.GetOutputMessages(), self)
 
     @ts_interface
-    def get_product_registration_info(self) -> bool:
+    def get_product_registration_info(self) -> tuple[bool, str, str, str]:
         user_out = ""
         company_out = ""
         serial_out = ""
@@ -1845,7 +1847,7 @@ class Engine(COMWrapper):
         )
 
     @ts_interface
-    def get_tool_menu_item_info_with_id(self, unique_item_id: int) -> str:
+    def get_tool_menu_item_info_with_id(self, unique_item_id: int) -> tuple[str, int, bool]:
         item_text_out = ""
         sub_menu_index_out = 0
         enabled_out = False

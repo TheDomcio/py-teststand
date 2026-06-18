@@ -1050,6 +1050,11 @@ class LabVIEWParameter(PropertyObject):
     def array_element_prototype(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ArrayElementPrototype
 
+    @array_element_prototype.setter
+    @ts_interface
+    def array_element_prototype(self, value: typing.Any) -> None:  # noqa: ANN401, ARG002
+        raise AttributeError("array_element_prototype is read-only")
+
     @ts_interface
     def as_property_object(self) -> PropertyObject:
         return PropertyObject(self._com_obj.AsPropertyObject(), self._engine_ref)
@@ -1257,6 +1262,11 @@ class LabVIEWParameterElement(PropertyObject):
     @ts_interface
     def array_element_prototype(self) -> typing.Any:  # noqa: ANN401
         return self._com_obj.ArrayElementPrototype
+
+    @array_element_prototype.setter
+    @ts_interface
+    def array_element_prototype(self, value: typing.Any) -> None:  # noqa: ANN401, ARG002
+        raise AttributeError("array_element_prototype is read-only")
 
     @ts_interface
     def as_property_object(self) -> PropertyObject:

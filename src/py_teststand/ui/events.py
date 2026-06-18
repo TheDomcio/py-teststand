@@ -148,7 +148,7 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_query_reload_sequence_file(
         self,
-        file: typing.Any,
+        file: typing.Any,  # noqa: ANN401
         reload_option: typing.Any,  # noqa: ANN401
     ) -> typing.Any:  # noqa: ANN401
         try:
@@ -222,8 +222,8 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_query_close_execution(
         self,
-        execution: typing.Any,
-        run_state: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
+        run_state: typing.Any,  # noqa: ANN401
         option: typing.Any,  # noqa: ANN401
     ) -> typing.Any:  # noqa: ANN401
         try:
@@ -359,8 +359,8 @@ class ApplicationMgrEventsSink(UIEventSink):
 
     def on_break(
         self,
-        execution: typing.Any,
-        thread: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
+        thread: typing.Any,  # noqa: ANN401
         sequence_context: typing.Any,  # noqa: ANN401
     ) -> typing.Any:  # noqa: ANN401
         try:
@@ -496,8 +496,8 @@ class ExecutionViewMgrEventsSink(UIEventSink):
 
     def on_break(
         self,
-        execution: typing.Any,
-        thread: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
+        thread: typing.Any,  # noqa: ANN401
         sequence_context: typing.Any,  # noqa: ANN401
     ) -> typing.Any:  # noqa: ANN401
         try:
@@ -507,8 +507,8 @@ class ExecutionViewMgrEventsSink(UIEventSink):
 
     def on_trace(
         self,
-        execution: typing.Any,
-        thread: typing.Any,
+        execution: typing.Any,  # noqa: ANN401
+        thread: typing.Any,  # noqa: ANN401
         sequence_context: typing.Any,  # noqa: ANN401
     ) -> typing.Any:  # noqa: ANN401
         try:

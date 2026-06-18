@@ -27,7 +27,6 @@ class StepType(PropertyObject):
 
         super().__init__(com_obj, engine_ref)
 
-    @property
     @ts_interface
     def as_property_object(self) -> PropertyObject:
         return PropertyObject(self._com_obj, self._engine_ref)
