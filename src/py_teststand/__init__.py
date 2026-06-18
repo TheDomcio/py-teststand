@@ -55,7 +55,9 @@ from .core.com_wrapper import COMWrapper, ts_interface  # noqa: F401
 from .core.engine import (
     AdapterKeyName,
     AllowAutomaticTypeConflictResolution,
+    ConflictHandler,
     ConflictResolution,
+    DefaultModelCallback,
     EditKind,
     Engine,
     FindFilePromptOption,
@@ -153,7 +155,7 @@ from .property.property_object_file import (
 from .sequence.code_template import CodeTemplate, CodeTemplates
 from .sequence.expression import EvaluationType, Expression
 from .sequence.location import AutoCreateVariableLocation, Location, Locations
-from .sequence.sequence import Sequence
+from .sequence.sequence import Sequence, SequenceFileType, SequenceType
 from .sequence.sequence_context import SequenceContext
 from .sequence.sequence_file import SequenceFile
 from .sequence.step import RunMode, Step
@@ -209,12 +211,14 @@ __all__ = [
     "CheckedState",
     "CodeTemplate",
     "CodeTemplates",
+    "ConflictHandler",
     "ConflictResolution",
     "DLLAdapter",
     "DLLModule",
     "DataType",
     "DatabaseLogOptions",
     "DebugOption",
+    "DefaultModelCallback",
     "DeploymentError",
     "DotNetAdapter",
     "DotNetModule",
@@ -314,8 +318,10 @@ __all__ = [
     "SequenceContext",
     "SequenceFile",
     "SequenceFileLoadError",
+    "SequenceFileType",
     "SequenceFileViewManager",
     "SequenceTerminatedError",
+    "SequenceType",
     "SequenceValidationError",
     "SourceControlCommand",
     "SourceControlCommandOption",
