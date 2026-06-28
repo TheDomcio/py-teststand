@@ -128,6 +128,26 @@ def test_execution_run_test_headless_example_runs_on_live_engine():
 
 @pytest.mark.teststand_engine
 @pytest.mark.integration
+def test_result_list_parse_example_runs_on_live_engine():
+    # Walks the ResultList and parses step result values.
+    # Subprocess-isolated for the same teardown reason as above.
+    import subprocess
+    import sys
+
+    completed = subprocess.run(
+        [sys.executable, str(EXAMPLES_DIR / "result_list_parse.py")],
+        capture_output=True,
+        text=True,
+        timeout=180,
+    )
+    output = completed.stdout + completed.stderr
+    assert "Verify Power Rail" in completed.stdout, output
+    assert "Verify Current Draw" in completed.stdout, output
+    assert "Serialized JSON Report:" in completed.stdout, output
+
+
+@pytest.mark.teststand_engine
+@pytest.mark.integration
 def test_ui_messages_handle_example_runs_on_live_engine():
     # Posts custom UI messages from Statement steps and receives them headless.
     # Subprocess-isolated for the same teardown reason as above.

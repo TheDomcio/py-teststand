@@ -12,7 +12,7 @@ engine without external dependencies.
 
 from __future__ import annotations
 
-from py_teststand import AdapterKeyName, Engine, StepGroup
+from py_teststand import AdapterKeyName, Engine, StepGroup, ResultList
 
 
 def main() -> None:
@@ -42,14 +42,9 @@ def main() -> None:
                 if result_list_obj is None:
                     return
 
-                with result_list_obj as result_list:
-                    for step_result in result_list:
-                        if step_result is None:
-                            continue
-                        with step_result as sr:
-                            name = sr.get_val_string("TS.StepName", 0)
-                            status = sr.get_val_string("Status", 0)
-                            print(f"{name}: {status}")
+                parsed_results = ResultList(result_list_obj._com_obj).parse()
+                for result in parsed_results:
+                    print(f"{result['name']}: {result['status']}")
 
 
 if __name__ == "__main__":

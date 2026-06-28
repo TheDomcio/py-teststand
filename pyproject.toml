@@ -1,6 +1,6 @@
 [project]
 name = "py-teststand"
-version = "0.2.3"
+version = "0.3.0"
 description = "Community object-oriented Python 3 bindings for the National Instruments TestStand™ COM API"
 readme = "README.md"
 # Last supported by uv 0.11.15 (3cffe97c2 2026-05-18 x86_64-pc-windows-msvc)
@@ -19,7 +19,7 @@ keywords = [
     "windows",
     "sugaring",
     "scripting",
-    "python"
+    "python",
 ]
 authors = [{ name = "Dominik Rajchel" }]
 license = { text = "MIT" }
@@ -68,8 +68,27 @@ target-version = "py38"
 
 [tool.ruff.lint]
 # Added "ANN" to enforce type annotations
-select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "ARG", "PTH", "RUF", "FA", "PGH", "FLY", "ANN"]
-per-file-ignores = { "tests/**" = ["N801", "ANN"] } # Ignore typing enforcements in test files
+select = [
+    "E",
+    "F",
+    "I",
+    "N",
+    "W",
+    "B",
+    "C4",
+    "UP",
+    "ARG",
+    "PTH",
+    "RUF",
+    "FA",
+    "PGH",
+    "FLY",
+    "ANN",
+]
+per-file-ignores = { "tests/**" = [
+    "N801",
+    "ANN",
+] } # Ignore typing enforcements in test files
 unfixable = []
 fixable = ["ALL"]
 
@@ -81,7 +100,13 @@ suppress-dummy-args = true
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = ["py_teststand"]
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -133,10 +158,7 @@ publish-url = "https://test.pypi.org/legacy/"
 explicit = true
 
 [tool.pyrefly]
-project-includes = [
-    "**/*.py*",
-    "**/*.ipynb",
-]
+project-includes = ["**/*.py*", "**/*.ipynb"]
 
 [[tool.uv.index]]
 name = "pypi"

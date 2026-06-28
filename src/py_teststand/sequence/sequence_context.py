@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from py_teststand.core.engine import Engine
     from py_teststand.execution.execution import Execution
     from py_teststand.execution.report import Report
+    from py_teststand.execution.result_list import ResultList
     from py_teststand.execution.thread import Thread
     from py_teststand.sequence.step import Step
 
@@ -43,6 +44,13 @@ class SequenceContext(PropertyObject):
         from py_teststand.execution.execution import Execution
 
         return Execution(self._com_obj.Execution, self._engine_ref)
+
+    @property
+    @ts_interface
+    def result_list(self) -> ResultList:
+        from py_teststand.execution.result_list import ResultList
+
+        return ResultList(self)
 
     @property
     @ts_interface

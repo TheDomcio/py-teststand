@@ -116,6 +116,9 @@ from .execution.edit_args import EditArgs
 from .execution.execution import Execution, ExecutionTypeMask
 from .execution.interactive_args import InteractiveArgs, InteractiveContext
 from .execution.report import Report, ReportConversion, Reports, ReportSection, ReportSections
+from .execution.result_list import (
+    ResultList,
+)
 from .execution.result_log import ResultLog, ResultLogger, ResultLogRecordType
 from .execution.sync_manager import (
     AutoReleaser,
@@ -286,6 +289,7 @@ __all__ = [
     "ReportSection",
     "ReportSections",
     "Reports",
+    "ResultList",
     "ResultLog",
     "ResultLogRecordType",
     "ResultLogger",

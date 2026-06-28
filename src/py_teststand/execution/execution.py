@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from py_teststand.adapters.sequence import NewThreadOption
     from py_teststand.core.engine import RTEOption
     from py_teststand.execution.output_record_stream import ExecutionOutputRecordStreams
+    from py_teststand.execution.result_list import ResultList
     from py_teststand.execution.thread import Thread
     from py_teststand.sequence.sequence import Sequence
     from py_teststand.sequence.sequence_file import SequenceFile
@@ -361,6 +362,13 @@ class Execution(COMWrapper):
     @ts_interface
     def result_object(self) -> PropertyObject:
         return PropertyObject(self._com_obj.ResultObject, self._engine_ref)
+
+    @property
+    @ts_interface
+    def result_list(self) -> ResultList:
+        from py_teststand.execution.result_list import ResultList
+
+        return ResultList(self)
 
     @property
     @ts_interface

@@ -120,6 +120,7 @@ EXAMPLES: list[tuple[str, str]] = [
     ("users_manage", "Create users and set their privileges."),
     ("execution_run_test_headless", "Run real pass/fail tests and read their numeric results."),
     ("ui_messages_handle", "Receive UI messages from a running sequence without a GUI."),
+    ("result_list_parse", "Parse a sequence execution's ResultList array."),
     (
         "execution_run_subsequence",
         "Run a sequence and read its results. Last; it shuts the engine down.",
@@ -170,7 +171,7 @@ pip install py-teststand
 ## 🔗 Compatibility
 
 | Component                                              | Versions                                                                                      |
-|--------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
 | **[Windows](https://www.microsoft.com/en-us/windows)** | 7 to 11                                                                                       |
 | **[Python](https://www.python.org/downloads/)**        | 3.8 to 3.14                                                                                   |
 | **[TestStand™][ni-teststand-api-reference]**           | [2016 to 2026](https://www.ni.com/docs/en-US/bundle/teststand/page/year-based-and-major.html) |
@@ -235,7 +236,7 @@ long-lived COM interfaces that exist across the supported range.
 ## 🧰 Technical Stack
 
 | Tool                                             | Purpose                                                     |
-|--------------------------------------------------|-------------------------------------------------------------|
+| ------------------------------------------------ | ----------------------------------------------------------- |
 | **[uv](https://github.com/astral-sh/uv)**        | Python package and project manager                          |
 | **[ty](https://github.com/astral-sh/ty)**        | Static type checker for interface validation                |
 | **[ruff](https://github.com/astral-sh/ruff)**    | Linter and code formatter (with strict rules)               |

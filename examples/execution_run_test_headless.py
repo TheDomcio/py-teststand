@@ -21,7 +21,7 @@ records Passed or Failed, which we read from each entry in the ResultList.
 
 from __future__ import annotations
 
-from py_teststand import AdapterKeyName, Engine, Sequence, StepGroup
+from py_teststand import AdapterKeyName, Engine, Sequence, StepGroup, ResultList
 
 # (name, measurement expression, low limit, high limit)
 TESTS: list[tuple[str, str, float, float]] = [
@@ -60,15 +60,15 @@ def main() -> None:
                 print("No results recorded.")
                 return
 
+            parsed_results = ResultList(result_list._com_obj).parse()
+
             all_passed = True
-            with result_list as results:
-                for step_result in results:
-                    with step_result as result:
-                        name = result.get_val_string("TS.StepName", 0)
-                        status = result.get_val_string("Status", 0)
-                        numeric = result.get_val_number("Numeric", 0)
-                        print(f"  {name}: {status} (measured {numeric})")
-                        all_passed = all_passed and status == "Passed"
+            for result in parsed_results:
+                name = result["name"]
+                status = result["status"]
+                numeric = result["value"]
+                print(f"  {name}: {status} (measured {numeric})")
+                all_passed = all_passed and status == "Passed"
 
         print(f"\nOverall: {'PASSED' if all_passed else 'FAILED'}")
 

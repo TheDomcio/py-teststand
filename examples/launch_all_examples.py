@@ -21,6 +21,7 @@ EXAMPLES: list[tuple[str, str]] = [
     ("users_manage", "Create users and set their privileges."),
     ("execution_run_test_headless", "Run real pass/fail tests and read their numeric results."),
     ("ui_messages_handle", "Receive UI messages from a running sequence without a GUI."),
+    ("result_list_parse", "Parse a sequence execution's ResultList array."),
     (
         "execution_run_subsequence",
         "Run a sequence and read its results. Last; it shuts the engine down.",
