@@ -1,7 +1,7 @@
 [project]
 name = "py-teststand"
-version = "0.3.0"
-description = "Community object-oriented Python 3 bindings for the National Instruments TestStand™ COM API"
+version = "0.3.1"
+description = "Community Python 3 bindings for the National Instruments TestStand™ COM API"
 readme = "README.md"
 # Last supported by uv 0.11.15 (3cffe97c2 2026-05-18 x86_64-pc-windows-msvc)
 requires-python = ">=3.8.20"

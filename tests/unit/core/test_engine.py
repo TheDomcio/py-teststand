@@ -118,3 +118,73 @@ def test_engine_display_runtime_error_dialog(mock_engine_com):
     assert result == (True, False, RTEOption.Abort)
 
     mock_engine_com.DisplayRunTimeErrorDialog.assert_called_with("Title", "Error", False, True)
+
+
+def test_engine_init_frozen_no_rmtree():
+
+    from unittest.mock import patch
+
+    import pythoncom
+
+    mock_error = pythoncom.com_error(0x80020009, "Exception occurred", None, None)
+
+    with patch("sys.frozen", True, create=True), patch(
+        "win32com.client.gencache.EnsureDispatch", side_effect=mock_error
+    ), patch("win32com.client.DispatchEx") as mock_dispatch_ex, patch(
+        "shutil.rmtree"
+    ) as mock_rmtree:
+        with patch("pythoncom.CoInitializeEx"):
+            try:
+                Engine()
+            except Exception:
+                pass
+
+        mock_rmtree.assert_not_called()
+        mock_dispatch_ex.assert_called_once_with("TestStand.Engine.1")
+
+
+def test_engine_init_unfrozen_rmtree_on_failure():
+
+    from unittest.mock import MagicMock, patch
+
+    import pythoncom
+    import win32com
+
+    mock_error = pythoncom.com_error(0x80020009, "Exception occurred", None, None)
+
+    patch_ensure = patch(
+        "win32com.client.gencache.EnsureDispatch",
+        side_effect=[mock_error, MagicMock()],
+    )
+    with patch.object(win32com, "__gen_path__", "C:/dummy_gen_path", create=True), patch(
+        "pathlib.Path.exists", return_value=True
+    ), patch_ensure as mock_ensure, patch("shutil.rmtree") as mock_rmtree:
+        with patch("pythoncom.CoInitializeEx"):
+            Engine()
+
+        mock_rmtree.assert_called_once_with("C:/dummy_gen_path")
+        assert mock_ensure.call_count == 2
+
+
+def test_engine_init_rmtree_permission_error_fallback():
+
+    from unittest.mock import patch
+
+    import pythoncom
+    import win32com
+
+    mock_error = pythoncom.com_error(0x80020009, "Exception occurred", None, None)
+
+    with patch.object(win32com, "__gen_path__", "C:/dummy_gen_path", create=True), patch(
+        "pathlib.Path.exists", return_value=True
+    ), patch("win32com.client.gencache.EnsureDispatch", side_effect=mock_error), patch(
+        "shutil.rmtree", side_effect=PermissionError("Permission denied")
+    ) as mock_rmtree, patch("win32com.client.DispatchEx") as mock_dispatch_ex:
+        with patch("pythoncom.CoInitializeEx"):
+            try:
+                Engine()
+            except Exception:
+                pass
+
+        mock_rmtree.assert_called_once_with("C:/dummy_gen_path")
+        mock_dispatch_ex.assert_called_once_with("TestStand.Engine.1")

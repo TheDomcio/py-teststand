@@ -159,49 +159,58 @@ class Engine(COMWrapper):
                 if hr != -2147417850:
                     raise
 
+            import sys
+
             try:
                 com_obj = win32com.client.gencache.EnsureDispatch("TestStand.Engine.1")
-            except pythoncom.com_error as e:
-                hr = getattr(e, "hresult", None)
-                if hr == -2147221005:
-                    raise Error(
-                        "TestStand Engine not found. Ensure NI TestStand is installed and matches "
-                        "your Python bitness (32-bit Python requires 32-bit TestStand, "
-                        "64-bit Python requires 64-bit TestStand).",
-                        hresult=hr,
-                    ) from e
-                try:
-                    gen_path = win32com.__gen_path__
-                    if Path(gen_path).exists():
-                        shutil.rmtree(gen_path)
-                    com_obj = win32com.client.gencache.EnsureDispatch("TestStand.Engine.1")
-                except pythoncom.com_error as e2:
-                    hr2 = getattr(e2, "hresult", None)
-                    if hr2 == -2147221005:
-                        raise Error(
-                            "TestStand Engine not found. Ensure NI TestStand is installed "
-                            "and matches your Python bitness (32-bit Python requires "
-                            "32-bit TestStand, 64-bit Python requires 64-bit TestStand).",
-                            hresult=hr2,
-                        ) from e2
-                    raise Error(
-                        f"Failed to initialize TestStand Engine: {e2}",
-                        hresult=hr2,
-                    ) from e2
             except Exception as e:
+                if isinstance(e, pythoncom.com_error):
+                    hr = getattr(e, "hresult", None)
+                    if hr == -2147221005:
+                        raise Error(
+                            "Engine not found. Check that the engine is "
+                            "installed and matches your Python architecture "
+                            "(32-bit vs. 64-bit).",
+                            hresult=hr,
+                        ) from e
+
+                cleared_cache = False
+                if not getattr(sys, "frozen", False):
+                    try:
+                        gen_path = getattr(win32com, "__gen_path__", None)
+                        if gen_path and Path(gen_path).exists():
+                            shutil.rmtree(gen_path)
+                    except Exception:
+                        pass
+
                 try:
-                    com_obj = win32com.client.DispatchEx("TestStand.Engine.1")
-                except pythoncom.com_error as dispatch_error:
-                    raise Error(
-                        "TestStand Engine not found. Ensure NI TestStand is installed and matches "
-                        "your Python bitness (32-bit Python requires 32-bit TestStand, "
-                        "64-bit Python requires 64-bit TestStand).",
-                        hresult=getattr(dispatch_error, "hresult", None),
-                    ) from dispatch_error
-                warnings.warn(
-                    f"Failed early binding: {e}. Falling back to dynamic dispatch.",
-                    stacklevel=2,
-                )
+                    com_obj = win32com.client.gencache.EnsureDispatch("TestStand.Engine.1")
+                except Exception as e2:
+                    if isinstance(e2, pythoncom.com_error):
+                        hr2 = getattr(e2, "hresult", None)
+                        if hr2 == -2147221005:
+                            raise Error(
+                                "Engine not found. Check that the engine is "
+                                "installed and matches your Python architecture "
+                                "(32-bit vs. 64-bit).",
+                                hresult=hr2,
+                            ) from e2
+                    e = e2
+
+                if com_obj is None:
+                    try:
+                        com_obj = win32com.client.DispatchEx("TestStand.Engine.1")
+                    except pythoncom.com_error as dispatch_error:
+                        raise Error(
+                            "Engine not found. Check that the engine is "
+                            "installed and matches your Python architecture "
+                            "(32-bit vs. 64-bit).",
+                            hresult=getattr(dispatch_error, "hresult", None),
+                        ) from dispatch_error
+                    warnings.warn(
+                        f"Failed early binding: {e}. Falling back to dynamic dispatch.",
+                        stacklevel=2,
+                    )
 
         _com: typing.Any = com_obj
         super().__init__(_com, self)
