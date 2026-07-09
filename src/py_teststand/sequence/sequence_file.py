@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 try:
     import pythoncom
 except ImportError:
-    pythoncom: typing.Any = None
+    pythoncom: typing.Any = None  # type: ignore[no-redef]
 
 from py_teststand.core.com_wrapper import ts_interface
 from py_teststand.property.property_object_file import PropertyObjectFile
@@ -152,26 +152,6 @@ class SequenceFile(PropertyObjectFile):
         if self._engine_ref is None:
             return None
         return typing.cast("Engine | None", self._engine_ref())
-
-    @property
-    @ts_interface
-    def sequence_file_type(self) -> int:
-        return int(self._com_obj.SequenceFileType)
-
-    @sequence_file_type.setter
-    @ts_interface
-    def sequence_file_type(self, value: int) -> None:
-        self._com_obj.SequenceFileType = value
-
-    @property
-    @ts_interface
-    def model_path(self) -> str:
-        return str(self._com_obj.ModelPath)
-
-    @model_path.setter
-    @ts_interface
-    def model_path(self, value: str) -> None:
-        self._com_obj.ModelPath = value
 
     @property
     @ts_interface

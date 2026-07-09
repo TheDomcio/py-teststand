@@ -11,7 +11,6 @@ from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 from py_teststand.property.property_object import PropertyObject
 
 if TYPE_CHECKING:
-    from py_teststand.adapters import DotNetModule
     from py_teststand.sequence.expression import EvaluationTypes
 
 
@@ -462,26 +461,6 @@ class DotNetModule(Module):
 
     @property
     @ts_interface
-    def member_name(self) -> str:
-        return str(self._com_obj.MemberName)
-
-    @member_name.setter
-    @ts_interface
-    def member_name(self, value: str) -> None:
-        self._com_obj.MemberName = value
-
-    @property
-    @ts_interface
-    def member_type(self) -> DotNetModuleMemberType:
-        return DotNetModuleMemberType(self._com_obj.MemberType)
-
-    @member_type.setter
-    @ts_interface
-    def member_type(self, value: DotNetModuleMemberType | int) -> None:
-        self._com_obj.MemberType = int(value)
-
-    @property
-    @ts_interface
     def name_of_method_to_create(self) -> str:
         return str(self._com_obj.NameOfMethodToCreate)
 
@@ -493,16 +472,6 @@ class DotNetModule(Module):
     @ts_interface
     def new_module_arguments(self) -> DotNetModuleArguments:
         return DotNetModuleArguments(self._com_obj.NewModuleArguments(), self._engine_ref)
-
-    @property
-    @ts_interface
-    def remote_host(self) -> str:
-        return str(self._com_obj.RemoteHost)
-
-    @remote_host.setter
-    @ts_interface
-    def remote_host(self, value: str) -> None:
-        self._com_obj.RemoteHost = value
 
     @ts_interface
     def set_assembly(self, location: int, path: str) -> typing.Any:  # noqa: ANN401
@@ -517,16 +486,6 @@ class DotNetModule(Module):
     @ts_interface
     def solution_file_path(self, value: str) -> None:
         self._com_obj.SolutionFilePath = value
-
-    @property
-    @ts_interface
-    def specify_host_by_expression(self) -> bool:
-        return bool(self._com_obj.SpecifyHostByExpression)
-
-    @specify_host_by_expression.setter
-    @ts_interface
-    def specify_host_by_expression(self, value: bool) -> None:
-        self._com_obj.SpecifyHostByExpression = value
 
     @property
     @ts_interface

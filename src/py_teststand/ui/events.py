@@ -7,7 +7,7 @@ from typing import Callable
 try:
     import win32com.client
 except ImportError:
-    win32com: typing.Any = None
+    win32com: typing.Any = None  # type: ignore[no-redef]
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class UIEventSinkMeta(type):
 
 
 class UIEventSink(metaclass=UIEventSinkMeta):
-    def __init__(self) -> typing.Any:  # noqa: ANN401
+    def __init__(self) -> None:
 
         self._handlers: dict[str, list[Callable]] = {}
         self._log_events = True

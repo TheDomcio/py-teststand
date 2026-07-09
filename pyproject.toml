@@ -125,6 +125,8 @@ markers = [
 
 [dependency-groups]
 dev = [
+    "mypy>=1.14.1",
+    "pyright>=1.1.411",
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",

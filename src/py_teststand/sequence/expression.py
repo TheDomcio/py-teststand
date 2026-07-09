@@ -224,7 +224,7 @@ class Expression(COMWrapper):
         )
         if isinstance(res, tuple) and len(res) >= 4:
             return int(res[0]), str(res[1]), int(res[2]), int(res[3])
-        return int(res), "", 0, 0
+        return int(res), "", 0, 0  # type: ignore[arg-type]
 
 
 EvaluationTypes = EvaluationType

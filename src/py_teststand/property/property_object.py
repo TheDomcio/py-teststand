@@ -12,9 +12,9 @@ try:
     import win32com
     import win32com.client
 except ImportError:
-    pywintypes: typing.Any = None
-    pythoncom: typing.Any = None
-    win32com: typing.Any = None
+    pywintypes: typing.Any = None  # type: ignore[no-redef]
+    pythoncom: typing.Any = None  # type: ignore[no-redef]
+    win32com: typing.Any = None  # type: ignore[no-redef]
 
 from py_teststand.core.com_wrapper import COMWrapper, ts_interface
 
@@ -1321,7 +1321,7 @@ class PropertyObject(COMWrapper):
     def type_definition_locked(self) -> bool:
         return bool(self._com_obj.TypeDefinitionLocked)
 
-    @type_version.setter
+    @type_version.setter  # type: ignore[attr-defined,no-redef]
     @ts_interface
     def type_version(self, value: str) -> None:
         self._com_obj.TypeVersion = str(value)

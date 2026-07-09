@@ -647,16 +647,6 @@ class Step(COMWrapper):
 
     @property
     @ts_interface
-    def switch_exec_enabled(self) -> bool:
-        return bool(self._com_obj.SwitchExecEnabled)
-
-    @switch_exec_enabled.setter
-    @ts_interface
-    def switch_exec_enabled(self, value: bool) -> None:
-        self._com_obj.SwitchExecEnabled = value
-
-    @property
-    @ts_interface
     def switch_exec_connection_lifetime(self) -> int:
         return int(self._com_obj.SwitchExecConnectionLifetime)
 
@@ -744,26 +734,6 @@ class Step(COMWrapper):
     @ts_interface
     def switch_exec_operation(self, value: SwitchExecOperation) -> None:
         self._com_obj.SwitchExecOperation = int(value)
-
-    @property
-    @ts_interface
-    def switch_exec_routes_to_connect(self) -> str:
-        return str(self._com_obj.SwitchExecRoutesToConnect)
-
-    @switch_exec_routes_to_connect.setter
-    @ts_interface
-    def switch_exec_routes_to_connect(self, value: str) -> None:
-        self._com_obj.SwitchExecRoutesToConnect = value
-
-    @property
-    @ts_interface
-    def switch_exec_routes_to_disconnect(self) -> str:
-        return str(self._com_obj.SwitchExecRoutesToDisconnect)
-
-    @switch_exec_routes_to_disconnect.setter
-    @ts_interface
-    def switch_exec_routes_to_disconnect(self, value: str) -> None:
-        self._com_obj.SwitchExecRoutesToDisconnect = value
 
     @property
     @ts_interface
@@ -939,7 +909,7 @@ class Step(COMWrapper):
         com_obj = self._com_obj.Sequence
         return Sequence(com_obj, self._engine_ref) if com_obj else None
 
-    @requirements.setter
+    @requirements.setter  # type: ignore[attr-defined,no-redef]
     @ts_interface
     def requirements(self, value: list[str]) -> None:
         self._com_obj.Requirements = value
@@ -1168,46 +1138,6 @@ class Step(COMWrapper):
     @ts_interface
     def fail_action_target_by_expr(self, value: str) -> None:
         self._com_obj.FailActionTargetByExpr = value
-
-    @property
-    @ts_interface
-    def custom_true_action(self) -> str:
-        return str(self._com_obj.CustomTrueAction)
-
-    @custom_true_action.setter
-    @ts_interface
-    def custom_true_action(self, value: str) -> None:
-        self._com_obj.CustomTrueAction = value
-
-    @property
-    @ts_interface
-    def custom_true_action_target(self) -> str:
-        return str(self._com_obj.CustomTrueActionTarget)
-
-    @custom_true_action_target.setter
-    @ts_interface
-    def custom_true_action_target(self, value: str) -> None:
-        self._com_obj.CustomTrueActionTarget = value
-
-    @property
-    @ts_interface
-    def custom_false_action(self) -> str:
-        return str(self._com_obj.CustomFalseAction)
-
-    @custom_false_action.setter
-    @ts_interface
-    def custom_false_action(self, value: str) -> None:
-        self._com_obj.CustomFalseAction = value
-
-    @property
-    @ts_interface
-    def custom_false_action_target(self) -> str:
-        return str(self._com_obj.CustomFalseActionTarget)
-
-    @custom_false_action_target.setter
-    @ts_interface
-    def custom_false_action_target(self, value: str) -> None:
-        self._com_obj.CustomFalseActionTarget = value
 
     @property
     @ts_interface

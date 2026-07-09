@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import typing
 from enum import IntEnum, IntFlag
-from typing import TYPE_CHECKING
 
 from py_teststand.adapters.adapter import (
     Adapter,
@@ -89,10 +88,6 @@ class DLLParameterCategory(IntEnum):
     CStringArray = 208
     Bstr_t = 209
     CNiStringVector = 210
-
-
-if TYPE_CHECKING:
-    from py_teststand.adapters import DLLModule
 
 
 class DLLAdapter(Adapter):

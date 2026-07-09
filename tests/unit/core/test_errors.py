@@ -9,7 +9,7 @@ try:
 
 
 except ImportError:
-    pythoncom: typing.Any = None
+    pythoncom: typing.Any = None  # type: ignore[no-redef]
 
 
 from py_teststand.core.com_wrapper import ts_interface

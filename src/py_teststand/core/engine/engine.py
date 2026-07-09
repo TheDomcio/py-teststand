@@ -922,8 +922,8 @@ class Engine(COMWrapper):
         file_filter_index: int = 0,
         dir_history_list: list[str] | None = None,
     ) -> tuple[bool, list[str], list[str], int, list[str]]:
-        selected_paths = []
-        absolute_paths = []
+        selected_paths: list[str] = []
+        absolute_paths: list[str] = []
         file_com = current_file._com_obj if current_file else None
         filter_idx_io = file_filter_index
         history_io = dir_history_list if dir_history_list is not None else []
@@ -1144,7 +1144,7 @@ class Engine(COMWrapper):
         dlg_options: CommonDialogOption | int = 0,
     ) -> tuple[bool, list[PropertyObject]]:
         type_coms = [t._com_obj for t in type_definitions]
-        modified_types_com = []
+        modified_types_com: list[typing.Any] = []
         result = self._engine.DisplayPasswordProtectTypeDefinitionsDialog(
             type_coms,
             modified_types_com,
@@ -1999,16 +1999,6 @@ class Engine(COMWrapper):
     def test_stand_directory(self) -> str:
         return str(self._com_obj.TestStandDirectory)
 
-    @property
-    @ts_interface
-    def always_goto_cleanup_on_failure(self) -> bool:
-        return bool(self._com_obj.AlwaysGotoCleanupOnFailure)
-
-    @always_goto_cleanup_on_failure.setter
-    @ts_interface
-    def always_goto_cleanup_on_failure(self, value: bool) -> None:
-        self._com_obj.AlwaysGotoCleanupOnFailure = value
-
     @ts_interface
     def is_current_sequence_file_version(self, file_path: str) -> int:
         return int(self._engine.IsCurrentSequenceFileVersion(file_path))
@@ -2173,7 +2163,7 @@ class Engine(COMWrapper):
         from py_teststand.sequence.sequence_context import SequenceContext
 
         args_com = (
-            edit_args_param._com_obj if hasattr(edit_args_param, "_com_obj") else edit_args_param
+            edit_args_param._com_obj if hasattr(edit_args_param, "_com_obj") else edit_args_param  # type: ignore[union-attr]
         )
 
         return SequenceContext(

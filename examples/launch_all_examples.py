@@ -16,6 +16,7 @@ EXAMPLES: list[tuple[str, str]] = [
     ("sequence_build", "Build a sequence file with steps and save it."),
     ("step_insert", "Insert a step into the sequence sequence_build made."),
     ("step_insert_from_template", "Add a step from a step-type template."),
+    ("template_manage_complex", "Build templates and insert their instances into a sequence file."),
     ("analyzer_step_name_length", "Walk a sequence and report on its step names."),
     ("workspace_create", "Create a workspace and project file."),
     ("users_manage", "Create users and set their privileges."),
