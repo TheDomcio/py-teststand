@@ -174,7 +174,6 @@ class Engine(COMWrapper):
                             hresult=hr,
                         ) from e
 
-                cleared_cache = False
                 if not getattr(sys, "frozen", False):
                     try:
                         gen_path = getattr(win32com, "__gen_path__", None)

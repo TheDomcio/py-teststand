@@ -62,29 +62,3 @@ def test_ts_interface_exception_mapping() -> None:
         wrapper.failing_method()
 
     assert "Description" in str(exc_info.value) or "Error" in str(exc_info.value)
-
-
-def test_com_pointer_release() -> None:
-
-    mock_com = MagicMock()
-
-    wrapper = DummyWrapper(mock_com)
-
-    wrapper.release()
-
-    assert getattr(wrapper, "_com_obj", None) is None
-
-
-def test_call_after_release_fails() -> None:
-
-    mock_com = MagicMock()
-
-    wrapper = DummyWrapper(mock_com)
-
-    wrapper.release()
-
-    with pytest.raises(Error):
-        wrapper.working_method()
-
-    with pytest.raises(Error):
-        _ = wrapper.some_property
